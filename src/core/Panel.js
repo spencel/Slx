@@ -1,245 +1,249 @@
-	// Panel Class
+/**
+ * @author spencel / https://github.com/spencel
+ */
 
-	// Static (aka Class) Properties
-	Panel.nextId = 0;
+// Panel Class
 
-	Panel.instances = [];
+// Static (aka Class) Properties
+Panel.nextId = 0;
 
-	Panel.byId = {};
+Panel.instances = [];
 
-	Panel.draggingPanel = null;
+Panel.byId = {};
 
-	Panel.isDraggable = false;
-	// End Static Properties
+Panel.draggingPanel = null;
 
-	// Constructor
-	function Panel( name, displays ) {
+Panel.isDraggable = false;
+// End Static Properties
 
-		Panel.instances.push( this );
-		Panel.byId[ Panel.nextId ] = this;
+// Constructor
+function Panel( name, displays ) {
 
-		// Instance Properties
-		this.id = Panel.nextId;
-		Panel.nextId++;
+	Panel.instances.push( this );
+	Panel.byId[ Panel.nextId ] = this;
 
-		this.name = name;
+	// Instance Properties
+	this.id = Panel.nextId;
+	Panel.nextId++;
 
-		this.iDisplay = 0;
+	this.name = name;
 
-		this.displays = displays;
+	this.iDisplay = 0;
 
-		this.isShowing = false;
+	this.displays = displays;
 
-		this.htmlElement = null;
-		// End Instance Properties
+	this.isShowing = false;
 
-		return this;
+	this.htmlElement = null;
+	// End Instance Properties
 
-	}
-	// End Constructor
+	return this;
 
-	// Instance Methods
-	Panel.prototype.show = function( jQueryElement ) {
+}
+// End Constructor
 
-		if ( this.isShowing === false ) {
+// Instance Methods
+Panel.prototype.show = function( jQueryElement ) {
 
-			this.isShowing = true;
+	if ( this.isShowing === false ) {
 
-			var displayHtml = this.displays[ this.iDisplay ].replace( /{NAME}/g, this.name ).replace( /{ID}/g, this.id );
-
-				console.log( displayHtml );
-
-			jQueryElement.append( displayHtml );
-
-			this.htmlElement = document.getElementById( "div-panel-" + this.name );
-
-			doMathJax();
-
-		}
-
-	}
-
-	Panel.prototype.cycleDisplay = function( elementId ) {
-
-		this.iDisplay++;
-		if ( this.iDisplay === this.displays.length ) {
-			this.iDisplay = 0;
-		}
-
-			console.log( this + ": " + this.displays[ this.iDisplay ] );
+		this.isShowing = true;
 
 		var displayHtml = this.displays[ this.iDisplay ].replace( /{NAME}/g, this.name ).replace( /{ID}/g, this.id );
 
 			console.log( displayHtml );
 
-		if ( Panel.isDraggable === true ) {
+		jQueryElement.append( displayHtml );
 
-			displayHtml.replace( "class='div-panel'", "class='div-panel-draggable'" );
-
-		}
-
-		document.getElementById( "div-panel-" + this.id ).outerHTML = displayHtml;
-
-		this.htmlElement = document.getElementById( "div-panel-" + this.name ); // need this if outerHTML is used
+		this.htmlElement = document.getElementById( "div-panel-" + this.name );
 
 		doMathJax();
 
 	}
 
-	Panel.prototype.buildDisplay = function() {
+}
 
-		var strHtml = "<div id='div-panel-" + this.name + "'";
+Panel.prototype.cycleDisplay = function( elementId ) {
 
-		if ( isDraggable === true ) { strHtml += "class='div-panel-draggable'>"; }
-		else 						{ strHtml += "class='div-panel'>"; }
-
-		/*strHtml += "<table id='panel' class='panel1'>"\
-						<tr>\
-							<th id='panelHeader'>
-*/
+	this.iDisplay++;
+	if ( this.iDisplay === this.displays.length ) {
+		this.iDisplay = 0;
 	}
-	// End Instance Methods
 
-	// Static (aka Class) Methods
-	Panel.initialize = function() {
+		console.log( this + ": " + this.displays[ this.iDisplay ] );
 
-		var strHtml = 
-			"<table class='panel1'>\
-				<tbody class='th-border'>\
+	var displayHtml = this.displays[ this.iDisplay ].replace( /{NAME}/g, this.name ).replace( /{ID}/g, this.id );
+
+		console.log( displayHtml );
+
+	if ( Panel.isDraggable === true ) {
+
+		displayHtml.replace( "class='div-panel'", "class='div-panel-draggable'" );
+
+	}
+
+	document.getElementById( "div-panel-" + this.id ).outerHTML = displayHtml;
+
+	this.htmlElement = document.getElementById( "div-panel-" + this.name ); // need this if outerHTML is used
+
+	doMathJax();
+
+}
+
+Panel.prototype.buildDisplay = function() {
+
+	var strHtml = "<div id='div-panel-" + this.name + "'";
+
+	if ( isDraggable === true ) { strHtml += "class='div-panel-draggable'>"; }
+	else 						{ strHtml += "class='div-panel'>"; }
+
+	/*strHtml += "<table id='panel' class='panel1'>"\
 					<tr>\
-						<th id='menu-Units_Of_Measurement'>Units of Measurement</th>\
-						<th id='menu-Chemistry'>Chemistry</th>\
-						<th id='menu-Assembly_Language'>Assembly Language</th>\
-						<th id='setting-makePanelsDraggable'>Make Draggable</th>\
-					</tr>\
-				</tbody>\
-			</table>";
+						<th id='panelHeader'>
+*/
+}
+// End Instance Methods
 
-		document.getElementById( "menu" ).innerHTML = strHtml;
+// Static (aka Class) Methods
+Panel.initialize = function() {
 
-		doMathJax();
+	var strHtml = 
+		"<table class='panel1'>\
+			<tbody class='th-border'>\
+				<tr>\
+					<th id='menu-Units_Of_Measurement'>Units of Measurement</th>\
+					<th id='menu-Chemistry'>Chemistry</th>\
+					<th id='menu-Assembly_Language'>Assembly Language</th>\
+					<th id='setting-makePanelsDraggable'>Make Draggable</th>\
+				</tr>\
+			</tbody>\
+		</table>";
 
-	}
+	document.getElementById( "menu" ).innerHTML = strHtml;
 
-	Panel.loadAllOfType = function( panelType ) {
+	doMathJax();
 
-		var panelList = Data.panelLists[ panelType ];
+}
 
-			console.log( panelList );
+Panel.loadAllOfType = function( panelType ) {
 
-		var panelData = Data.panelData;
+	var panelList = Data.panelLists[ panelType ];
 
-			console.log( panelData );
+		console.log( panelList );
 
-		for ( var i = 0; i < panelList.length; i++ ) {
+	var panelData = Data.panelData;
 
-			var panelName = panelList[ i ];
+		console.log( panelData );
 
-			var panel = panelData[ panelName ];
+	for ( var i = 0; i < panelList.length; i++ ) {
 
-			new Panel( panel.name, panel.displays );
+		var panelName = panelList[ i ];
 
-		}
+		var panel = panelData[ panelName ];
 
-	}
-
-	Panel.unloadAll = function() {
-		
-		document.getElementById( "panels_container" ).innerHTML = "";
-
-		Panel.nextId = 0;
-		Panel.instances = [];
-		Panel.byId = {};
-
-	}
-
-	Panel.displayAll = function( jQueryElement ) {
-
-		for ( var i = 0; i < Panel.instances.length; i++ ) {
-
-			var panel = Panel.instances[ i ];
-			panel.show( jQueryElement );
-
-		}
+		new Panel( panel.name, panel.displays );
 
 	}
 
-	// Should this method but a member of ConvertUnits?
-	Panel.convertUnits = function( event_target_id ) {
+}
 
-		var strInputValue = jQuery( "input#" + event_target_id ).val();
+Panel.unloadAll = function() {
+	
+	document.getElementById( "panels_container" ).innerHTML = "";
 
-		var arInputValue = strInputValue.split(" ");
+	Panel.nextId = 0;
+	Panel.instances = [];
+	Panel.byId = {};
 
-		var quantity;
-		var uniqueKey;
+}
 
-		if ( arInputValue.length == 4 ) {
-			quantity = arInputValue[0];
-			uniqueKey = arInputValue[1] + ">" + arInputValue[3];
-		} else if ( arInputValue.length == 3 ) {
-			quantity = arInputValue[0];
-			uniqueKey = arInputValue[1] + ">" + arInputValue[2];
-		} else if ( arInputValue.length == 2 ) {
-			quantity = 1;
-			uniqueKey = arInputValue[0] + ">" + arInputValue[1];
-		}
+Panel.displayAll = function( jQueryElement ) {
 
-		var result = UnitConversions.byKey( quantity, uniqueKey );
+	for ( var i = 0; i < Panel.instances.length; i++ ) {
 
-		if (result != false) {
-			jQuery( "td#convertUnits-result" ).html( result );
-		} else {
-			jQuery( "td#convertUnits-result" ).html( "-" );
-		}
+		var panel = Panel.instances[ i ];
+		panel.show( jQueryElement );
 
 	}
 
-	Panel.makeAllDraggable = function() {
+}
 
-		var divTableElements = jQuery( ".div-panel" );
+// Should this method but a member of ConvertUnits?
+Panel.convertUnits = function( event_target_id ) {
 
-			console.log( divTableElements );
+	var strInputValue = jQuery( "input#" + event_target_id ).val();
 
-			console.log( divTableElements.length );
+	var arInputValue = strInputValue.split(" ");
 
-		for ( var i = 0; i < divTableElements.length; i++ ) {
+	var quantity;
+	var uniqueKey;
 
-				console.log( "i: " + i );
-				console.log( "divTableElements[ " + i + " ]: " + divTableElements[ i ].innerHTML );
-				console.log( "divTableElements[ " + i + " ].offsetLeft: " + divTableElements[ i ].offsetLeft );
-				console.log( "divTableElements[ " + i + " ].offsetTop: " + divTableElements[ i ].offsetTop );
+	if ( arInputValue.length == 4 ) {
+		quantity = arInputValue[0];
+		uniqueKey = arInputValue[1] + ">" + arInputValue[3];
+	} else if ( arInputValue.length == 3 ) {
+		quantity = arInputValue[0];
+		uniqueKey = arInputValue[1] + ">" + arInputValue[2];
+	} else if ( arInputValue.length == 2 ) {
+		quantity = 1;
+		uniqueKey = arInputValue[0] + ">" + arInputValue[1];
+	}
 
-			divTableElements[ i ].setAttribute( "style",
-				"left: " + divTableElements[ i ].offsetLeft + "px;" +
-				"top: " + divTableElements[ i ].offsetTop + "px;"
-			);
+	var result = UnitConversions.byKey( quantity, uniqueKey );
 
-		}
+	if (result != false) {
+		jQuery( "td#convertUnits-result" ).html( result );
+	} else {
+		jQuery( "td#convertUnits-result" ).html( "-" );
+	}
 
-			console.log( divTableElements.length );
+}
 
-		for ( var i = 0; i < divTableElements.length; i++ ) {
+Panel.makeAllDraggable = function() {
 
-				console.log( "i: " + i );
-				console.log( divTableElements[ i ] );
-				console.log( divTableElements[ i ].className );
+	var divTableElements = jQuery( ".div-panel" );
 
-			divTableElements[ i ].className = "div-panel-draggable";
+		console.log( divTableElements );
 
-				console.log( divTableElements[ i ].className );
+		console.log( divTableElements.length );
 
-		}
+	for ( var i = 0; i < divTableElements.length; i++ ) {
 
-		divTableElements.attr( "class", "div-panel-draggable" );
-		
-			console.log( divTableElements );
+			console.log( "i: " + i );
+			console.log( "divTableElements[ " + i + " ]: " + divTableElements[ i ].innerHTML );
+			console.log( "divTableElements[ " + i + " ].offsetLeft: " + divTableElements[ i ].offsetLeft );
+			console.log( "divTableElements[ " + i + " ].offsetTop: " + divTableElements[ i ].offsetTop );
 
-		isDraggable = true;
-
-			console.log( "isDraggable: " + isDraggable );
+		divTableElements[ i ].setAttribute( "style",
+			"left: " + divTableElements[ i ].offsetLeft + "px;" +
+			"top: " + divTableElements[ i ].offsetTop + "px;"
+		);
 
 	}
-	// End Static Methods
 
-	// End Panel Class
+		console.log( divTableElements.length );
+
+	for ( var i = 0; i < divTableElements.length; i++ ) {
+
+			console.log( "i: " + i );
+			console.log( divTableElements[ i ] );
+			console.log( divTableElements[ i ].className );
+
+		divTableElements[ i ].className = "div-panel-draggable";
+
+			console.log( divTableElements[ i ].className );
+
+	}
+
+	divTableElements.attr( "class", "div-panel-draggable" );
+	
+		console.log( divTableElements );
+
+	isDraggable = true;
+
+		console.log( "isDraggable: " + isDraggable );
+
+}
+// End Static Methods
+
+// End Panel Class
