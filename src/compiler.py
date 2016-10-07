@@ -52,10 +52,6 @@ code += "\
 	\n\
 	return {\n\
 		\n\
-		globalTestVariable: globalTestVariable,\n\
-		\n\
-		doMathJax: doMathJax,\n\
-		\n\
 		Bay: Bay,\n\
 		\n\
 		Panel: Panel,\n\

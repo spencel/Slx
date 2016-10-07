@@ -12,6 +12,14 @@ Input.mouseupTimestamp = null;
 
 Input.isMousedown = true;
 
+Input.mousedownClientX = undefined;
+
+Input.mousedownClientY = undefined;
+
+Input.mouseupClientX = undefined;
+
+Input.mouseupClientY = undefined;
+
 Input.test = 1;
 // End Static Properties
 
@@ -77,6 +85,10 @@ Input.activateEventHandlers = function() {
 
 	jQuery( document ).on( "mousemove", function( event ) {
 
+		//console.log( event );
+		//console.log( "event.clientX: " + event.clientX );
+		//console.log( "event.clientY: " + event.clientY );
+
 		var draggingPanel = Panel.draggingPanel;
 
 		if ( draggingPanel !== null ) {
@@ -88,34 +100,85 @@ Input.activateEventHandlers = function() {
 
 		}
 
+		if ( Bay.nowResizing !== undefined ) {
+
+			event.preventDefault(); // Prevent text selection and dragging
+
+			Bay.nowResizing.resize( event.clientX, event.clientY );
+
+		}
+
 		var strEvent_target_id = event.target.id;
 		var arEvent_target_id = strEvent_target_id.split("-");
 
 	});
 
-	jQuery( document ).on( "mousedown", function( event) {
+	jQuery( document ).on( "mousedown", function( event ) {
 
-			console.log( event );
+		console.log( event );
 
 		Input.mousedownTimestamp = performance.now();
 		Input.isMousedown = true;
+		Input.mousedownClientX = event.clientX;
+		Input.mousedownClientY = event.clientY;
+
+		console.log( "Input.mousedownClientX: " + Input.mousedownClientX );
+		console.log( "Input.mousedownClientY: " + Input.mousedownClientY );
 
 		var strEvent_target_id = event.target.id;
 		var arEvent_target_id = strEvent_target_id.split("-");
 
 		// If left mouse button is down
-		if ( event.button === 1 ) {
+		if ( event.button === 0 ) { 
+
+				console.log( arEvent_target_id[0] );
 
 			switch ( arEvent_target_id[0] ) {
 
-				case "div":
+				// Handle Resize Buttons
 
-					case "panel":
+				case "resizeTop":
+				case "resizeTopRight":
+				case "resizeRight":
+				case "resizeBottomRight":
+				case "resizeBottom":
+				case "resizeBottomLeft":
+				case "resizeLeft":
+				case "resizeTopLeft":
 
-					break;
+					event.preventDefault(); // Prevent text selection and dragging
+
+					var element = event.target.parentNode;
+
+					var arrElementId = element.id.split("-");
+
+						console.log( arrElementId );
+
+					switch ( arrElementId[0] ) {
+
+						case "SlxBay":
+
+							var id = arrElementId[1]
+
+							var resizeType = arEvent_target_id[0];
+
+							Bay.instancesById[ id ].initResize( resizeType );
+
+						break;
+
+					}
 
 				break;
 
+				case "topBar":
+				case "move": // ensures some amount of space of the topbar is showing
+
+				case "panelHeader":
+
+					//event.preventDefault(); // Prevent text selection and dragging
+
+				break;
+	
 			}
 
 		}
@@ -124,12 +187,20 @@ Input.activateEventHandlers = function() {
 
 	jQuery( document ).on( "mouseup", function( event ) {
 
-			console.log( event );
+		console.log( event );
 
 		Input.mouseupTimestamp = performance.now();
 		Input.isMouseDown = false;
+		Input.mouseupClientX = event.clientX;
+		Input.mouseupClientY = event.clientY;
 
-			console.log( "mouseup delta: " + ( Input.mouseupTimestamp - Input.mousedownTimestamp ) );
+		if ( Bay.nowResizing !== undefined ) {
+
+			Bay.nowResizing.finishResizing();
+
+		}
+
+		console.log( "mouseup delta: " + ( Input.mouseupTimestamp - Input.mousedownTimestamp ) );
 
 		var strEvent_target_id = event.target.id;
 		var arEvent_target_id = strEvent_target_id.split("-");
@@ -216,23 +287,37 @@ Input.activateEventHandlers = function() {
 
 				break;
 
-				case "Bay":
-
-					var id = arEvent_target_id[ 2 ];
-
-					switch ( arEvent_target_id[ 3 ] ) {
-
-						case "close":
-
-							Bay.byId( id ).close();
-
-						break;
-
-					}
-
-				break;
-
 			}
+
+		}
+
+		switch ( arEvent_target_id[0] ) {
+
+			// Handle Close Buttons
+
+			case "close":
+
+				var element = event.target.parentNode.parentNode;
+
+					console.log( element );
+
+				var arrElementId = element.id.split("-");
+
+					console.log( arrElementId );
+
+				switch ( arrElementId[0] ) {
+
+					case "SlxBay":
+
+						var id = arrElementId[1]
+
+						Bay.instancesById[ id ].close();
+
+					break;
+
+				}
+
+			break;
 
 		}
 

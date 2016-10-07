@@ -1,1 +1,1 @@
-var globalTestVariable = "test";
+var zIndexHigh = 0;

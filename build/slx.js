@@ -5,11 +5,11 @@ var Slx = (function() {
 	// Globals
 	
 	// Variables
-	var globalTestVariable = "test";
+	var zIndexHigh = 0;
 	// End Variables
 	
 	// Functions
-	doMathJax = function() {
+	function doMathJax() {
 	
 		var slxMathJax = {
 	
@@ -52,6 +52,13 @@ var Slx = (function() {
 		);
 	
 	}
+	
+	function focus( element ) {
+	
+		element.style.zIndex = zIndexHigh + 1;
+		zIndexHigh++;
+	
+	}
 	// End Functions
 	
 	// End Globals
@@ -59,8 +66,8 @@ var Slx = (function() {
 	// Classes
 	
 	/**
-	 * @author spencel / https://github.com/spencel
-	 */
+	* @author spencel / https://github.com/spencel
+	*/
 	
 	// Bay Class
 	
@@ -70,6 +77,10 @@ var Slx = (function() {
 	Bay.instancesById = {};
 	
 	Bay.quantity = 0; // The number of currently existing instances
+	
+	Bay.nowResizing = undefined; // Set to instance that is being resized
+	
+	Bay.resizeType = undefined; // A string constant that indicates the resize type, e.g., top, bottom right, mirrored, etc.
 	// End Static Properties
 	
 	// Constructor
@@ -91,6 +102,10 @@ var Slx = (function() {
 		this.height = height;
 	
 		this.isHtml = false; // Set after its html is injected into the document
+	
+		this.rootHtmlElement = undefined;
+	
+		this.contentHtmlElement = undefined;
 		// End Instance Properties
 	
 		return this;
@@ -113,13 +128,12 @@ var Slx = (function() {
 		if ( this.isHtml === false ) {
 	
 			var element = document.createElement( "div" );
-			element.setAttribute( "id", "Slx-Bay-" + this.id )
-			element.setAttribute( "class", "Bay" )
-			element.setAttribute( "style",
-					"left:" + this.left +
-					"px;top:" + this.top +
-					"px;width:" + this.width +
-					"px;height:" + this.height + "px;" );
+			this.rootHtmlElement = element;
+			element.id = "SlxBay-" + this.id;
+			element.className = "Bay";
+			element.style.left = this.left + "px";
+			element.style.top = this.top + "px";
+			focus( element );
 	
 			document.getElementsByTagName( "BODY" )[0].appendChild( element );
 	
@@ -131,15 +145,24 @@ var Slx = (function() {
 				"<div id='resizeBottom'></div>" +
 				"<div id='resizeBottomLeft'></div>" +
 				"<div id='resizeLeft'></div>" +
-				"<div id='resizeTopLeft'></div>";
+				"<div id='resizeTopLeft'></div>" +
+				"<div id='topBar'>" +
+					"<div id='move'></div>" +
+					"<div id='close'>x</div>" + 
+				"</div>" +
+				"<div id='content' style='width:" + ( this.width - 6 ) + "px;height:" + ( this.height - 6 ) + "px;'>test</div>"; // has 2px reserved for border and 4px reserved for margin
 	
 			element.innerHTML = strHtml;
+	
+			this.contentHtmlElement = element.childNodes[ 9 ];
+	
+				console.log( this.contentHtmlElement );
 	
 			this.isHtml = true;
 	
 		} else {
 	
-			document.getElementById( "Slx-Bay-" + this.id ).outerHTML = "";
+			document.getElementById( "SlxBay-" + this.id ).outerHTML = "";
 	
 			this.isHtml = false;
 	
@@ -149,9 +172,140 @@ var Slx = (function() {
 	
 	Bay.prototype.close = function () {
 	
-		document.getElementById( this.id ).outerHTML = "";
+			console.log( this.id )
+	
+		document.getElementById( "SlxBay-" + this.id ).outerHTML = "";
 	
 		Bay.destroy( this.id );
+	
+	}
+	
+	Bay.prototype.initResize = function( resizeType ) {
+	
+		focus( this.rootHtmlElement ); // Bring it to the front of the view
+	
+		Bay.nowResizing = this;
+	
+		Bay.resizeType = resizeType;
+	
+	}
+	
+	Bay.prototype.resize = function( left, top ) {
+	
+		//console.log( "left: " + left + "; top: " + top + ";");
+	
+		switch ( Bay.resizeType ) {
+	
+			case "resizeTop":
+	
+				//console.log( "resizeTop" );
+	
+				// Change root top and content height
+	
+				this.rootHtmlElement.setAttribute( "style",
+					"left:" + this.left + "px;top:" + ( this.top - Input.mousedownClientY + top ) + "px;" );
+	
+				var height = ( this.height + Input.mousedownClientY - top - 6 );
+	
+				//console.log( "height: " + height );
+	
+				this.contentHtmlElement.setAttribute( "style",
+					"width:" + ( this.width - 6 ) + "px;height:" + height + "px;" );
+	
+			break;
+	
+			case "resizeTopRight":
+	
+				// Change root top and content width and height
+	
+				this.rootHtmlElement.setAttribute( "style",
+					"left:" + this.left + "px;top:" + ( this.top - Input.mousedownClientY + top ) + "px;" );
+	
+				this.contentHtmlElement.setAttribute( "style",
+					"width:" + ( this.width - Input.mousedownClientX + left - 6 ) + "px;height:" + ( this.height + Input.mousedownClientY - top - 6 ) + "px;" );
+	
+			break;
+	
+			case "resizeRight":
+	
+				// Change content width
+	
+				this.contentHtmlElement.setAttribute( "style",
+					"width:" + ( this.width - Input.mousedownClientX + left - 6 ) + "px;height:" + ( this.height - 6 ) + "px;" );
+	
+			break;
+	
+			case "resizeBottomRight":
+	
+				// Change content width and height
+	
+				this.contentHtmlElement.setAttribute( "style",
+					"width:" + ( this.width - Input.mousedownClientX + left - 6 ) + "px;height:" + ( this.height - Input.mousedownClientY + top - 6 ) + "px;" );
+	
+			break;
+	
+			case "resizeBottom":
+	
+				// Change content height
+	
+				this.contentHtmlElement.setAttribute( "style",
+					"width:" + ( this.width - 6 ) + "px;height:" + ( this.height - Input.mousedownClientY + top - 6 ) + "px;" );
+	
+			break;
+	
+			case "resizeBottomLeft":
+	
+				// Change root left and content width and height
+	
+				this.rootHtmlElement.setAttribute( "style",
+					"left:" + ( this.left - Input.mousedownClientX + left ) + "px;top:" + this.top + "px;" );
+	
+				this.contentHtmlElement.setAttribute( "style",
+					"width:" + ( this.width + Input.mousedownClientX - left - 6 ) + "px;height:" + ( this.height - Input.mousedownClientY + top - 6 ) + "px;" );
+	
+			break;
+	
+			case "resizeLeft":
+	
+				// Change root left and content width
+	
+				this.rootHtmlElement.setAttribute( "style",
+					"left:" + ( this.left - Input.mousedownClientX + left ) + "px;top:" + this.top + "px;" );
+	
+				this.contentHtmlElement.setAttribute( "style",
+					"width:" + ( this.width + Input.mousedownClientX - left - 6 ) + "px;height:" + ( this.height - 6 ) + "px;" );
+	
+			break;
+	
+			case "resizeTopLeft":
+	
+				// Change root left and top and content width and height
+	
+				this.rootHtmlElement.setAttribute( "style",
+					"left:" + ( this.left - Input.mousedownClientX + left ) + "px;top:" + ( this.top - Input.mousedownClientY + top ) + "px;" );
+	
+				this.contentHtmlElement.setAttribute( "style",
+					"width:" + ( this.width + Input.mousedownClientX - left - 6 ) + "px;height:" + ( this.height + Input.mousedownClientY - top - 6 ) + "px;" );
+	
+			break;
+	
+		}
+	
+	}
+	
+	Bay.prototype.finishResizing = function() {
+	
+		this.left = parseInt( this.rootHtmlElement.style.left );
+		console.log( "this.left :" + this.left );
+		this.top = parseInt( this.rootHtmlElement.style.top );
+		console.log( "this.top :" + this.top );
+		this.width = this.contentHtmlElement.offsetWidth + 2;
+		console.log( "this.width :" + this.width );
+		this.height = this.contentHtmlElement.offsetHeight + 2;
+		console.log( "this.height :" + this.height );
+	
+		Bay.nowResizing = undefined;
+		Bay.resizeType = undefined;
 	
 	}
 	// End Instance Methods
@@ -171,6 +325,14 @@ var Slx = (function() {
 	Input.mouseupTimestamp = null;
 	
 	Input.isMousedown = true;
+	
+	Input.mousedownClientX = undefined;
+	
+	Input.mousedownClientY = undefined;
+	
+	Input.mouseupClientX = undefined;
+	
+	Input.mouseupClientY = undefined;
 	
 	Input.test = 1;
 	// End Static Properties
@@ -237,6 +399,10 @@ var Slx = (function() {
 	
 		jQuery( document ).on( "mousemove", function( event ) {
 	
+			//console.log( event );
+			//console.log( "event.clientX: " + event.clientX );
+			//console.log( "event.clientY: " + event.clientY );
+	
 			var draggingPanel = Panel.draggingPanel;
 	
 			if ( draggingPanel !== null ) {
@@ -248,34 +414,85 @@ var Slx = (function() {
 	
 			}
 	
+			if ( Bay.nowResizing !== undefined ) {
+	
+				event.preventDefault(); // Prevent text selection and dragging
+	
+				Bay.nowResizing.resize( event.clientX, event.clientY );
+	
+			}
+	
 			var strEvent_target_id = event.target.id;
 			var arEvent_target_id = strEvent_target_id.split("-");
 	
 		});
 	
-		jQuery( document ).on( "mousedown", function( event) {
+		jQuery( document ).on( "mousedown", function( event ) {
 	
-				console.log( event );
+			console.log( event );
 	
 			Input.mousedownTimestamp = performance.now();
 			Input.isMousedown = true;
+			Input.mousedownClientX = event.clientX;
+			Input.mousedownClientY = event.clientY;
+	
+			console.log( "Input.mousedownClientX: " + Input.mousedownClientX );
+			console.log( "Input.mousedownClientY: " + Input.mousedownClientY );
 	
 			var strEvent_target_id = event.target.id;
 			var arEvent_target_id = strEvent_target_id.split("-");
 	
 			// If left mouse button is down
-			if ( event.button === 1 ) {
+			if ( event.button === 0 ) { 
+	
+					console.log( arEvent_target_id[0] );
 	
 				switch ( arEvent_target_id[0] ) {
 	
-					case "div":
+					// Handle Resize Buttons
 	
-						case "panel":
+					case "resizeTop":
+					case "resizeTopRight":
+					case "resizeRight":
+					case "resizeBottomRight":
+					case "resizeBottom":
+					case "resizeBottomLeft":
+					case "resizeLeft":
+					case "resizeTopLeft":
 	
-						break;
+						event.preventDefault(); // Prevent text selection and dragging
+	
+						var element = event.target.parentNode;
+	
+						var arrElementId = element.id.split("-");
+	
+							console.log( arrElementId );
+	
+						switch ( arrElementId[0] ) {
+	
+							case "SlxBay":
+	
+								var id = arrElementId[1]
+	
+								var resizeType = arEvent_target_id[0];
+	
+								Bay.instancesById[ id ].initResize( resizeType );
+	
+							break;
+	
+						}
 	
 					break;
 	
+					case "topBar":
+					case "move": // ensures some amount of space of the topbar is showing
+	
+					case "panelHeader":
+	
+						//event.preventDefault(); // Prevent text selection and dragging
+	
+					break;
+		
 				}
 	
 			}
@@ -284,12 +501,20 @@ var Slx = (function() {
 	
 		jQuery( document ).on( "mouseup", function( event ) {
 	
-				console.log( event );
+			console.log( event );
 	
 			Input.mouseupTimestamp = performance.now();
 			Input.isMouseDown = false;
+			Input.mouseupClientX = event.clientX;
+			Input.mouseupClientY = event.clientY;
 	
-				console.log( "mouseup delta: " + ( Input.mouseupTimestamp - Input.mousedownTimestamp ) );
+			if ( Bay.nowResizing !== undefined ) {
+	
+				Bay.nowResizing.finishResizing();
+	
+			}
+	
+			console.log( "mouseup delta: " + ( Input.mouseupTimestamp - Input.mousedownTimestamp ) );
 	
 			var strEvent_target_id = event.target.id;
 			var arEvent_target_id = strEvent_target_id.split("-");
@@ -376,23 +601,37 @@ var Slx = (function() {
 	
 					break;
 	
-					case "Bay":
-	
-						var id = arEvent_target_id[ 2 ];
-	
-						switch ( arEvent_target_id[ 3 ] ) {
-	
-							case "close":
-	
-								Bay.byId( id ).close();
-	
-							break;
-	
-						}
-	
-					break;
-	
 				}
+	
+			}
+	
+			switch ( arEvent_target_id[0] ) {
+	
+				// Handle Close Buttons
+	
+				case "close":
+	
+					var element = event.target.parentNode.parentNode;
+	
+						console.log( element );
+	
+					var arrElementId = element.id.split("-");
+	
+						console.log( arrElementId );
+	
+					switch ( arrElementId[0] ) {
+	
+						case "SlxBay":
+	
+							var id = arrElementId[1]
+	
+							Bay.instancesById[ id ].close();
+	
+						break;
+	
+					}
+	
+				break;
 	
 			}
 	
@@ -668,10 +907,6 @@ var Slx = (function() {
 	// End Classes
 	
 	return {
-		
-		globalTestVariable: globalTestVariable,
-		
-		doMathJax: doMathJax,
 		
 		Bay: Bay,
 		

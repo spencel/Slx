@@ -1,4 +1,4 @@
-doMathJax = function() {
+function doMathJax() {
 
 	var slxMathJax = {
 
@@ -39,5 +39,12 @@ doMathJax = function() {
 		[ "getMjxCharElements", slxMathJax ] // This is a jQuery test
 
 	);
+
+}
+
+function focus( element ) {
+
+	element.style.zIndex = zIndexHigh + 1;
+	zIndexHigh++;
 
 }
