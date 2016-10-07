@@ -62,14 +62,12 @@ var Slx = (function() {
 	 * @author spencel / https://github.com/spencel
 	 */
 	
-	// [Name] Class
+	// Bay Class
 	
 	// Static (aka Class) Properties
 	Bay.nextId = 0;
 	
-	Bay.instances = [];
-	
-	Bay.byId = {};
+	Bay.instancesById = {};
 	
 	Bay.quantity = 0; // The number of currently existing instances
 	// End Static Properties
@@ -77,8 +75,7 @@ var Slx = (function() {
 	// Constructor
 	function Bay( top, left, width, height ) {
 	
-		Bay.instances.push( this );
-		Bay.byId[ Bay.nextId ] = this;
+		Bay.instancesById[ Bay.nextId ] = this;
 		Bay.quantity++;
 	
 		// Instance Properties
@@ -93,31 +90,80 @@ var Slx = (function() {
 	
 		this.height = height;
 	
-		this.htmlElement = null; // Set after its html is injected into the document
+		this.isHtml = false; // Set after its html is injected into the document
 		// End Instance Properties
+	
+		return this;
 	
 	}
 	// End Constructor
 	
 	// Static (aka Class) Methods
-	Bay.staticMethodA = function() {
+	Bay.destroy = function ( id ) {
+	
+		this.instancesById[ id ] = undefined; // This is a memory leak, because the key remains in memory, but gives the best performance. In order to remove the key from memory, use the delete keyword; however, delete requires more process than setting the key to undefined
+		// delete this.instancesById[ id ]; // Reduces performance, however, will not cause a memory leak.
 	
 	}
 	// End Static Methods
 	
 	// Instance Methods
-	Bay.prototype.instanceMethodA = function() {
+	Bay.prototype.toggleHtml = function() {
+		
+		if ( this.isHtml === false ) {
+	
+			var element = document.createElement( "div" );
+			element.setAttribute( "id", "Slx-Bay-" + this.id )
+			element.setAttribute( "class", "Bay" )
+			element.setAttribute( "style",
+					"left:" + this.left +
+					"px;top:" + this.top +
+					"px;width:" + this.width +
+					"px;height:" + this.height + "px;" );
+	
+			document.getElementsByTagName( "BODY" )[0].appendChild( element );
+	
+			var strHtml =
+				"<div id='resizeTop'></div>" +
+				"<div id='resizeTopRight'></div>" + 
+				"<div id='resizeRight'></div>" +
+				"<div id='resizeBottomRight'></div>" +
+				"<div id='resizeBottom'></div>" +
+				"<div id='resizeBottomLeft'></div>" +
+				"<div id='resizeLeft'></div>" +
+				"<div id='resizeTopLeft'></div>";
+	
+			element.innerHTML = strHtml;
+	
+			this.isHtml = true;
+	
+		} else {
+	
+			document.getElementById( "Slx-Bay-" + this.id ).outerHTML = "";
+	
+			this.isHtml = false;
+	
+		}
+	
+	}
+	
+	Bay.prototype.close = function () {
+	
+		document.getElementById( this.id ).outerHTML = "";
+	
+		Bay.destroy( this.id );
 	
 	}
 	// End Instance Methods
 	
-	// End [Name] Class
+	// End Bay Class
 	
 	/**
 	 * @author spencel / https://github.com/spencel
 	 */
 	
 	// Input Class
+	var Input = {}; // Singleton
 	
 	// Static (aka Class) Properties
 	Input.mousedownTimestamp = null;
@@ -130,9 +176,6 @@ var Slx = (function() {
 	// End Static Properties
 	
 	// Constructor
-	function Input() {
-	
-	}
 	// End Constructor
 	
 	// Instance Methods
@@ -308,26 +351,48 @@ var Slx = (function() {
 			var strEvent_target_id = event.target.id;
 			var arEvent_target_id = strEvent_target_id.split("-");
 	
-			switch ( arEvent_target_id[0] ) {
+			if ( arEvent_target_id[0] === "Slx" ) {
 	
-				case "menu":
+				switch ( arEvent_target_id[1] ) {
 	
-					document.getElementById( "panels_container" ).innerHTML = "";
-					Panel.unloadAll();
+					case "menu":
 	
-					var panelType = arEvent_target_id[ 1 ];
+						document.getElementById( "panels_container" ).innerHTML = "";
+						Panel.unloadAll();
 	
-					Panel.initialize();
-					Panel.loadAllOfType( panelType );
-					Panel.displayAll( jQuery( "div#panels_container" ) );
+						var panelType = arEvent_target_id[ 2 ];
 	
-				break;
+						Panel.initialize();
+						Panel.loadAllOfType( panelType );
+						Panel.displayAll( jQuery( "div#panels_container" ) );
 	
-				case "setting":
+					break;
 	
-					var setting = arEvent_target_id[ 1 ];
+					case "setting":
 	
-					Panel.makeAllDraggable();
+						var setting = arEvent_target_id[ 2 ];
+	
+						Panel.makeAllDraggable();
+	
+					break;
+	
+					case "Bay":
+	
+						var id = arEvent_target_id[ 2 ];
+	
+						switch ( arEvent_target_id[ 3 ] ) {
+	
+							case "close":
+	
+								Bay.byId( id ).close();
+	
+							break;
+	
+						}
+	
+					break;
+	
+				}
 	
 			}
 	
@@ -603,21 +668,21 @@ var Slx = (function() {
 	// End Classes
 	
 	return {
-	
-	globalTestVariable: globalTestVariable,
-	
-	doMathJax: doMathJax,
-	
-	Bay: Bay,
-	
-	Panel: Panel,
-	
-	Input: Input,
-	
-	//Menu: Menu,
-	
-	//ViewPort: ViewPort
-	
+		
+		globalTestVariable: globalTestVariable,
+		
+		doMathJax: doMathJax,
+		
+		Bay: Bay,
+		
+		Panel: Panel,
+		
+		Input: Input,
+		
+		//Menu: Menu,
+		
+		//ViewPort: ViewPort
+		
 	}
 
 }());

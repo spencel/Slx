@@ -3,6 +3,7 @@
  */
 
 // Input Class
+var Input = {}; // Singleton
 
 // Static (aka Class) Properties
 Input.mousedownTimestamp = null;
@@ -15,9 +16,6 @@ Input.test = 1;
 // End Static Properties
 
 // Constructor
-function Input() {
-
-}
 // End Constructor
 
 // Instance Methods
@@ -97,21 +95,28 @@ Input.activateEventHandlers = function() {
 
 	jQuery( document ).on( "mousedown", function( event) {
 
+			console.log( event );
+
 		Input.mousedownTimestamp = performance.now();
 		Input.isMousedown = true;
 
 		var strEvent_target_id = event.target.id;
 		var arEvent_target_id = strEvent_target_id.split("-");
 
-		switch ( arEvent_target_id[0] ) {
+		// If left mouse button is down
+		if ( event.button === 1 ) {
 
-			case "div":
+			switch ( arEvent_target_id[0] ) {
 
-				case "panel":
+				case "div":
+
+					case "panel":
+
+					break;
 
 				break;
 
-			break;
+			}
 
 		}
 
@@ -119,57 +124,62 @@ Input.activateEventHandlers = function() {
 
 	jQuery( document ).on( "mouseup", function( event ) {
 
+			console.log( event );
+
 		Input.mouseupTimestamp = performance.now();
 		Input.isMouseDown = false;
 
 			console.log( "mouseup delta: " + ( Input.mouseupTimestamp - Input.mousedownTimestamp ) );
 
-		console.log( )
-
 		var strEvent_target_id = event.target.id;
 		var arEvent_target_id = strEvent_target_id.split("-");
 
-		switch ( arEvent_target_id[0] ) {
+		// If left mouse button is up
+		if ( event.button === 1 ) {
 
-			case "div":
+			switch ( arEvent_target_id[0] ) {
 
-				case "panel":
+				case "div":
+
+					case "panel":
+
+					break;
 
 				break;
 
-			break;
+				case "panelHeader":
 
-			case "panelHeader":
+						console.log( Input.mouseupTimestamp - Input.mousedownTimestamp );
 
-					console.log( Input.mouseupTimestamp - Input.mousedownTimestamp );
-
-				if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) { // if less than 100 ms has elapsed
-
-					var id = arEvent_target_id[ 1 ];
-
-						console.log( "id: " + id );
-
-						console.log( Panel.byId[ id ] );
-
-					Panel.byId[ id ].cycleDisplay();
-
-				} else {
-
-					if  ( Panel.isDraggable === true ) {
+					if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) { // if less than 100 ms has elapsed
 
 						var id = arEvent_target_id[ 1 ];
 
+							console.log( "id: " + id );
+
 							console.log( Panel.byId[ id ] );
 
-						Panel.draggingPanel = Panel.byId[ id ];
+						Panel.byId[ id ].cycleDisplay();
 
-							console.log( Panel.draggingPanel );
+					} else {
+
+						if  ( Panel.isDraggable === true ) {
+
+							var id = arEvent_target_id[ 1 ];
+
+								console.log( Panel.byId[ id ] );
+
+							Panel.draggingPanel = Panel.byId[ id ];
+
+								console.log( Panel.draggingPanel );
+
+						}
 
 					}
 
-				}
+				break;
 
-			break;
+			}
 
 		}
 
@@ -181,26 +191,48 @@ Input.activateEventHandlers = function() {
 		var strEvent_target_id = event.target.id;
 		var arEvent_target_id = strEvent_target_id.split("-");
 
-		switch ( arEvent_target_id[0] ) {
+		if ( arEvent_target_id[0] === "Slx" ) {
 
-			case "menu":
+			switch ( arEvent_target_id[1] ) {
 
-				document.getElementById( "panels_container" ).innerHTML = "";
-				Panel.unloadAll();
+				case "menu":
 
-				var panelType = arEvent_target_id[ 1 ];
+					document.getElementById( "panels_container" ).innerHTML = "";
+					Panel.unloadAll();
 
-				Panel.initialize();
-				Panel.loadAllOfType( panelType );
-				Panel.displayAll( jQuery( "div#panels_container" ) );
+					var panelType = arEvent_target_id[ 2 ];
 
-			break;
+					Panel.initialize();
+					Panel.loadAllOfType( panelType );
+					Panel.displayAll( jQuery( "div#panels_container" ) );
 
-			case "setting":
+				break;
 
-				var setting = arEvent_target_id[ 1 ];
+				case "setting":
 
-				Panel.makeAllDraggable();
+					var setting = arEvent_target_id[ 2 ];
+
+					Panel.makeAllDraggable();
+
+				break;
+
+				case "Bay":
+
+					var id = arEvent_target_id[ 2 ];
+
+					switch ( arEvent_target_id[ 3 ] ) {
+
+						case "close":
+
+							Bay.byId( id ).close();
+
+						break;
+
+					}
+
+				break;
+
+			}
 
 		}
 

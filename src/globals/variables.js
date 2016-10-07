@@ -1,0 +1,1 @@
+var globalTestVariable = "test";

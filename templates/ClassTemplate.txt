@@ -1,0 +1,42 @@
+// [Name] Class
+
+// Static (aka Class) Properties
+MyClass.nextId = 0;
+
+MyClass.instances = [];
+
+MyClass.byId = {};
+
+MyClass.quantity = 0;
+// End Static Properties
+
+// Constructor
+function MyClass( parameterA, parameterB ) {
+
+	MyClass.instances.push( this );
+	MyClass.byId[ MyClass.nextId ] = this;
+	MyClass.quantity++;
+
+	// Instance Properties
+	this.id = MyClass.nextId;
+	MyClass.nextId++;
+	// End Instance Properties
+
+	return this;
+
+}
+// End Constructor
+
+// Static (aka Class) Methods
+MyClass.staticMethodA = function() {
+
+}
+// End Static Methods
+
+// Instance Methods
+MyClass.prototype.instanceMethodA = function() {
+
+}
+// End Instance Methods
+
+// End [Name] Class

@@ -2,9 +2,11 @@
 
 var Slx = (function() {
 
-	// Global Variables
+	// Globals
 
-	// End Global Variables
+	// Variables
+
+	// Variables
 
 	// Functions
 	doMathJax = function() {
@@ -51,6 +53,8 @@ var Slx = (function() {
 
 	}
 	// End Functions
+
+	// End Globals
 
 	// Classes
 
