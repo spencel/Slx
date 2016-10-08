@@ -44,7 +44,11 @@ function doMathJax() {
 
 function focus( element ) {
 
-	element.style.zIndex = zIndexHigh + 1;
-	zIndexHigh++;
+	if ( element.style.zIndex !== zIndexHigh.toString() ) {
+
+		zIndexHigh++
+		element.style.zIndex = zIndexHigh;
+
+	}
 
 }

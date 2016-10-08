@@ -55,8 +55,12 @@ var Slx = (function() {
 	
 	function focus( element ) {
 	
-		element.style.zIndex = zIndexHigh + 1;
-		zIndexHigh++;
+		if ( element.style.zIndex !== zIndexHigh.toString() ) {
+	
+			zIndexHigh++
+			element.style.zIndex = zIndexHigh;
+	
+		}
 	
 	}
 	// End Functions
@@ -84,7 +88,7 @@ var Slx = (function() {
 	// End Static Properties
 	
 	// Constructor
-	function Bay( top, left, width, height ) {
+	function Bay( left, top, width, height ) {
 	
 		Bay.instancesById[ Bay.nextId ] = this;
 		Bay.quantity++;
@@ -93,9 +97,9 @@ var Slx = (function() {
 		this.id = Bay.nextId;
 		Bay.nextId++;
 	
-		this.top = top;
-	
 		this.left = left;
+	
+		this.top = top;
 	
 		this.width = width;
 	
@@ -129,30 +133,57 @@ var Slx = (function() {
 	
 			var element = document.createElement( "div" );
 			this.rootHtmlElement = element;
-			element.id = "SlxBay-" + this.id;
-			element.className = "Bay";
+			element.id = "_-SlxBay-_-" + this.id;
+			element.className = "_-Bay-_";
 			element.style.left = this.left + "px";
 			element.style.top = this.top + "px";
 			focus( element );
 	
 			document.getElementsByTagName( "BODY" )[0].appendChild( element );
 	
-			var strHtml =
-				"<div id='resizeTop'></div>" +
-				"<div id='resizeTopRight'></div>" + 
-				"<div id='resizeRight'></div>" +
-				"<div id='resizeBottomRight'></div>" +
-				"<div id='resizeBottom'></div>" +
-				"<div id='resizeBottomLeft'></div>" +
-				"<div id='resizeLeft'></div>" +
-				"<div id='resizeTopLeft'></div>" +
-				"<div id='topBar'>" +
-					"<div id='move'></div>" +
-					"<div id='close'>x</div>" + 
-				"</div>" +
-				"<div id='content' style='width:" + ( this.width - 6 ) + "px;height:" + ( this.height - 6 ) + "px;'>test</div>"; // has 2px reserved for border and 4px reserved for margin
+			elementChild = document.createElement( "div" );
+			elementChild.id = "_-resizeTop-_";
+			element.appendChild( elementChild );
+			elementChild = document.createElement( "div" );
+			elementChild.id = "_-resizeTopRight-_";
+			element.appendChild( elementChild );
+			elementChild = document.createElement( "div" );
+			elementChild.id = "_-resizeRight-_";
+			element.appendChild( elementChild );
+			elementChild = document.createElement( "div" );
+			elementChild.id = "_-resizeBottomRight-_";
+			element.appendChild( elementChild );
+			elementChild = document.createElement( "div" );
+			elementChild.id = "_-resizeBottom-_";
+			element.appendChild( elementChild );
+			elementChild = document.createElement( "div" );
+			elementChild.id = "_-resizeBottomLeft-_";
+			element.appendChild( elementChild );
+			elementChild = document.createElement( "div" );
+			elementChild.id = "_-resizeLeft-_";
+			element.appendChild( elementChild );
+			elementChild = document.createElement( "div" );
+			elementChild.id = "_-resizeTopLeft-_";
+			element.appendChild( elementChild );
 	
-			element.innerHTML = strHtml;
+			elementChild = document.createElement( "div" );
+			elementChild.id = "_-topBar-_";
+			element.appendChild( elementChild );
+	
+			elementChildChild = document.createElement( "div" );
+			elementChildChild.id = "_-move-_";
+			elementChild.appendChild( elementChildChild );
+			elementChildChild = document.createElement( "div" );
+			elementChildChild.id = "_-close-_";
+			elementChild.appendChild( elementChildChild );
+			var text = document.createTextNode( "X" );
+			elementChildChild.appendChild( text );
+	
+			elementChild = document.createElement( "div" );
+			elementChild.id = "_-content-_";
+			elementChild.style.width = ( this.width - 10 ) + "px"; // 10 px reserved for resize handles
+			elementChild.style.height = ( this.height - 10 ) + "px"; // 10 px reserved for resize handles
+			element.appendChild( elementChild );
 	
 			this.contentHtmlElement = element.childNodes[ 9 ];
 	
@@ -162,7 +193,7 @@ var Slx = (function() {
 	
 		} else {
 	
-			document.getElementById( "SlxBay-" + this.id ).outerHTML = "";
+			document.getElementById( "_-SlxBay-_-" + this.id ).outerHTML = "";
 	
 			this.isHtml = false;
 	
@@ -174,7 +205,7 @@ var Slx = (function() {
 	
 			console.log( this.id )
 	
-		document.getElementById( "SlxBay-" + this.id ).outerHTML = "";
+		document.getElementById( "_-SlxBay-_-" + this.id ).outerHTML = "";
 	
 		Bay.destroy( this.id );
 	
@@ -196,96 +227,71 @@ var Slx = (function() {
 	
 		switch ( Bay.resizeType ) {
 	
-			case "resizeTop":
+			case "_-resizeTop-_":
 	
 				//console.log( "resizeTop" );
 	
 				// Change root top and content height
-	
-				this.rootHtmlElement.setAttribute( "style",
-					"left:" + this.left + "px;top:" + ( this.top - Input.mousedownClientY + top ) + "px;" );
-	
-				var height = ( this.height + Input.mousedownClientY - top - 6 );
-	
-				//console.log( "height: " + height );
-	
-				this.contentHtmlElement.setAttribute( "style",
-					"width:" + ( this.width - 6 ) + "px;height:" + height + "px;" );
+				this.rootHtmlElement.style.top = ( this.top - Input.mousedownClientY + top ) + "px";
+				this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - 8 ) + "px";
 	
 			break;
 	
-			case "resizeTopRight":
+			case "_-resizeTopRight-_":
 	
 				// Change root top and content width and height
-	
-				this.rootHtmlElement.setAttribute( "style",
-					"left:" + this.left + "px;top:" + ( this.top - Input.mousedownClientY + top ) + "px;" );
-	
-				this.contentHtmlElement.setAttribute( "style",
-					"width:" + ( this.width - Input.mousedownClientX + left - 6 ) + "px;height:" + ( this.height + Input.mousedownClientY - top - 6 ) + "px;" );
+				this.rootHtmlElement.style.top =  ( this.top - Input.mousedownClientY + top ) + "px";
+				this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - 8 ) + "px";
+				this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - 8 ) + "px";
 	
 			break;
 	
-			case "resizeRight":
+			case "_-resizeRight-_":
 	
 				// Change content width
-	
-				this.contentHtmlElement.setAttribute( "style",
-					"width:" + ( this.width - Input.mousedownClientX + left - 6 ) + "px;height:" + ( this.height - 6 ) + "px;" );
-	
+				this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - 8 ) + "px";
+				
 			break;
 	
-			case "resizeBottomRight":
+			case "_-resizeBottomRight-_":
 	
 				// Change content width and height
-	
-				this.contentHtmlElement.setAttribute( "style",
-					"width:" + ( this.width - Input.mousedownClientX + left - 6 ) + "px;height:" + ( this.height - Input.mousedownClientY + top - 6 ) + "px;" );
+				this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - 8 ) + "px";
+				this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - 8 ) + "px";
 	
 			break;
 	
-			case "resizeBottom":
+			case "_-resizeBottom-_":
 	
 				// Change content height
-	
-				this.contentHtmlElement.setAttribute( "style",
-					"width:" + ( this.width - 6 ) + "px;height:" + ( this.height - Input.mousedownClientY + top - 6 ) + "px;" );
+				this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - 8 ) + "px";
 	
 			break;
 	
-			case "resizeBottomLeft":
+			case "_-resizeBottomLeft-_":
 	
 				// Change root left and content width and height
-	
-				this.rootHtmlElement.setAttribute( "style",
-					"left:" + ( this.left - Input.mousedownClientX + left ) + "px;top:" + this.top + "px;" );
-	
-				this.contentHtmlElement.setAttribute( "style",
-					"width:" + ( this.width + Input.mousedownClientX - left - 6 ) + "px;height:" + ( this.height - Input.mousedownClientY + top - 6 ) + "px;" );
+				this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
+				this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - 8 ) + "px";
+				this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - 8 ) + "px";
 	
 			break;
 	
-			case "resizeLeft":
+			case "_-resizeLeft-_":
 	
 				// Change root left and content width
-	
-				this.rootHtmlElement.setAttribute( "style",
-					"left:" + ( this.left - Input.mousedownClientX + left ) + "px;top:" + this.top + "px;" );
-	
-				this.contentHtmlElement.setAttribute( "style",
-					"width:" + ( this.width + Input.mousedownClientX - left - 6 ) + "px;height:" + ( this.height - 6 ) + "px;" );
+				this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
+				this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - 8 ) + "px";
 	
 			break;
 	
-			case "resizeTopLeft":
+			case "_-resizeTopLeft-_":
 	
 				// Change root left and top and content width and height
-	
-				this.rootHtmlElement.setAttribute( "style",
-					"left:" + ( this.left - Input.mousedownClientX + left ) + "px;top:" + ( this.top - Input.mousedownClientY + top ) + "px;" );
-	
-				this.contentHtmlElement.setAttribute( "style",
-					"width:" + ( this.width + Input.mousedownClientX - left - 6 ) + "px;height:" + ( this.height + Input.mousedownClientY - top - 6 ) + "px;" );
+				this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
+				this.rootHtmlElement.style.top = ( this.top - Input.mousedownClientY + top ) + "px";
+				this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - 8 ) + "px";
+				this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - 8 ) + "px";
 	
 			break;
 	
@@ -299,9 +305,9 @@ var Slx = (function() {
 		console.log( "this.left :" + this.left );
 		this.top = parseInt( this.rootHtmlElement.style.top );
 		console.log( "this.top :" + this.top );
-		this.width = this.contentHtmlElement.offsetWidth + 2;
+		this.width = this.contentHtmlElement.offsetWidth + 10;
 		console.log( "this.width :" + this.width );
-		this.height = this.contentHtmlElement.offsetHeight + 2;
+		this.height = this.contentHtmlElement.offsetHeight + 10;
 		console.log( "this.height :" + this.height );
 	
 		Bay.nowResizing = undefined;
@@ -451,14 +457,14 @@ var Slx = (function() {
 	
 					// Handle Resize Buttons
 	
-					case "resizeTop":
-					case "resizeTopRight":
-					case "resizeRight":
-					case "resizeBottomRight":
-					case "resizeBottom":
-					case "resizeBottomLeft":
-					case "resizeLeft":
-					case "resizeTopLeft":
+					case "_-resizeTop-_":
+					case "_-resizeTopRight-_":
+					case "_-resizeRight-_":
+					case "_-resizeBottomRight-_":
+					case "_-resizeBottom-_":
+					case "_-resizeBottomLeft-_":
+					case "_-resizeLeft-_":
+					case "_-resizeTopLeft-_":
 	
 						event.preventDefault(); // Prevent text selection and dragging
 	
@@ -470,7 +476,7 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "SlxBay":
+							case "_-SlxBay-_":
 	
 								var id = arrElementId[1]
 	
@@ -484,8 +490,8 @@ var Slx = (function() {
 	
 					break;
 	
-					case "topBar":
-					case "move": // ensures some amount of space of the topbar is showing
+					case "_-topBar-_":
+					case "_-move-_": // ensures some amount of space of the topbar is showing
 	
 					case "panelHeader":
 	
@@ -609,7 +615,7 @@ var Slx = (function() {
 	
 				// Handle Close Buttons
 	
-				case "close":
+				case "_-close-_":
 	
 					var element = event.target.parentNode.parentNode;
 	
@@ -621,7 +627,7 @@ var Slx = (function() {
 	
 					switch ( arrElementId[0] ) {
 	
-						case "SlxBay":
+						case "_-SlxBay-_":
 	
 							var id = arrElementId[1]
 	
