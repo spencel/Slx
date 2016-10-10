@@ -1,1 +1,3 @@
 Take the BioJS tutorial.
+Bay docking and sharing.
+Base window is body.
