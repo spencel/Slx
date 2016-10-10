@@ -73,6 +73,8 @@ var Slx = (function() {
 	* @author spencel / https://github.com/spencel
 	*/
 	
+	// Version 0.1
+	
 	// Bay Class
 	
 	// Static (aka Class) Properties
@@ -81,6 +83,13 @@ var Slx = (function() {
 	Bay.instancesById = {};
 	
 	Bay.quantity = 0; // The number of currently existing instances
+	
+	Bay.resizeHandleWidth = 7; // (px)
+	
+	Bay.borderWidth = 1; // (px)
+	
+	Bay.contentMargin = Bay.resizeHandleWidth - Bay.borderWidth; // (px)
+	Bay.contentMarginTimes2 = 2 * Bay.contentMargin
 	
 	Bay.nowResizing = undefined; // Set to instance that is being resized
 	
@@ -97,13 +106,13 @@ var Slx = (function() {
 		this.id = Bay.nextId;
 		Bay.nextId++;
 	
-		this.left = left;
+		this.left = left; // Of root element
 	
-		this.top = top;
+		this.top = top; // Of root element
 	
-		this.width = width;
+		this.width = width; // Of content element
 	
-		this.height = height;
+		this.height = height; // Of content element
 	
 		this.isHtml = false; // Set after its html is injected into the document
 	
@@ -181,8 +190,8 @@ var Slx = (function() {
 	
 			elementChild = document.createElement( "div" );
 			elementChild.id = "_13";
-			elementChild.style.width = ( this.width - 10 ) + "px"; // 10 px reserved for resize handles
-			elementChild.style.height = ( this.height - 10 ) + "px"; // 10 px reserved for resize handles
+			elementChild.style.width = ( this.width - 2 * Bay.resizeHandleWidth ) + "px"; // 10 px reserved for resize handles
+			elementChild.style.height = ( this.height - 2 * Bay.resizeHandleWidth ) + "px"; // 10 px reserved for resize handles
 			element.appendChild( elementChild );
 	
 			this.contentHtmlElement = element.childNodes[ 9 ];
@@ -233,7 +242,7 @@ var Slx = (function() {
 	
 				// Change root top and content height
 				this.rootHtmlElement.style.top = ( this.top - Input.mousedownClientY + top ) + "px";
-				this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - 8 ) + "px";
+				this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.contentMarginTimes2 ) + "px";
 	
 			break;
 	
@@ -241,30 +250,30 @@ var Slx = (function() {
 	
 				// Change root top and content width and height
 				this.rootHtmlElement.style.top =  ( this.top - Input.mousedownClientY + top ) + "px";
-				this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - 8 ) + "px";
-				this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - 8 ) + "px";
+				this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.contentMarginTimes2 ) + "px";
+				this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.contentMarginTimes2 ) + "px";
 	
 			break;
 	
 			case "_4":
 	
 				// Change content width
-				this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - 8 ) + "px";
+				this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.contentMarginTimes2 ) + "px";
 				
 			break;
 	
 			case "_5":
 	
 				// Change content width and height
-				this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - 8 ) + "px";
-				this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - 8 ) + "px";
+				this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.contentMarginTimes2 ) + "px";
+				this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.contentMarginTimes2 ) + "px";
 	
 			break;
 	
 			case "_6":
 	
 				// Change content height
-				this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - 8 ) + "px";
+				this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.contentMarginTimes2 ) + "px";
 	
 			break;
 	
@@ -272,8 +281,8 @@ var Slx = (function() {
 	
 				// Change root left and content width and height
 				this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
-				this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - 8 ) + "px";
-				this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - 8 ) + "px";
+				this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.contentMarginTimes2 ) + "px";
+				this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.contentMarginTimes2 ) + "px";
 	
 			break;
 	
@@ -281,7 +290,7 @@ var Slx = (function() {
 	
 				// Change root left and content width
 				this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
-				this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - 8 ) + "px";
+				this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.contentMarginTimes2 ) + "px";
 	
 			break;
 	
@@ -290,8 +299,8 @@ var Slx = (function() {
 				// Change root left and top and content width and height
 				this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
 				this.rootHtmlElement.style.top = ( this.top - Input.mousedownClientY + top ) + "px";
-				this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - 8 ) + "px";
-				this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - 8 ) + "px";
+				this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.contentMarginTimes2 ) + "px";
+				this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.contentMarginTimes2 ) + "px";
 	
 			break;
 	
@@ -305,9 +314,9 @@ var Slx = (function() {
 		console.log( "this.left :" + this.left );
 		this.top = parseInt( this.rootHtmlElement.style.top );
 		console.log( "this.top :" + this.top );
-		this.width = this.contentHtmlElement.offsetWidth + 10;
+		this.width = this.contentHtmlElement.offsetWidth + Bay.contentMarginTimes2;
 		console.log( "this.width :" + this.width );
-		this.height = this.contentHtmlElement.offsetHeight + 10;
+		this.height = this.contentHtmlElement.offsetHeight + Bay.contentMarginTimes2;
 		console.log( "this.height :" + this.height );
 	
 		Bay.nowResizing = undefined;

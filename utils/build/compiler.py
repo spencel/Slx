@@ -43,7 +43,13 @@ code += "\
 	// Classes\n\
 	\n"
 
-for fileName in os.listdir( srcDir + "core/" ):
+fileNames = [
+	"Bay.js",
+	"Input.js",
+	"Panel.js"
+]
+
+for fileName in fileNames:
 	with open( srcDir + "core/" + fileName, "r", encoding="utf-8" ) as f:
 		for line in f:
 			code += "\t" + line
@@ -95,18 +101,18 @@ with open( buildDir + "slx.js", "r", encoding="utf-8" ) as inputFile:
 				if line[ i ] == "_":
 					i += 1
 					print( "b: " + line[ i ] )
-					if line[ i ] == "-":
+					if line[ i ] == "_":
 						i += 1
 						j = i - 2
 						while i < uBound:
 							print( "c: " + line[ i ] )
 							print( "d: " + line[ i : i + 2 ] )
-							if line[ i : i + 2 ] == "-_":
+							if line[ i : i + 2 ] == "__":
 								print( directive )
-								if "_-" + directive + "-_" not in dictDirectives.keys():
-									dictDirectives[ "_-" + directive + "-_" ] = "_" + str( nextId )
+								if "__" + directive + "__" not in dictDirectives.keys():
+									dictDirectives[ "__" + directive + "__" ] = "_" + str( nextId )
 									nextId += 1
-								outputLine += dictDirectives[ "_-" + directive + "-_" ]
+								outputLine += dictDirectives[ "__" + directive + "__" ]
 								directive = ""
 								i += 2
 								print( "e: " + line[ i ] )
@@ -136,18 +142,18 @@ with open( srcDir + "css/style.css", "r", encoding="utf-8" ) as inputFile:
 				if line[ i ] == "_":
 					i += 1
 					print( "b: " + line[ i ] )
-					if line[ i ] == "-":
+					if line[ i ] == "_":
 						i += 1
 						j = i - 2
 						while i < uBound:
 							print( "c: " + line[ i ] )
 							print( "d: " + line[ i : i + 2 ] )
-							if line[ i : i + 2 ] == "-_":
+							if line[ i : i + 2 ] == "__":
 								print( directive )
-								if "_-" + directive + "-_" not in dictDirectives.keys():
-									dictDirectives[ "_-" + directive + "-_" ] = "_" + str( nextId )
+								if "__" + directive + "__" not in dictDirectives.keys():
+									dictDirectives[ "__" + directive + "__" ] = "_" + str( nextId )
 									nextId += 1
-								outputLine += dictDirectives[ "_-" + directive + "-_" ]
+								outputLine += dictDirectives[ "__" + directive + "__" ]
 								directive = ""
 								i += 2
 								print( "e: " + line[ i ] )

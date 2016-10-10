@@ -137,14 +137,14 @@ Input.activateEventHandlers = function() {
 
 				// Handle Resize Buttons
 
-				case "_-resizeTop-_":
-				case "_-resizeTopRight-_":
-				case "_-resizeRight-_":
-				case "_-resizeBottomRight-_":
-				case "_-resizeBottom-_":
-				case "_-resizeBottomLeft-_":
-				case "_-resizeLeft-_":
-				case "_-resizeTopLeft-_":
+				case "__resizeTop__":
+				case "__resizeTopRight__":
+				case "__resizeRight__":
+				case "__resizeBottomRight__":
+				case "__resizeBottom__":
+				case "__resizeBottomLeft__":
+				case "__resizeLeft__":
+				case "__resizeTopLeft__":
 
 					event.preventDefault(); // Prevent text selection and dragging
 
@@ -156,7 +156,7 @@ Input.activateEventHandlers = function() {
 
 					switch ( arrElementId[0] ) {
 
-						case "_-SlxBay-_":
+						case "__SlxBay__":
 
 							var id = arrElementId[1]
 
@@ -170,8 +170,8 @@ Input.activateEventHandlers = function() {
 
 				break;
 
-				case "_-topBar-_":
-				case "_-move-_": // ensures some amount of space of the topbar is showing
+				case "__topBar__":
+				case "__move__": // ensures some amount of space of the topbar is showing
 
 				case "panelHeader":
 
@@ -295,7 +295,7 @@ Input.activateEventHandlers = function() {
 
 			// Handle Close Buttons
 
-			case "_-close-_":
+			case "__close__":
 
 				var element = event.target.parentNode.parentNode;
 
@@ -307,7 +307,7 @@ Input.activateEventHandlers = function() {
 
 				switch ( arrElementId[0] ) {
 
-					case "_-SlxBay-_":
+					case "__SlxBay__":
 
 						var id = arrElementId[1]
 

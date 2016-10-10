@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<title>Js Architecture Type C</title>
+		<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+
+<script>
+
+// Namespace (aka Module)
+var MyNamespace = (function() {
+
+	// Global Variables
+	var myPublicGlobal = "A public global variable"; // Exposed by return statement
+
+	var myPrivateGlobal = "A private global variable"; // Not exposed by return statement
+	// End Global Variables
+
+	// Global Functions
+
+	// End Global Functions
+
+	// Class
+	var MyClass = (function() {
+
+		// Static (aka Class) Properties
+		var instancesById = {};
+		var quantity = 0;
+		function getQuantity() { return quantity; }
+		var nextId = 0;
+	
+		var myPublicStaticProperty = "A public static property"; // Exposed by return statement
+
+		var myPrivateStaticProperty = "A private static property"; // Not exposed by return statement
+		// End Static Properties
+
+		// Constructor
+		function MyClass( myInstanceProperty ) {
+
+			instancesById[ nextId ] = this;
+			quantity = quantity + 1;
+			this.id = nextId;
+			nextId++;
+
+			this.myInstanceProperty = myInstanceProperty;
+
+		}
+		// End Constructor
+
+		// Instance Methods
+		MyClass.prototype = {
+
+			instanceMethod: function() {
+
+				console.log( "instanceMethod " );
+
+			}
+
+		}
+		// End Instance Methods
+
+		return {
+
+			instancesById: instancesById,
+
+			quantity: quantity,
+
+			getQuantity: getQuantity,
+
+			myPublicStaticProperty: myPublicStaticProperty,
+
+			MyClass			
+
+		}
+
+	}());
+	// End Class
+
+	return {
+
+		myPublicGlobal: myPublicGlobal,
+
+		MyClass: MyClass
+
+	}
+
+}()); // End MyNamespace
+
+// End Module
+
+// Program
+function main() {
+
+	x = new MyNamespace.MyClass.MyClass(1);
+
+	console.log(MyNamespace.MyClass.quantity);
+
+}
+
+</script>
+
+	</head>
+	<body onload='main();'>
+	</body>
+</html>

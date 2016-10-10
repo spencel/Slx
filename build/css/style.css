@@ -210,98 +210,103 @@ div#menu {
 	display:	inline-block;
 }
 
-._-Bay-_ {
+.__Bay__ {
 	position: absolute;
 	border: 1px solid #000000;
 	background-color: #FFFFFF;
 }
-#_-resizeTop-_ {
+#__resizeTop__ {
 	position: absolute;
 	top: -1px;
-	left: 4px;
-	width: calc(100% - 8px);
-	height: 5px;
-	cursor: ns-resize;
-	background-color: red;
-}
-#_-resizeTopRight-_ {
-	position: absolute;
-	top: -1px;
-	right: -1px;
-	height: 5px;
-	width: 5px;
-	cursor: nesw-resize;
-}
-#_-resizeRight-_ {
-	position: absolute;
-	top: 4px;
-	right: -1px;
-	width: 5px;
-	height: calc(100% - 8px);
-	cursor: ew-resize;
-}
-#_-resizeBottomRight-_ {
-	position: absolute;
-	bottom: -1px;
-	right: -1px;
-	height: 5px;
-	width: 5px;
-	cursor: nwse-resize;
-}
-#_-resizeBottom-_ {
-	position: absolute;
-	left: 4px;
-	bottom: -1px;
-	width: calc(100% - 8px);
-	height: 5px;
+	left: 6px;
+	width: calc(100% - 12px);
+	height: 7px;
 	cursor: ns-resize;
 }
-#_-resizeBottomLeft-_ {
+#__resizeTopRight__ {
+	position: absolute;
+	top: -1px;
+	right: -1px;
+	height: 7px;
+	width: 7px;
+	cursor: nesw-resize;
+}
+#__resizeRight__ {
+	position: absolute;
+	top: 6px;
+	right: -1px;
+	width: 7px;
+	height: calc(100% - 12px);
+	cursor: ew-resize;
+}
+#__resizeBottomRight__ {
+	position: absolute;
+	bottom: -1px;
+	right: -1px;
+	height: 7px;
+	width: 7px;
+	cursor: nwse-resize;
+}
+#__resizeBottom__ {
+	position: absolute;
+	left: 6px;
+	bottom: -1px;
+	width: calc(100% - 12px);
+	height: 7px;
+	cursor: ns-resize;
+}
+#__resizeBottomLeft__ {
 	position: absolute;
 	bottom: -1px;
 	left: -1px;
-	height: 5px;
-	width: 5px;
+	height: 7px;
+	width: 7px;
 	cursor: nesw-resize;
 }
-#_-resizeLeft-_ {
+#__resizeLeft__ {
 	position: absolute;
 	left: -1px;
-	top: 4px;
-	width: 5px;
-	height: calc(100% - 8px);
+	top: 6px;
+	width: 7px;
+	height: calc(100% - 12px);
 	cursor: ew-resize;
 }
-#_-resizeTopLeft-_ {
+#__resizeTopLeft__ {
 	position: absolute;
 	top: -1px;
 	left: -1px;
-	height: 5px;
-	width: 5px;
+	height: 7px;
+	width: 7px;
 	cursor: nwse-resize;
 }
-#_-topBar-_ {
+#__topBar__ {
 	position: static;
 	display: block;
-	margin: 4px;
+	margin: 6px;
 	padding: 0px;
+	background-color: red;
+	vertical-align: middle;
 }
-#_-topBar-_:hover {
+#__topBar__:hover {
 	cursor: pointer;
 }
-#_-close-_ {
+#__close__ {
+	position: static;
 	display:inline-block;
+	margin: 0px;
+	padding: 0px;
 	width: 20px;
 	height: 20px;
 	text-align: center;
 	vertical-align: middle;
 	cursor: pointer;
 }
-#_-close-_:hover {
+#__close__:hover {
 	background-color: #000000;
 	color: #FFFFFF;
 }
-#_-move-_ {
+#__move__ {
+	position: static;
 	display:inline-block;
 	width: 20px;
 	height: 20px;
@@ -309,6 +314,8 @@ div#menu {
 	vertical-align: middle;
 	cursor: pointer;
 }
-#_-content-_ {
-	margin: 4px;
+#__content__ {
+	position: static;
+	display: block;
+	margin: 6px;
 }

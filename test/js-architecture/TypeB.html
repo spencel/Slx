@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<title>Js Architecture Type B</title>
+		<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+
+<script>
+
+// Module
+
+// Namespace (aka Module)
+var MyNamespace = (function() {
+
+
+	// Class
+
+	// Static (aka Class) Properties
+	MyClassA.staticPropertyA = 0;
+
+	MyClassA.staticPropertyB = 1;
+
+	// Constructor
+	function MyClassA( instancePropertyA, instancePropertyB ) {
+
+		// Instance Properties
+		this.instancePropertyA = instancePropertyA;
+
+		this.instancePropertyB = instancePropertyB;
+
+	}
+
+	// Instance Methods
+	MyClassA.prototype.instanceMethodA = function() {
+
+		console.log( "instanceMethodA of ClassA" );
+
+	}
+
+	MyClassA.prototype.instanceMethodB = function() {
+
+		console.log( "instanceMethodB of ClassA" );
+
+	}
+
+	// Static Methods
+	MyClassA.staticMethodA = function() {
+
+		console.log( "staticMethodA of ClassA" );
+
+	}
+
+	MyClassA.staticMethodB = function() {
+
+		console.log( "staticMethodB of ClassA" );
+
+	}
+
+	// End ClassA
+
+	return {
+
+		MyClassA: MyClassA,
+
+		//MyClassB: MyClassB
+
+	}
+
+}()); // End MyNamespace
+
+// End Module
+
+// Program
+function main() {
+
+	console.log( MyNamespace.MyClassA.staticPropertyA );
+	console.log( MyNamespace.MyClassA.staticPropertyB );
+
+	console.log( x.instancePropertyA );
+	console.log( x.instancePropertyB );
+
+	var x = new MyNamespace.MyClassA( 2, 3 );
+
+	MyNamespace.MyClassA.staticMethodA();
+	MyNamespace.MyClassA.staticMethodB();
+
+	x.instanceMethodA();
+	x.instanceMethodB();
+
+}
+
+</script>
+
+	</head>
+	<body onload='main();'>
+	</body>
+</html>

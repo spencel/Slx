@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<title>Js Architecture Type A</title>
+		<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+
+<script>
+
+function MyClass( instanceProperty ) {
+
+	this.instanceProperty = instanceProperty;
+
+}
+
+
+MyClass.staticMethod = function() { // aka class method
+
+	console.log( "static method" );
+
+}
+
+MyClass.prototype.instanceMethod = function() {
+
+	console.log( "instance method" )
+
+}
+
+function main() {
+
+	MyClass.staticMethod();
+
+	try { MyClass.instanceMethod(); }
+	catch(err) { console.log( "MyClass.instanceMethod(): " + err ); }
+
+	myInstance = new MyClass( "myValue" );
+
+	try { console.log( MyClass.instanceProperty ); }
+	catch(err) { console.log( "MyClass.instanceProperty: " + err ); }
+
+	console.log( myInstance.instanceProperty );
+
+	try { myInstance.staticMethod(); }
+	catch(err) { console.log( "myInstance.staticMethod(): " + err ); }
+
+	myInstance.instanceMethod();
+
+	
+
+
+}
+
+</script>
+
+	</head>
+	<body onload='main();'>
+	</body>
+</html>
