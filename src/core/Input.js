@@ -20,7 +20,7 @@ Input.mouseupClientX = undefined;
 
 Input.mouseupClientY = undefined;
 
-Input.test = 1;
+Input.userIs = undefined;
 // End Static Properties
 
 // Constructor
@@ -100,11 +100,23 @@ Input.activateEventHandlers = function() {
 
 		}
 
-		if ( Bay.nowResizing !== undefined ) {
+		switch ( Input.userIs ) {
 
-			event.preventDefault(); // Prevent text selection and dragging
+			case "__RESIZING_BAY__":
 
-			Bay.nowResizing.resize( event.clientX, event.clientY );
+				event.preventDefault(); // Prevent text selection and dragging
+
+				Bay.nowResizing.resize( event.clientX, event.clientY );
+
+			break;
+
+			case "__DRAGGING_BAY__":
+
+				event.preventDefault(); // Prevent text selection and dragging
+
+				Bay.nowDragging.drag( event.clientX, event.clientY );
+
+			break;
 
 		}
 
@@ -150,9 +162,9 @@ Input.activateEventHandlers = function() {
 
 					var element = event.target.parentNode;
 
-					var arrElementId = element.id.split("-");
+					var arrElementId = element.id.split( "-" );
 
-						console.log( arrElementId );
+					console.log( arrElementId );
 
 					switch ( arrElementId[0] ) {
 
@@ -164,14 +176,57 @@ Input.activateEventHandlers = function() {
 
 							Bay.instancesById[ id ].initResize( resizeType );
 
+							Input.userIs = "__RESIZING_BAY__"
+
 						break;
 
 					}
 
 				break;
 
-				case "__topBar__":
-				case "__move__": // ensures some amount of space of the topbar is showing
+				case "__topBar__": // also a drag button
+
+					var element = event.target.parentNode;
+
+					var arrElementId = element.id.split( "-" );
+
+					switch ( arrElementId[0] ) {
+
+						case "__SlxBay__":
+
+							var id = arrElementId[1]
+
+							Bay.instancesById[ id ].initDrag();
+
+							Input.userIs = "__DRAGGING_BAY__"
+
+						break;
+
+					}
+
+				break;
+
+				case "__drag__": // ensures some amount of space of the topbar is showing
+
+					var element = event.target.parentNode.parentNode;
+
+					var arrElementId = element.id.split( "-" );
+
+					switch ( arrElementId[0] ) {
+
+						case "__SlxBay__":
+
+							var id = arrElementId[1]
+
+							Bay.instancesById[ id ].initDrag();
+
+							Input.userIs = "__DRAGGING_BAY__"
+
+						break;
+
+					}
+
+				break;
 
 				case "panelHeader":
 
@@ -194,11 +249,30 @@ Input.activateEventHandlers = function() {
 		Input.mouseupClientX = event.clientX;
 		Input.mouseupClientY = event.clientY;
 
-		if ( Bay.nowResizing !== undefined ) {
+		switch ( Input.userIs ) {
 
-			Bay.nowResizing.finishResizing();
+			case "__RESIZING_BAY__":
+
+				event.preventDefault(); // Prevent text selection and dragging
+
+				Bay.nowResizing.finishResizing( event.clientX, event.clientY );
+
+				Input.userIs = undefined;
+
+			break;
+
+			case "__DRAGGING_BAY__":
+
+				event.preventDefault(); // Prevent text selection and dragging
+
+				Bay.nowDragging.finishDragging( event.clientX, event.clientY );
+
+				Input.userIs = undefined;
+
+			break;
 
 		}
+
 
 		console.log( "mouseup delta: " + ( Input.mouseupTimestamp - Input.mousedownTimestamp ) );
 

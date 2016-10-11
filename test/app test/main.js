@@ -2,13 +2,9 @@
 
 function main() {
 
-	SlxPanel = Slx.Panel;
 	SlxInput = Slx.Input;
 
-	SlxPanel.initialize();
 	SlxInput.activateEventHandlers();
-	SlxPanel.loadAllOfType( "Chemistry" );
-	SlxPanel.displayAll( jQuery( "div#panels_container" ) );
 
 	var x = new Slx.Bay( 60, 60, 60, 60);
 	x.toggleHtml();

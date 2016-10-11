@@ -13,16 +13,21 @@ Bay.instancesById = {};
 
 Bay.quantity = 0; // The number of currently existing instances
 
+Bay.resizeHandlePosition = -4; // (px)
+
 Bay.resizeHandleWidth = 7; // (px)
 
 Bay.borderWidth = 1; // (px)
 
-Bay.contentMargin = Bay.resizeHandleWidth - Bay.borderWidth; // (px)
-Bay.contentMarginTimes2 = 2 * Bay.contentMargin
+Bay.contentMargin = Bay.resizeHandleWidth + Bay.resizeHandlePosition; // (px) (3 px)
 
-Bay.nowResizing = undefined; // Set to instance that is being resized
+Bay.contentSizeModifier = 2 * Bay.contentMargin + 2 * Bay.borderWidth; // (px) (4 px); modifies size of content div so that the root div is the specified width from input parameter
+
+Bay.nowResizing = undefined; // Set to instance of Bay that is being resized
 
 Bay.resizeType = undefined; // A string constant that indicates the resize type, e.g., top, bottom right, mirrored, etc.
+
+Bay.nowDragging = undefined; // Set to instance of Bay that is being dragged
 // End Static Properties
 
 // Constructor
@@ -109,7 +114,7 @@ Bay.prototype.toggleHtml = function() {
 		element.appendChild( elementChild );
 
 		elementChildChild = document.createElement( "div" );
-		elementChildChild.id = "__move__";
+		elementChildChild.id = "__drag__";
 		elementChild.appendChild( elementChildChild );
 		elementChildChild = document.createElement( "div" );
 		elementChildChild.id = "__close__";
@@ -119,8 +124,8 @@ Bay.prototype.toggleHtml = function() {
 
 		elementChild = document.createElement( "div" );
 		elementChild.id = "__content__";
-		elementChild.style.width = ( this.width - 2 * Bay.resizeHandleWidth ) + "px"; // 10 px reserved for resize handles
-		elementChild.style.height = ( this.height - 2 * Bay.resizeHandleWidth ) + "px"; // 10 px reserved for resize handles
+		elementChild.style.width = ( this.width - Bay.contentSizeModifier ) + "px"; // 10 px reserved for resize handles
+		elementChild.style.height = ( this.height - Bay.contentSizeModifier ) + "px"; // 10 px reserved for resize handles
 		element.appendChild( elementChild );
 
 		this.contentHtmlElement = element.childNodes[ 9 ];
@@ -151,8 +156,6 @@ Bay.prototype.close = function () {
 
 Bay.prototype.initResize = function( resizeType ) {
 
-
-
 	focus( this.rootHtmlElement ); // Bring it to the front of the view
 
 	Bay.nowResizing = this;
@@ -173,7 +176,7 @@ Bay.prototype.resize = function( left, top ) {
 
 			// Change root top and content height
 			this.rootHtmlElement.style.top = ( this.top - Input.mousedownClientY + top ) + "px";
-			this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.contentMarginTimes2 ) + "px";
+			this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.contentSizeModifier ) + "px";
 
 		break;
 
@@ -181,30 +184,30 @@ Bay.prototype.resize = function( left, top ) {
 
 			// Change root top and content width and height
 			this.rootHtmlElement.style.top =  ( this.top - Input.mousedownClientY + top ) + "px";
-			this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.contentMarginTimes2 ) + "px";
-			this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.contentMarginTimes2 ) + "px";
+			this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.contentSizeModifier ) + "px";
+			this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.contentSizeModifier ) + "px";
 
 		break;
 
 		case "__resizeRight__":
 
 			// Change content width
-			this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.contentMarginTimes2 ) + "px";
+			this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.contentSizeModifier ) + "px";
 			
 		break;
 
 		case "__resizeBottomRight__":
 
 			// Change content width and height
-			this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.contentMarginTimes2 ) + "px";
-			this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.contentMarginTimes2 ) + "px";
+			this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.contentSizeModifier ) + "px";
+			this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.contentSizeModifier ) + "px";
 
 		break;
 
 		case "__resizeBottom__":
 
 			// Change content height
-			this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.contentMarginTimes2 ) + "px";
+			this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.contentSizeModifier ) + "px";
 
 		break;
 
@@ -212,8 +215,8 @@ Bay.prototype.resize = function( left, top ) {
 
 			// Change root left and content width and height
 			this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
-			this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.contentMarginTimes2 ) + "px";
-			this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.contentMarginTimes2 ) + "px";
+			this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.contentSizeModifier ) + "px";
+			this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.contentSizeModifier ) + "px";
 
 		break;
 
@@ -221,7 +224,7 @@ Bay.prototype.resize = function( left, top ) {
 
 			// Change root left and content width
 			this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
-			this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.contentMarginTimes2 ) + "px";
+			this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.contentSizeModifier ) + "px";
 
 		break;
 
@@ -230,8 +233,8 @@ Bay.prototype.resize = function( left, top ) {
 			// Change root left and top and content width and height
 			this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
 			this.rootHtmlElement.style.top = ( this.top - Input.mousedownClientY + top ) + "px";
-			this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.contentMarginTimes2 ) + "px";
-			this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.contentMarginTimes2 ) + "px";
+			this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.contentSizeModifier ) + "px";
+			this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.contentSizeModifier ) + "px";
 
 		break;
 
@@ -245,9 +248,9 @@ Bay.prototype.finishResizing = function() {
 	console.log( "this.left :" + this.left );
 	this.top = parseInt( this.rootHtmlElement.style.top );
 	console.log( "this.top :" + this.top );
-	this.width = this.contentHtmlElement.offsetWidth + Bay.contentMarginTimes2;
+	this.width = this.contentHtmlElement.offsetWidth + Bay.contentSizeModifier;
 	console.log( "this.width :" + this.width );
-	this.height = this.contentHtmlElement.offsetHeight + Bay.contentMarginTimes2;
+	this.height = this.contentHtmlElement.offsetHeight + Bay.contentSizeModifier;
 	console.log( "this.height :" + this.height );
 
 	Bay.nowResizing = undefined;
@@ -255,14 +258,28 @@ Bay.prototype.finishResizing = function() {
 
 }
 
-Bay.prototype.initMove = function() {
+Bay.prototype.initDrag = function() {
 
+	focus( this.rootHtmlElement ); // Bring it to the front of the view
 
+	Bay.nowDragging = this;
 
 }
 
-Bay.prototype.move = function() {
+Bay.prototype.drag = function( left, top ) {
+
+	this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
+	this.rootHtmlElement.style.top = ( this.top - Input.mousedownClientY + top ) + "px";
 	
+}
+
+Bay.prototype.finishDragging = function( left, top ) {
+
+	this.left = parseInt( this.rootHtmlElement.style.left );
+	this.top = parseInt( this.rootHtmlElement.style.top );
+
+	Bay.nowDragging = undefined;
+
 }
 // End Instance Methods
 

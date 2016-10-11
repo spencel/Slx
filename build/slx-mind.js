@@ -84,16 +84,21 @@ var Slx = (function() {
 	
 	Bay.quantity = 0; // The number of currently existing instances
 	
+	Bay.resizeHandlePosition = -4; // (px)
+	
 	Bay.resizeHandleWidth = 7; // (px)
 	
 	Bay.borderWidth = 1; // (px)
 	
-	Bay.contentMargin = Bay.resizeHandleWidth - Bay.borderWidth; // (px)
-	Bay.contentMarginTimes2 = 2 * Bay.contentMargin
+	Bay.contentMargin = Bay.resizeHandleWidth + Bay.resizeHandlePosition; // (px) (3 px)
 	
-	Bay.nowResizing = undefined; // Set to instance that is being resized
+	Bay.contentSizeModifier = 2 * Bay.contentMargin + 2 * Bay.borderWidth; // (px) (4 px); modifies size of content div so that the root div is the specified width from input parameter
+	
+	Bay.nowResizing = undefined; // Set to instance of Bay that is being resized
 	
 	Bay.resizeType = undefined; // A string constant that indicates the resize type, e.g., top, bottom right, mirrored, etc.
+	
+	Bay.nowDragging = undefined; // Set to instance of Bay that is being dragged
 	// End Static Properties
 	
 	// Constructor
@@ -190,8 +195,8 @@ var Slx = (function() {
 	
 			elementChild = document.createElement( "div" );
 			elementChild.id = "_13";
-			elementChild.style.width = ( this.width - 2 * Bay.resizeHandleWidth ) + "px"; // 10 px reserved for resize handles
-			elementChild.style.height = ( this.height - 2 * Bay.resizeHandleWidth ) + "px"; // 10 px reserved for resize handles
+			elementChild.style.width = ( this.width - Bay.contentSizeModifier ) + "px"; // 10 px reserved for resize handles
+			elementChild.style.height = ( this.height - Bay.contentSizeModifier ) + "px"; // 10 px reserved for resize handles
 			element.appendChild( elementChild );
 	
 			this.contentHtmlElement = element.childNodes[ 9 ];
@@ -242,7 +247,7 @@ var Slx = (function() {
 	
 				// Change root top and content height
 				this.rootHtmlElement.style.top = ( this.top - Input.mousedownClientY + top ) + "px";
-				this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.contentMarginTimes2 ) + "px";
+				this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.contentSizeModifier ) + "px";
 	
 			break;
 	
@@ -250,30 +255,30 @@ var Slx = (function() {
 	
 				// Change root top and content width and height
 				this.rootHtmlElement.style.top =  ( this.top - Input.mousedownClientY + top ) + "px";
-				this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.contentMarginTimes2 ) + "px";
-				this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.contentMarginTimes2 ) + "px";
+				this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.contentSizeModifier ) + "px";
+				this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.contentSizeModifier ) + "px";
 	
 			break;
 	
 			case "_4":
 	
 				// Change content width
-				this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.contentMarginTimes2 ) + "px";
+				this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.contentSizeModifier ) + "px";
 				
 			break;
 	
 			case "_5":
 	
 				// Change content width and height
-				this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.contentMarginTimes2 ) + "px";
-				this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.contentMarginTimes2 ) + "px";
+				this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.contentSizeModifier ) + "px";
+				this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.contentSizeModifier ) + "px";
 	
 			break;
 	
 			case "_6":
 	
 				// Change content height
-				this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.contentMarginTimes2 ) + "px";
+				this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.contentSizeModifier ) + "px";
 	
 			break;
 	
@@ -281,8 +286,8 @@ var Slx = (function() {
 	
 				// Change root left and content width and height
 				this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
-				this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.contentMarginTimes2 ) + "px";
-				this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.contentMarginTimes2 ) + "px";
+				this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.contentSizeModifier ) + "px";
+				this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.contentSizeModifier ) + "px";
 	
 			break;
 	
@@ -290,7 +295,7 @@ var Slx = (function() {
 	
 				// Change root left and content width
 				this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
-				this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.contentMarginTimes2 ) + "px";
+				this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.contentSizeModifier ) + "px";
 	
 			break;
 	
@@ -299,8 +304,8 @@ var Slx = (function() {
 				// Change root left and top and content width and height
 				this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
 				this.rootHtmlElement.style.top = ( this.top - Input.mousedownClientY + top ) + "px";
-				this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.contentMarginTimes2 ) + "px";
-				this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.contentMarginTimes2 ) + "px";
+				this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.contentSizeModifier ) + "px";
+				this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.contentSizeModifier ) + "px";
 	
 			break;
 	
@@ -314,13 +319,37 @@ var Slx = (function() {
 		console.log( "this.left :" + this.left );
 		this.top = parseInt( this.rootHtmlElement.style.top );
 		console.log( "this.top :" + this.top );
-		this.width = this.contentHtmlElement.offsetWidth + Bay.contentMarginTimes2;
+		this.width = this.contentHtmlElement.offsetWidth + Bay.contentSizeModifier;
 		console.log( "this.width :" + this.width );
-		this.height = this.contentHtmlElement.offsetHeight + Bay.contentMarginTimes2;
+		this.height = this.contentHtmlElement.offsetHeight + Bay.contentSizeModifier;
 		console.log( "this.height :" + this.height );
 	
 		Bay.nowResizing = undefined;
 		Bay.resizeType = undefined;
+	
+	}
+	
+	Bay.prototype.initDrag = function() {
+	
+		focus( this.rootHtmlElement ); // Bring it to the front of the view
+	
+		Bay.nowDragging = this;
+	
+	}
+	
+	Bay.prototype.drag = function( left, top ) {
+	
+		this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
+		this.rootHtmlElement.style.top = ( this.top - Input.mousedownClientY + top ) + "px";
+		
+	}
+	
+	Bay.prototype.finishDragging = function( left, top ) {
+	
+		this.left = parseInt( this.rootHtmlElement.style.left );
+		this.top = parseInt( this.rootHtmlElement.style.top );
+	
+		Bay.nowDragging = undefined;
 	
 	}
 	// End Instance Methods
@@ -349,7 +378,7 @@ var Slx = (function() {
 	
 	Input.mouseupClientY = undefined;
 	
-	Input.test = 1;
+	Input.userIs = undefined;
 	// End Static Properties
 	
 	// Constructor
@@ -429,11 +458,23 @@ var Slx = (function() {
 	
 			}
 	
-			if ( Bay.nowResizing !== undefined ) {
+			switch ( Input.userIs ) {
 	
-				event.preventDefault(); // Prevent text selection and dragging
+				case "_14":
 	
-				Bay.nowResizing.resize( event.clientX, event.clientY );
+					event.preventDefault(); // Prevent text selection and dragging
+	
+					Bay.nowResizing.resize( event.clientX, event.clientY );
+	
+				break;
+	
+				case "_15":
+	
+					event.preventDefault(); // Prevent text selection and dragging
+	
+					Bay.nowDragging.drag( event.clientX, event.clientY );
+	
+				break;
 	
 			}
 	
@@ -479,9 +520,9 @@ var Slx = (function() {
 	
 						var element = event.target.parentNode;
 	
-						var arrElementId = element.id.split("-");
+						var arrElementId = element.id.split( "-" );
 	
-							console.log( arrElementId );
+						console.log( arrElementId );
 	
 						switch ( arrElementId[0] ) {
 	
@@ -493,14 +534,57 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initResize( resizeType );
 	
+								Input.userIs = "_14"
+	
 							break;
 	
 						}
 	
 					break;
 	
-					case "_10":
+					case "_10": // also a drag button
+	
+						var element = event.target.parentNode;
+	
+						var arrElementId = element.id.split( "-" );
+	
+						switch ( arrElementId[0] ) {
+	
+							case "_0":
+	
+								var id = arrElementId[1]
+	
+								Bay.instancesById[ id ].initDrag();
+	
+								Input.userIs = "_15"
+	
+							break;
+	
+						}
+	
+					break;
+	
 					case "_11": // ensures some amount of space of the topbar is showing
+	
+						var element = event.target.parentNode.parentNode;
+	
+						var arrElementId = element.id.split( "-" );
+	
+						switch ( arrElementId[0] ) {
+	
+							case "_0":
+	
+								var id = arrElementId[1]
+	
+								Bay.instancesById[ id ].initDrag();
+	
+								Input.userIs = "_15"
+	
+							break;
+	
+						}
+	
+					break;
 	
 					case "panelHeader":
 	
@@ -523,11 +607,30 @@ var Slx = (function() {
 			Input.mouseupClientX = event.clientX;
 			Input.mouseupClientY = event.clientY;
 	
-			if ( Bay.nowResizing !== undefined ) {
+			switch ( Input.userIs ) {
 	
-				Bay.nowResizing.finishResizing();
+				case "_14":
+	
+					event.preventDefault(); // Prevent text selection and dragging
+	
+					Bay.nowResizing.finishResizing( event.clientX, event.clientY );
+	
+					Input.userIs = undefined;
+	
+				break;
+	
+				case "_15":
+	
+					event.preventDefault(); // Prevent text selection and dragging
+	
+					Bay.nowDragging.finishDragging( event.clientX, event.clientY );
+	
+					Input.userIs = undefined;
+	
+				break;
 	
 			}
+	
 	
 			console.log( "mouseup delta: " + ( Input.mouseupTimestamp - Input.mousedownTimestamp ) );
 	

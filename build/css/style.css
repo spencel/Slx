@@ -217,64 +217,64 @@ div#menu {
 }
 #__resizeTop__ {
 	position: absolute;
-	top: -1px;
-	left: 6px;
-	width: calc(100% - 12px);
+	top: -4px;
+	left: 3px;
+	width: calc(100% - 6px);
 	height: 7px;
 	cursor: ns-resize;
 }
 #__resizeTopRight__ {
 	position: absolute;
-	top: -1px;
-	right: -1px;
+	top: -4px;
+	right: -4px;
 	height: 7px;
 	width: 7px;
 	cursor: nesw-resize;
 }
 #__resizeRight__ {
 	position: absolute;
-	top: 6px;
-	right: -1px;
+	top: 3px;
+	right: -4px;
 	width: 7px;
-	height: calc(100% - 12px);
+	height: calc(100% - 6px);
 	cursor: ew-resize;
 }
 #__resizeBottomRight__ {
 	position: absolute;
-	bottom: -1px;
-	right: -1px;
+	bottom: -4px;
+	right: -4px;
 	height: 7px;
 	width: 7px;
 	cursor: nwse-resize;
 }
 #__resizeBottom__ {
 	position: absolute;
-	left: 6px;
-	bottom: -1px;
-	width: calc(100% - 12px);
+	left: 3px;
+	bottom: -4px;
+	width: calc(100% - 6px);
 	height: 7px;
 	cursor: ns-resize;
 }
 #__resizeBottomLeft__ {
 	position: absolute;
-	bottom: -1px;
-	left: -1px;
+	bottom: -4px;
+	left: -4px;
 	height: 7px;
 	width: 7px;
 	cursor: nesw-resize;
 }
 #__resizeLeft__ {
 	position: absolute;
-	left: -1px;
-	top: 6px;
+	left: -4px;
+	top: 3px;
 	width: 7px;
-	height: calc(100% - 12px);
+	height: calc(100% - 6px);
 	cursor: ew-resize;
 }
 #__resizeTopLeft__ {
 	position: absolute;
-	top: -1px;
-	left: -1px;
+	top: -4px;
+	left: -4px;
 	height: 7px;
 	width: 7px;
 	cursor: nwse-resize;
@@ -282,10 +282,9 @@ div#menu {
 #__topBar__ {
 	position: static;
 	display: block;
-	margin: 6px;
+	margin: 3px;
 	padding: 0px;
 	background-color: red;
-	vertical-align: middle;
 }
 #__topBar__:hover {
 	cursor: pointer;
@@ -305,7 +304,7 @@ div#menu {
 	background-color: #000000;
 	color: #FFFFFF;
 }
-#__move__ {
+#__drag__ {
 	position: static;
 	display:inline-block;
 	width: 20px;
@@ -317,5 +316,5 @@ div#menu {
 #__content__ {
 	position: static;
 	display: block;
-	margin: 6px;
+	margin: 3px;
 }
