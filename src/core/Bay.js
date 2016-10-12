@@ -19,6 +19,8 @@ Bay.resizeHandleWidth = 7; // (px)
 
 Bay.borderWidth = 1; // (px)
 
+Bay.borderWidthX2 = Bay.borderWidth * 2; // (px)
+
 Bay.contentMargin = Bay.resizeHandleWidth + Bay.resizeHandlePosition; // (px) (3 px)
 
 Bay.contentSizeModifier = 2 * Bay.contentMargin + 2 * Bay.borderWidth; // (px) (4 px); modifies size of content div so that the root div is the specified width from input parameter
@@ -80,9 +82,32 @@ Bay.prototype.toggleHtml = function() {
 		element.className = "__Bay__";
 		element.style.left = this.left + "px";
 		element.style.top = this.top + "px";
+		element.style.width = ( this.width - Bay.borderWidthX2 ) + "px"; // 
+		element.style.height = ( this.height - Bay.borderWidthX2 ) + "px"; // 
 		focus( element );
 
-		document.getElementsByTagName( "BODY" )[0].appendChild( element );
+		document.body.appendChild( element );
+
+		var elementChild = document.createElement( "div" );
+		elementChild.id = "__overflowHidden__";
+		element.appendChild( elementChild );
+
+		var elementChildChild = document.createElement( "div" );
+		elementChildChild.id = "__topBar__";
+		elementChild.appendChild( elementChildChild );
+
+		var elementChildChildChild = document.createElement( "div" );
+		elementChildChildChild.id = "__drag__";
+		elementChildChild.appendChild( elementChildChildChild );
+		elementChildChildChild = document.createElement( "div" );
+		elementChildChildChild.id = "__close__";
+		elementChildChild.appendChild( elementChildChildChild );
+		var text = document.createTextNode( "X" );
+		elementChildChildChild.appendChild( text );
+
+		elementChildChild = document.createElement( "div" );
+		elementChildChild.id = "__content__";
+		elementChild.appendChild( elementChildChild );
 
 		elementChild = document.createElement( "div" );
 		elementChild.id = "__resizeTop__";
@@ -107,25 +132,6 @@ Bay.prototype.toggleHtml = function() {
 		element.appendChild( elementChild );
 		elementChild = document.createElement( "div" );
 		elementChild.id = "__resizeTopLeft__";
-		element.appendChild( elementChild );
-
-		elementChild = document.createElement( "div" );
-		elementChild.id = "__topBar__";
-		element.appendChild( elementChild );
-
-		elementChildChild = document.createElement( "div" );
-		elementChildChild.id = "__drag__";
-		elementChild.appendChild( elementChildChild );
-		elementChildChild = document.createElement( "div" );
-		elementChildChild.id = "__close__";
-		elementChild.appendChild( elementChildChild );
-		var text = document.createTextNode( "X" );
-		elementChildChild.appendChild( text );
-
-		elementChild = document.createElement( "div" );
-		elementChild.id = "__content__";
-		elementChild.style.width = ( this.width - Bay.contentSizeModifier ) + "px"; // 10 px reserved for resize handles
-		elementChild.style.height = ( this.height - Bay.contentSizeModifier ) + "px"; // 10 px reserved for resize handles
 		element.appendChild( elementChild );
 
 		this.contentHtmlElement = element.childNodes[ 9 ];
@@ -176,7 +182,7 @@ Bay.prototype.resize = function( left, top ) {
 
 			// Change root top and content height
 			this.rootHtmlElement.style.top = ( this.top - Input.mousedownClientY + top ) + "px";
-			this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.contentSizeModifier ) + "px";
+			this.rootHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.borderWidthX2 ) + "px";
 
 		break;
 
@@ -184,30 +190,30 @@ Bay.prototype.resize = function( left, top ) {
 
 			// Change root top and content width and height
 			this.rootHtmlElement.style.top =  ( this.top - Input.mousedownClientY + top ) + "px";
-			this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.contentSizeModifier ) + "px";
-			this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.contentSizeModifier ) + "px";
+			this.rootHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.borderWidthX2 ) + "px";
+			this.rootHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.borderWidthX2 ) + "px";
 
 		break;
 
 		case "__resizeRight__":
 
 			// Change content width
-			this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.contentSizeModifier ) + "px";
+			this.rootHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.borderWidthX2 ) + "px";
 			
 		break;
 
 		case "__resizeBottomRight__":
 
 			// Change content width and height
-			this.contentHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.contentSizeModifier ) + "px";
-			this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.contentSizeModifier ) + "px";
+			this.rootHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.borderWidthX2 ) + "px";
+			this.rootHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.borderWidthX2 ) + "px";
 
 		break;
 
 		case "__resizeBottom__":
 
 			// Change content height
-			this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.contentSizeModifier ) + "px";
+			this.rootHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.borderWidthX2 ) + "px";
 
 		break;
 
@@ -215,8 +221,8 @@ Bay.prototype.resize = function( left, top ) {
 
 			// Change root left and content width and height
 			this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
-			this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.contentSizeModifier ) + "px";
-			this.contentHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.contentSizeModifier ) + "px";
+			this.rootHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.borderWidthX2 ) + "px";
+			this.rootHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.borderWidthX2 ) + "px";
 
 		break;
 
@@ -224,7 +230,7 @@ Bay.prototype.resize = function( left, top ) {
 
 			// Change root left and content width
 			this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
-			this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.contentSizeModifier ) + "px";
+			this.rootHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.borderWidthX2 ) + "px";
 
 		break;
 
@@ -233,8 +239,8 @@ Bay.prototype.resize = function( left, top ) {
 			// Change root left and top and content width and height
 			this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
 			this.rootHtmlElement.style.top = ( this.top - Input.mousedownClientY + top ) + "px";
-			this.contentHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.contentSizeModifier ) + "px";
-			this.contentHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.contentSizeModifier ) + "px";
+			this.rootHtmlElement.style.width = ( this.width + Input.mousedownClientX - left - Bay.borderWidthX2 ) + "px";
+			this.rootHtmlElement.style.height = ( this.height + Input.mousedownClientY - top - Bay.borderWidthX2 ) + "px";
 
 		break;
 
@@ -248,9 +254,9 @@ Bay.prototype.finishResizing = function() {
 	console.log( "this.left :" + this.left );
 	this.top = parseInt( this.rootHtmlElement.style.top );
 	console.log( "this.top :" + this.top );
-	this.width = this.contentHtmlElement.offsetWidth + Bay.contentSizeModifier;
+	this.width = this.rootHtmlElement.offsetWidth + Bay.borderWidthX2;
 	console.log( "this.width :" + this.width );
-	this.height = this.contentHtmlElement.offsetHeight + Bay.contentSizeModifier;
+	this.height = this.rootHtmlElement.offsetHeight + Bay.borderWidthX2;
 	console.log( "this.height :" + this.height );
 
 	Bay.nowResizing = undefined;
@@ -270,13 +276,367 @@ Bay.prototype.drag = function( left, top ) {
 
 	this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
 	this.rootHtmlElement.style.top = ( this.top - Input.mousedownClientY + top ) + "px";
+
+	//console.log( mouseLeft + " > " + ( window.innerWidth - SlxDocument.dockZoneWidth ) );
+	//console.log( mouseTop + " > " + ( window.innerHeight - SlxDocument.dockZoneWidth ) );
+
+	// This could be optimized
+	if ( left < SlxDocument.dockZoneWidth ) {
+
+		if ( top < SlxDocument.dockZoneWidth ) {
+
+			// Top Left
+
+			if ( SlxDocument.inDockZone !== undefined ) {
+
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+
+			}
+
+			console.log( "dock top left" );
+
+			SlxDocument.objectInDockZone = Bay.nowDragging;
+
+			SlxDocument.inDockZone = "__SlxDocumentTopLeftDockZone__";
+
+			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
+
+		} else if ( top > ( window.innerHeight - SlxDocument.dockZoneWidth ) ) {
+
+			// Bottom Left
+
+			if ( SlxDocument.inDockZone !== undefined ) {
+
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+
+			}
+
+			console.log( "dock bottom left" );
+
+			SlxDocument.objectInDockZone = Bay.nowDragging;
+
+			SlxDocument.inDockZone = "__SlxDocumentBottomLeftDockZone__";
+
+			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
+
+		} else {
+
+			// Left
+
+			if ( SlxDocument.inDockZone !== undefined ) {
+
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+
+			}
+
+			console.log( "dock left" );
+
+			SlxDocument.objectInDockZone = Bay.nowDragging;
+
+			SlxDocument.inDockZone = "__SlxDocumentLeftDockZone__";
+
+			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
+
+		}
+
+	} else if ( left > ( window.innerWidth - SlxDocument.dockZoneWidth ) ) {
+
+		if ( top < SlxDocument.dockZoneWidth ) {
+
+			// Top Right
+
+			if ( SlxDocument.inDockZone !== undefined ) {
+
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+
+			}
+
+			console.log( "dock top right" );
+
+			SlxDocument.objectInDockZone = Bay.nowDragging;
+
+			SlxDocument.inDockZone = "__SlxDocumentTopRightDockZone__";
+
+			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
+
+		} else if ( top > ( window.innerHeight - SlxDocument.dockZoneWidth ) ) {
+
+			// Bottom Right
+
+			if ( SlxDocument.inDockZone !== undefined ) {
+
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+
+			}
+
+			console.log( "dock bottom right" );
+
+			SlxDocument.objectInDockZone = Bay.nowDragging;
+
+			SlxDocument.inDockZone = "__SlxDocumentBottomRightDockZone__";
+
+			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
+
+		} else {
+
+			// Right
+
+			if ( SlxDocument.inDockZone !== undefined ) {
+
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+
+			}
+
+			console.log( "dock right" );
+
+			SlxDocument.objectInDockZone = Bay.nowDragging;
+
+			SlxDocument.inDockZone = "__SlxDocumentRightDockZone__";
+
+			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
+
+		}
+
+	} else if ( left > ( SlxDocument.fullScreenZoneStart * window.innerWidth ) && left < ( SlxDocument.fullScreenZoneEnd * window.innerWidth ) && top < SlxDocument.dockZoneWidth ) {
+
+		// Fullscreen
+
+		if ( SlxDocument.inDockZone !== undefined ) {
+
+			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+
+		}
+
+		console.log( "dock top" );
+
+		SlxDocument.objectInDockZone = Bay.nowDragging;
+
+		SlxDocument.inDockZone = "__SlxDocumentFullScreen__";
+
+		document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
+
+	} else if ( top < SlxDocument.dockZoneWidth ) {
+
+		// Top
+
+		if ( SlxDocument.inDockZone !== undefined ) {
+
+			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+
+		}
+
+		console.log( "dock top" );
+
+		SlxDocument.objectInDockZone = Bay.nowDragging;
+
+		SlxDocument.inDockZone = "__SlxDocumentTopDockZone__";
+
+		document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
+
+	}  else if ( top > ( window.innerHeight - SlxDocument.dockZoneWidth ) ){
+
+		// Bottom
+
+		if ( SlxDocument.inDockZone !== undefined ) {
+
+			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+
+		}
+
+		console.log( "dock bottom" );
+
+		SlxDocument.objectInDockZone = Bay.nowDragging;
+
+		SlxDocument.inDockZone = "__SlxDocumentBottomDockZone__";
+
+		document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
+
+	} else if ( SlxDocument.inDockZone !== undefined ) {
+
+		// None
+
+		document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null; // removes a style from element
+
+		SlxDocument.objectInDockZone = undefined;
+
+		SlxDocument.inDockZone = undefined;
+
+	}
 	
 }
 
 Bay.prototype.finishDragging = function( left, top ) {
 
-	this.left = parseInt( this.rootHtmlElement.style.left );
-	this.top = parseInt( this.rootHtmlElement.style.top );
+	switch ( SlxDocument.inDockZone ) {
+
+		case "__SlxDocumentTopDockZone__":
+
+			this.rootHtmlElement.style.left = 0 + "px";
+			this.left = 0;
+			this.rootHtmlElement.style.top = 0 + "px";
+			this.top = 0;
+
+			this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+			this.width = window.innerWidth;
+			this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+			this.height = window.innerHeight / 2;
+
+			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+			SlxDocument.objectInDockZone = undefined;
+			SlxDocument.inDockZone = undefined;
+
+		break;
+
+		case "__SlxDocumentTopRightDockZone__":
+
+			this.rootHtmlElement.style.left = window.innerWidth / 2 + "px";
+			this.left = window.innerWidth / 2;
+			this.rootHtmlElement.style.top = 0 + "px";
+			this.top = 0;
+
+			this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+			this.width = window.innerWidth / 2;
+			this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+			this.height = window.innerHeight / 2;
+
+			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+			SlxDocument.objectInDockZone = undefined;
+			SlxDocument.inDockZone = undefined;
+
+		break;
+
+		case "__SlxDocumentRightDockZone__":
+
+			this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
+			this.left = window.innerWidth / 2;
+			this.rootHtmlElement.style.top = 0 + "px";
+			this.top = 0;
+
+			this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+			this.width = window.innerWidth / 2;
+			this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+			this.height = window.innerHeight;
+
+			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+			SlxDocument.objectInDockZone = undefined;
+			SlxDocument.inDockZone = undefined;
+
+		break;
+
+		case "__SlxDocumentBottomRightDockZone__":
+
+			this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
+			this.left = window.innerWidth / 2;
+			this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+			this.top = window.innerHeight / 2;
+
+			this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+			this.width = window.innerWidth / 2;
+			this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+			this.height = window.innerHeight / 2;
+
+			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+			SlxDocument.objectInDockZone = undefined;
+			SlxDocument.inDockZone = undefined;
+
+		break;
+
+		case "__SlxDocumentBottomDockZone__":
+
+			this.rootHtmlElement.style.left = 0 + "px";
+			this.left = 0;
+			this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+			this.top = window.innerHeight / 2;
+
+			this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+			this.width = window.innerWidth;
+			this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+			this.height = window.innerHeight / 2;
+
+			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+			SlxDocument.objectInDockZone = undefined;
+			SlxDocument.inDockZone = undefined;
+
+		break;
+
+		case "__SlxDocumentBottomLeftDockZone__":
+
+			this.rootHtmlElement.style.left = 0 + "px";
+			this.left = 0;
+			this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+			this.top = window.innerHeight / 2;
+
+			this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+			this.width = window.innerWidth / 2;
+			this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+			this.height = window.innerHeight / 2;
+
+			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+			SlxDocument.objectInDockZone = undefined;
+			SlxDocument.inDockZone = undefined;
+
+		break;
+
+		case "__SlxDocumentLeftDockZone__":
+
+			this.rootHtmlElement.style.left = 0 + "px";
+			this.left = 0;
+			this.rootHtmlElement.style.top = 0 + "px";
+			this.top = 0;
+
+			this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+			this.width = window.innerWidth / 2;
+			this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+			this.height = window.innerHeight;
+
+			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+			SlxDocument.objectInDockZone = undefined;
+			SlxDocument.inDockZone = undefined;
+			
+		break;
+
+		case "__SlxDocumentTopLeftDockZone__":
+
+			this.rootHtmlElement.style.left = 0 + "px";
+			this.left = 0;
+			this.rootHtmlElement.style.top = 0 + "px";
+			this.top = 0;
+
+			this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+			this.width = window.innerWidth / 2;
+			this.rootHtmlElement.style.height = ( window.innerHeight / 2- Bay.borderWidthX2 ) + "px";
+			this.height = window.innerHeight / 2;
+
+			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+			SlxDocument.objectInDockZone = undefined;
+			SlxDocument.inDockZone = undefined;
+			
+		break;
+
+		case "__SlxDocumentFullScreen__":
+
+			this.rootHtmlElement.style.left = 0 + "px";
+			this.left = 0;
+			this.rootHtmlElement.style.top = 0 + "px";
+			this.top = 0;
+
+			this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+			this.width = window.innerWidth;
+			this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+			this.height = window.innerHeight;
+
+			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+			SlxDocument.objectInDockZone = undefined;
+			SlxDocument.inDockZone = undefined;
+			
+		break;
+
+		default:
+
+			this.left = parseInt( this.rootHtmlElement.style.left );
+			this.top = parseInt( this.rootHtmlElement.style.top );
+
+	}
 
 	Bay.nowDragging = undefined;
 

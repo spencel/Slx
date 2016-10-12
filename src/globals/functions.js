@@ -1,3 +1,7 @@
+/**
+* @author spencel / https://github.com/spencel
+*/
+
 function doMathJax() {
 
 	var slxMathJax = {
@@ -50,5 +54,31 @@ function focus( element ) {
 		element.style.zIndex = zIndexHigh;
 
 	}
+
+}
+
+function startMainLoop() {
+
+	var timestamp = performance.now(); // ms
+
+	last20HzTick = timestamp; // ms
+
+	mainLoop( timestamp );
+
+}
+
+function mainLoop( timestamp ) {
+
+	var deltaT = performance.now() - timestamp; // ms
+
+	if ( ( timestamp - last20HzTick ) > ( 20 * tick20Hz ) ) {
+
+		last20HzTick = timestamp;
+
+		document.getElementById( "fps" ).textContent = 1000 / deltaT;
+													// ms/s *   1/ms
+	}
+
+	window.requestAnimationFrame( mainLoop );
 
 }

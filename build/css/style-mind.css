@@ -4,20 +4,25 @@ input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration {
   display: none;
 }
-.slxMathJax{
-	display: none;
-	color:hsl(180, 25%, 100%);
-}
 body{
+	position: absolute;
+	display: block;
 	margin:0px;
+	width: 100%;
+	height:100%;
 	color: hsl(0, 0%, 25%);
 	/*background-color: hsl(0, 0%, 95%);*/
 	background-color: hsl(180, 50%, 99%);
 	font-family:Verdana, Geneva, sans-serif;
+	overflow: hidden;
 }
-
-table#debugBox {
+.slxMathJax{
+	display: none;
+	color:hsl(180, 25%, 100%);
+}
+div#debugBox {
 	position:	fixed;
+	z-index: 999999;
 	top:		2px;
 	right:		2px;
 	/*border: 	1px solid hsl(0, 0%, 80%);*/
@@ -212,66 +217,74 @@ div#menu {
 
 ._1 {
 	position: absolute;
+	display: block;
 	border: 1px solid #000000;
 	background-color: #FFFFFF;
 }
 #_2 {
 	position: absolute;
-	top: -4px;
-	left: 3px;
-	width: calc(100% - 6px);
-	height: 7px;
-	cursor: ns-resize;
-}
-#_3 {
-	position: absolute;
-	top: -4px;
-	right: -4px;
-	height: 7px;
-	width: 7px;
-	cursor: nesw-resize;
-}
-#_4 {
-	position: absolute;
-	top: 3px;
-	right: -4px;
-	width: 7px;
-	height: calc(100% - 6px);
-	cursor: ew-resize;
-}
-#_5 {
-	position: absolute;
-	bottom: -4px;
-	right: -4px;
-	height: 7px;
-	width: 7px;
-	cursor: nwse-resize;
-}
-#_6 {
-	position: absolute;
-	left: 3px;
-	bottom: -4px;
-	width: calc(100% - 6px);
-	height: 7px;
-	cursor: ns-resize;
+	display: block;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
 }
 #_7 {
 	position: absolute;
+	top: -4px;
+	left: 3px;
+	width: calc( 100% - 6px );
+	height: 7px;
+	cursor: ns-resize;
+}
+#_8 {
+	position: absolute;
+	top: -4px;
+	right: -4px;
+	height: 7px;
+	width: 7px;
+	cursor: nesw-resize;
+}
+#_9 {
+	position: absolute;
+	top: 3px;
+	right: -4px;
+	width: 7px;
+	height: calc( 100% - 6px );
+	cursor: ew-resize;
+}
+#_10 {
+	position: absolute;
+	bottom: -4px;
+	right: -4px;
+	height: 7px;
+	width: 7px;
+	cursor: nwse-resize;
+}
+#_11 {
+	position: absolute;
+	left: 3px;
+	bottom: -4px;
+	width: calc( 100% - 6px );
+	height: 7px;
+	cursor: ns-resize;
+}
+#_12 {
+	position: absolute;
 	bottom: -4px;
 	left: -4px;
 	height: 7px;
 	width: 7px;
 	cursor: nesw-resize;
 }
-#_8 {
+#_13 {
 	position: absolute;
 	left: -4px;
 	top: 3px;
 	width: 7px;
-	height: calc(100% - 6px);
+	height: calc( 100% - 6px );
 	cursor: ew-resize;
 }
-#_9 {
+#_14 {
 	position: absolute;
 	top: -4px;
 	left: -4px;
@@ -279,17 +292,16 @@ div#menu {
 	width: 7px;
 	cursor: nwse-resize;
 }
-#_10 {
+#_3 {
 	position: static;
 	display: block;
 	margin: 3px;
 	padding: 0px;
-	background-color: red;
 }
-#_10:hover {
+#_3:hover {
 	cursor: pointer;
 }
-#_12 {
+#_5 {
 	position: static;
 	display:inline-block;
 	margin: 0px;
@@ -300,11 +312,11 @@ div#menu {
 	vertical-align: middle;
 	cursor: pointer;
 }
-#_12:hover {
+#_5:hover {
 	background-color: #000000;
 	color: #FFFFFF;
 }
-#_11 {
+#_4 {
 	position: static;
 	display:inline-block;
 	width: 20px;
@@ -313,8 +325,66 @@ div#menu {
 	vertical-align: middle;
 	cursor: pointer;
 }
-#_13 {
+#_6 {
 	position: static;
 	display: block;
 	margin: 3px;
+}
+#_22{
+	position: absolute;
+	display: block;
+	left: 10px;
+	height: 10px;
+	width: calc( 100% - 20px );
+}
+#_18{
+	position: absolute;
+	display: block;
+	right: 0px;
+	width: 10px;
+	height: 10px;
+}
+#_20{
+	position: absolute;
+	display: block;
+	right: 0px;
+	top: 10px;
+	width: 10px;
+	height: calc( 100% - 20px );
+}
+#_19{
+	position: absolute;
+	display: block;
+	right: 0px;
+	bottom: 0px;
+	width: 10px;
+	height: 10px;
+}
+#_23{
+	position: absolute;
+	display: block;
+	left: 10px;
+	bottom: 0px;
+	width: calc( 100% - 20px );
+	height: 10px;
+}
+#_16{
+	position: absolute;
+	display: block;
+	bottom: 0px;
+	width: 10px;
+	height: 10px;
+}
+#_17{
+	position: absolute;
+	display: block;
+	top: 10px;
+	width: 10px;
+	height: calc( 100% - 20px );
+}
+#_15{
+	position: absolute;
+	display: block;
+	width: 10px;
+	height: 10px;
 }

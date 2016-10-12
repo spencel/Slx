@@ -46,7 +46,7 @@ var SlxDebug = (function() {
 	// Class Methods
 	function initialize() {
 
-		var strHtml = "<table id='" + id + "'></table>";
+		var strHtml = "<div id='" + id + "'></div>";
 
 		jQuery( "body" ).append( strHtml );
 
@@ -74,80 +74,87 @@ var SlxDebug = (function() {
 		isShowing = true;
 
 		var strHtml = 
-			"<tr>" +
-				"<td colspan='2'>Debug</td>" +
-				"<td id='debug-showGrid' class='button' title='show grid'>grid</td>" +
-				"<td></td>" +
-				"<td></td>" +
-				"<td></td>" +
-				"<td></td>" +
-				"<td></td>" +
-				"<td id='hideDebug' class='button' title='hide'>-</td>" +
-			"</tr>" +
-			"<tr>" +
-				"<td>(px)</td>" +
-				"<td>width</td>" +
-				"<td>height</td>" +
-			"</tr>" +
-			"<tr>" +
-				"<td>window</td>" +
-				"<td id='windowWidth' class='r'></td>" +
-				"<td id='windowHeight' class='r'></td>" +
-			"</tr>" +
-			"<tr>" +
-				"<td>document</td>" +
-				"<td id='documentWidth' class='r'>width</td>" +
-				"<td id='documentHeight' class='r'></td>" +
-			"</tr>" +
-			"<tr>" +
-				"<td>body</td>" +
-				"<td id='bodyWidth' class='r'></td>" +
-				"<td id='bodyHeight' class='r'></td>" +
-			"</tr>" +
-			"<tr>" +
-				"<td>mouse</td>" +
-				"<td>clientX</td>" +
-				"<td>offsetX</td>" +
-				"<td>pageX</td>" +
-				"<td>screenX</td>" +
-				"<td>clientY</td>" +
-				"<td>offsetY</td>" +
-				"<td>pageY</td>" +
-				"<td>screenY</td>" +
-			"</tr>" +
-			"<tr>" +
-				"<td>move</td>" +
-				"<td id='mousemoveClientX' class='r'></td>" +
-				"<td id='mousemoveOffsetX' class='r'></td>" +
-				"<td id='mousemovePageX' class='r'></td>" +
-				"<td id='mousemoveScreenX' class='r'></td>" +
-				"<td id='mousemoveClientY' class='r'></td>" +
-				"<td id='mousemoveOffsetY' class='r'></td>" +
-				"<td id='mousemovePageY' class='r'></td>" +
-				"<td id='mousemoveScreenY' class='r'></td>" +
-			"</tr>" +
-			"<tr>" +
-				"<td>down</td>" +
-				"<td id='mousedownClientX' class='r'></td>" +
-				"<td id='mousedownOffsetX' class='r'></td>" +
-				"<td id='mousedownPageX' class='r'></td>" +
-				"<td id='mousedownScreenX' class='r'></td>" +
-				"<td id='mousedownClientY' class='r'></td>" +
-				"<td id='mousedownOffsetY' class='r'></td>" +
-				"<td id='mousedownPageY' class='r'></td>" +
-				"<td id='mousedownScreenY' class='r'></td>" +
-			"</tr>" +
-			"<tr>" +
-				"<td>up</td>" +
-				"<td id='mouseupClientX' class='r'></td>" +
-				"<td id='mouseupOffsetX' class='r'></td>" +
-				"<td id='mouseupPageX' class='r'></td>" +
-				"<td id='mouseupScreenX' class='r'></td>" +
-				"<td id='mouseupClientY' class='r'></td>" +
-				"<td id='mouseupOffsetY' class='r'></td>" +
-				"<td id='mouseupPageY' class='r'></td>" +
-				"<td id='mouseupScreenY' class='r'></td>" +
-			"</tr>";
+			"<table>" +
+				"<tr>" +
+					"<td colspan='2'>Debug</td>" +
+					"<td id='debug-showGrid' class='button' title='show grid'>grid</td>" +
+					"<td id='hideDebug' class='button' title='hide'>-</td>" +
+				"</tr>" +
+			"</table>" +
+			"<table>" +
+				"<tr>" +
+					"<td>fps:</td>" +
+					"<td id='fps'></td>" +
+				"</tr>" +
+			"</table>" +
+			"<table>" +
+				"<tr>" +
+					"<td>(px)</td>" +
+					"<td>width</td>" +
+					"<td>height</td>" +
+				"</tr>" +
+				"<tr>" +
+					"<td>window</td>" +
+					"<td id='windowWidth' class='r'></td>" +
+					"<td id='windowHeight' class='r'></td>" +
+				"</tr>" +
+				"<tr>" +
+					"<td>document</td>" +
+					"<td id='documentWidth' class='r'>width</td>" +
+					"<td id='documentHeight' class='r'></td>" +
+				"</tr>" +
+				"<tr>" +
+					"<td>body</td>" +
+					"<td id='bodyWidth' class='r'></td>" +
+					"<td id='bodyHeight' class='r'></td>" +
+				"</tr>" +
+			"</table>" +
+			"<table>" +
+				"<tr>" +
+					"<td>mouse</td>" +
+					"<td>clientX</td>" +
+					"<td>offsetX</td>" +
+					"<td>pageX</td>" +
+					"<td>screenX</td>" +
+					"<td>clientY</td>" +
+					"<td>offsetY</td>" +
+					"<td>pageY</td>" +
+					"<td>screenY</td>" +
+				"</tr>" +
+				"<tr>" +
+					"<td>move</td>" +
+					"<td id='mousemoveClientX' class='r'></td>" +
+					"<td id='mousemoveOffsetX' class='r'></td>" +
+					"<td id='mousemovePageX' class='r'></td>" +
+					"<td id='mousemoveScreenX' class='r'></td>" +
+					"<td id='mousemoveClientY' class='r'></td>" +
+					"<td id='mousemoveOffsetY' class='r'></td>" +
+					"<td id='mousemovePageY' class='r'></td>" +
+					"<td id='mousemoveScreenY' class='r'></td>" +
+				"</tr>" +
+				"<tr>" +
+					"<td>down</td>" +
+					"<td id='mousedownClientX' class='r'></td>" +
+					"<td id='mousedownOffsetX' class='r'></td>" +
+					"<td id='mousedownPageX' class='r'></td>" +
+					"<td id='mousedownScreenX' class='r'></td>" +
+					"<td id='mousedownClientY' class='r'></td>" +
+					"<td id='mousedownOffsetY' class='r'></td>" +
+					"<td id='mousedownPageY' class='r'></td>" +
+					"<td id='mousedownScreenY' class='r'></td>" +
+				"</tr>" +
+				"<tr>" +
+					"<td>up</td>" +
+					"<td id='mouseupClientX' class='r'></td>" +
+					"<td id='mouseupOffsetX' class='r'></td>" +
+					"<td id='mouseupPageX' class='r'></td>" +
+					"<td id='mouseupScreenX' class='r'></td>" +
+					"<td id='mouseupClientY' class='r'></td>" +
+					"<td id='mouseupOffsetY' class='r'></td>" +
+					"<td id='mouseupPageY' class='r'></td>" +
+					"<td id='mouseupScreenY' class='r'></td>" +
+				"</tr>" +
+			"</table>";
 
 		jQuery( "#" + id ).html( strHtml );
 
@@ -278,7 +285,6 @@ var SlxDebug = (function() {
 			windowWidth.innerHTML = jQuery( window ).width();
 			windowHeight.innerHTML = jQuery( window ).height();
 
-
 			documentWidth.innerHTML = jQuery( document ).width();
 			documentHeight.innerHTML = jQuery( document ).height();
 
@@ -288,6 +294,15 @@ var SlxDebug = (function() {
 		});
 
 		jQuery( document ).on( "mousemove", function( event ) {
+
+			windowWidth.innerHTML = jQuery( window ).width();
+			windowHeight.innerHTML = jQuery( window ).height();
+
+			documentWidth.innerHTML = jQuery( document ).width();
+			documentHeight.innerHTML = jQuery( document ).height();
+
+			bodyWidth.innerHTML = jQuery( "body" ).width();
+			bodyHeight.innerHTML = jQuery( "body" ).height();
 
 			mousemoveClientX.innerHTML = event.clientX;
 			mousemoveOffsetX.innerHTML = event.offsetX;

@@ -12,6 +12,10 @@ Input.mouseupTimestamp = null;
 
 Input.isMousedown = true;
 
+Input.mousemoveX = undefined;
+
+Input.mousemoveY = undefined;
+
 Input.mousedownClientX = undefined;
 
 Input.mousedownClientY = undefined;
@@ -34,6 +38,8 @@ Input.activateEventHandlers = function() {
 
 	// Key Released
 	jQuery( document ).on( "keyup", function( event ) {
+
+		event.stopPropagation();
 
 		var event_target_id = event.target.id;
 		console.log(event_target_id);
@@ -85,9 +91,14 @@ Input.activateEventHandlers = function() {
 
 	jQuery( document ).on( "mousemove", function( event ) {
 
+		event.stopPropagation();
+
 		//console.log( event );
 		//console.log( "event.clientX: " + event.clientX );
 		//console.log( "event.clientY: " + event.clientY );
+
+		Input.mousemoveX = event.clientX;
+		Input.mousemoveY = event.clientY;
 
 		var draggingPanel = Panel.draggingPanel;
 
@@ -127,6 +138,8 @@ Input.activateEventHandlers = function() {
 
 	jQuery( document ).on( "mousedown", function( event ) {
 
+		event.stopPropagation();
+
 		console.log( event );
 
 		Input.mousedownTimestamp = performance.now();
@@ -143,7 +156,7 @@ Input.activateEventHandlers = function() {
 		// If left mouse button is down
 		if ( event.button === 0 ) { 
 
-				console.log( arEvent_target_id[0] );
+			console.log( arEvent_target_id[0] );
 
 			switch ( arEvent_target_id[0] ) {
 
@@ -186,7 +199,7 @@ Input.activateEventHandlers = function() {
 
 				case "__topBar__": // also a drag button
 
-					var element = event.target.parentNode;
+					var element = event.target.parentNode.parentNode;
 
 					var arrElementId = element.id.split( "-" );
 
@@ -208,7 +221,7 @@ Input.activateEventHandlers = function() {
 
 				case "__drag__": // ensures some amount of space of the topbar is showing
 
-					var element = event.target.parentNode.parentNode;
+					var element = event.target.parentNode.parentNode.parentNode;
 
 					var arrElementId = element.id.split( "-" );
 
@@ -241,6 +254,8 @@ Input.activateEventHandlers = function() {
 	});
 
 	jQuery( document ).on( "mouseup", function( event ) {
+
+		event.stopPropagation();
 
 		console.log( event );
 
@@ -333,6 +348,8 @@ Input.activateEventHandlers = function() {
 	// Mouse Click
 	jQuery( document ).on( "click", function( event ) {
 
+		event.stopPropagation();
+
 		var strEvent_target_id = event.target.id;
 		var arEvent_target_id = strEvent_target_id.split("-");
 
@@ -371,7 +388,7 @@ Input.activateEventHandlers = function() {
 
 			case "__close__":
 
-				var element = event.target.parentNode.parentNode;
+				var element = event.target.parentNode.parentNode.parentNode;
 
 					console.log( element );
 
@@ -403,7 +420,63 @@ Input.activateEventHandlers = function() {
 		var strEvent_target_id = event.target.id;
 		var arEvent_target_id = strEvent_target_id.split("-");
 
-		switch ( arEvent_target_id[0] ) {
+		if ( event.button === 0 ) { 
+
+			switch ( arEvent_target_id[0] ) {
+
+				case "__topBar__": // also a drag button
+
+					var element = event.target.parentNode.parentNode;
+
+					var arrElementId = element.id.split( "-" );
+
+					switch ( arrElementId[0] ) {
+
+						case "__SlxBay__":
+
+							var id = arrElementId[1]
+
+							Bay.instancesById[ id ].initDrag();
+
+							Input.userIs = "__DRAGGING_BAY__"
+
+							SlxDocument.inDockZone = "__SlxDocumentFullScreen__"
+
+							Bay.instancesById[ id ].finishDragging();
+
+						break;
+
+					}
+
+				break;
+
+				case "__drag__": // ensures some amount of space of the topbar is showing
+
+					var element = event.target.parentNode.parentNode.parentNode;
+
+					var arrElementId = element.id.split( "-" );
+
+					switch ( arrElementId[0] ) {
+
+						case "__SlxBay__":
+
+							var id = arrElementId[1]
+
+							Bay.instancesById[ id ].initDrag();
+
+							Input.userIs = "__DRAGGING_BAY__"
+
+							SlxDocument.inDockZone = "__SlxDocumentFullScreen__"
+
+							Bay.instancesById[ id ].finishDragging();	
+
+						break;
+
+					}
+
+				break;
+
+			}
 
 		}
 

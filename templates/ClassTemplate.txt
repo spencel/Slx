@@ -1,9 +1,8 @@
-// [Name] Class
+// MyClass Class
+var MyClass = {}; // Use this if class has no constructor thus no instances.
 
 // Static (aka Class) Properties
 MyClass.nextId = 0;
-
-MyClass.instances = [];
 
 MyClass.byId = {};
 
@@ -13,7 +12,6 @@ MyClass.quantity = 0;
 // Constructor
 function MyClass( parameterA, parameterB ) {
 
-	MyClass.instances.push( this );
 	MyClass.byId[ MyClass.nextId ] = this;
 	MyClass.quantity++;
 
@@ -39,4 +37,4 @@ MyClass.prototype.instanceMethodA = function() {
 }
 // End Instance Methods
 
-// End [Name] Class
+// End MyClass Class

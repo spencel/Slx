@@ -46,7 +46,8 @@ code += "\
 fileNames = [
 	"Bay.js",
 	"Input.js",
-	"Panel.js"
+	"Panel.js",
+	"SlxDocument.js"
 ]
 
 for fileName in fileNames:
@@ -61,15 +62,15 @@ code += "\
 	\n\
 	return {\n\
 		\n\
+		startMainLoop: startMainLoop,\n\
+		\n\
 		Bay: Bay,\n\
 		\n\
 		Panel: Panel,\n\
 		\n\
 		Input: Input,\n\
 		\n\
-		//Menu: Menu,\n\
-		\n\
-		//ViewPort: ViewPort\n\
+		SlxDocument: SlxDocument,\n\
 		\n\
 	}\n\
 \n\
@@ -85,7 +86,7 @@ with open( srcDir + "/css/style.css", "r", encoding="utf-8" ) as fileInput:
 
 
 
-# Look for directives bracketed by <| |>, e.g., <|directive|> and replace them with IDs.
+# Look for directives bracketed by "__ __", e.g., "__directive__" and replace them with IDs.
 dictDirectives = {}
 nextId = 0
 

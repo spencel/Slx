@@ -2,15 +2,14 @@
 
 function main() {
 
-	SlxInput = Slx.Input;
-
-	SlxInput.activateEventHandlers();
+	Slx.Input.activateEventHandlers();
+	Slx.SlxDocument.init();
 
 	var x = new Slx.Bay( 60, 60, 60, 60);
 	x.toggleHtml();
-	var y = new Slx.Bay( 1400, 60, 60, 60);
-	y.toggleHtml();
 
 	SlxDebug.initialize();
+
+	Slx.startMainLoop();
 
 }
