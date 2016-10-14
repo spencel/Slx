@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!-- Version 0.3 -->
+<html>
+
+	<head>
+
+		<meta charset='utf-8'/>
+
+		<title>app test</title>
+
+		<!-- CSS (put style sheets first so that document will be formatted first) -->
+		<link rel='stylesheet' type='text/css' href='../../build/css/style.css'>
+
+		<!-- jQuery -->
+		<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
+
+		<!-- jQuery UI -->
+		<!--<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+		<!-- MathJax -->
+		<script type='text/javascript' async src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+		<!-- Application -->
+		<script src='../../build/slx.js'></script>
+		<script src='panelData.js'></script>
+		<script src='SlxDebug.js'></script>
+		<script src='main.js'></script>
+
+	</head>
+
+	<body onload='main();'>	
+
+	</body>
+
+</html>

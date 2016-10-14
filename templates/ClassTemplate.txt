@@ -25,16 +25,14 @@ function MyClass( parameterA, parameterB ) {
 }
 // End Constructor
 
-// Static (aka Class) Methods
+// Methods (organize methods by function and relationship)
 MyClass.staticMethodA = function() {
 
 }
-// End Static Methods
 
-// Instance Methods
 MyClass.prototype.instanceMethodA = function() {
 
 }
-// End Instance Methods
+// End Methods
 
-// End MyClass Class
+// End Class
