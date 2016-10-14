@@ -1,6 +1,6 @@
 /**
  * @author spencel / https://github.com/spencel
- * @version 0.2
+ * @version 0.1
  */
 
 
@@ -45,13 +45,13 @@ Input.activateEventHandlers = function() {
 		event.stopPropagation();
 
 		var event_target_id = event.target.id;
-		//console.log(event_target_id);
+		console.log(event_target_id);
 
 		switch ( event_target_id ) {
 
 			case "ConvertUnits":
 
-				//console.log('test');
+				console.log('test');
 
 				convertUnits( event_target_id );
 
@@ -96,9 +96,9 @@ Input.activateEventHandlers = function() {
 
 		event.stopPropagation();
 
-		////console.log( event );
-		////console.log( "event.clientX: " + event.clientX );
-		////console.log( "event.clientY: " + event.clientY );
+		//console.log( event );
+		//console.log( "event.clientX: " + event.clientX );
+		//console.log( "event.clientY: " + event.clientY );
 
 		Input.mousemoveX = event.clientX;
 		Input.mousemoveY = event.clientY;
@@ -143,15 +143,15 @@ Input.activateEventHandlers = function() {
 
 		event.stopPropagation();
 
-		//console.log( event );
+		console.log( event );
 
 		Input.mousedownTimestamp = performance.now();
 		Input.isMousedown = true;
 		Input.mousedownClientX = event.clientX;
 		Input.mousedownClientY = event.clientY;
 
-		//console.log( "Input.mousedownClientX: " + Input.mousedownClientX );
-		//console.log( "Input.mousedownClientY: " + Input.mousedownClientY );
+		console.log( "Input.mousedownClientX: " + Input.mousedownClientX );
+		console.log( "Input.mousedownClientY: " + Input.mousedownClientY );
 
 		var strEvent_target_id = event.target.id;
 		var arEvent_target_id = strEvent_target_id.split("-");
@@ -159,7 +159,7 @@ Input.activateEventHandlers = function() {
 		// Left Mouse Button is Down
 		if ( event.button === 0 ) { 
 
-			//console.log( arEvent_target_id[0] );
+			console.log( arEvent_target_id[0] );
 
 			switch ( arEvent_target_id[0] ) {
 
@@ -180,7 +180,7 @@ Input.activateEventHandlers = function() {
 
 					var arrElementId = element.id.split( "-" );
 
-					//console.log( arrElementId );
+					console.log( arrElementId );
 
 					switch ( arrElementId[0] ) {
 
@@ -260,7 +260,7 @@ Input.activateEventHandlers = function() {
 
 		event.stopPropagation();
 
-		////console.log( event );
+		//console.log( event );
 
 		Input.mouseupTimestamp = performance.now();
 		Input.isMouseDown = false;
@@ -287,12 +287,11 @@ Input.activateEventHandlers = function() {
 
 		}
 
-		//console.log( "mouseup delta: " + ( Input.mouseupTimestamp - Input.mousedownTimestamp ) );
+		console.log( "mouseup delta: " + ( Input.mouseupTimestamp - Input.mousedownTimestamp ) );
 
 		var strEvent_target_id = event.target.id;
 		var arEvent_target_id = strEvent_target_id.split("-");
 
-		// Quick Mouseup
 		if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) {
 
 			// Left mouse button is up
@@ -302,15 +301,15 @@ Input.activateEventHandlers = function() {
 
 					case "panelHeader":
 
-						//console.log( Input.mouseupTimestamp - Input.mousedownTimestamp );
+						console.log( Input.mouseupTimestamp - Input.mousedownTimestamp );
 
 						if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) { // if less than 100 ms has elapsed
 
 							var id = arEvent_target_id[ 1 ];
 
-								//console.log( "id: " + id );
+								console.log( "id: " + id );
 
-								//console.log( Panel.byId[ id ] );
+								console.log( Panel.byId[ id ] );
 
 							Panel.byId[ id ].cycleDisplay();
 
@@ -320,11 +319,11 @@ Input.activateEventHandlers = function() {
 
 								var id = arEvent_target_id[ 1 ];
 
-									//console.log( Panel.byId[ id ] );
+									console.log( Panel.byId[ id ] );
 
 								Panel.draggingPanel = Panel.byId[ id ];
 
-									//console.log( Panel.draggingPanel );
+									console.log( Panel.draggingPanel );
 
 							}
 
@@ -332,11 +331,276 @@ Input.activateEventHandlers = function() {
 
 					break;
 
-					case "__Bay__": 
+					case "__resizeTop__":
 
-						console.log( "Bay.handleQuickMouseup( arEvent_target_id )" );
+						var element = event.target.parentNode;
 
-						Bay.handleQuickMouseup( arEvent_target_id );
+						var arrElementId = element.id.split( "-" );
+
+						switch ( arrElementId[0] ) {
+
+							case "__SlxBay__":
+
+								var id = arrElementId[1]
+
+								if ( Bay.instancesById[ id ].currentlyDockedAt === arEvent_target_id[0] ) {
+
+									Bay.instancesById[ id ].restorePreviousDimensions();
+
+								} else {
+
+									Bay.instancesById[ id ].initDrag();
+
+									Input.userIs = "__DRAGGING_BAY__"
+
+									SlxDocument.inDockZone = "__SlxDocumentFullScreen__"
+
+									Bay.instancesById[ id ].finishDragging();
+
+								}
+
+							break;
+
+						}
+
+					break;
+
+					case "__resizeTopRight__":
+
+						var element = event.target.parentNode;
+
+						var arrElementId = element.id.split( "-" );
+
+						switch ( arrElementId[0] ) {							
+
+							case "__SlxBay__":
+
+								var id = arrElementId[1]
+
+								if ( Bay.instancesById[ id ].currentlyDockedAt === arEvent_target_id[0] ) {
+
+									Bay.instancesById[ id ].restorePreviousDimensions();
+
+								} else {
+
+
+									Bay.instancesById[ id ].initDrag();
+
+									Input.userIs = "__DRAGGING_BAY__"
+
+									SlxDocument.inDockZone = "__SlxDocumentTopRightDockZone__"
+
+									Bay.instancesById[ id ].finishDragging();
+
+							}
+
+							break;
+
+						}
+
+					break;
+
+					case "__resizeRight__":
+
+						var element = event.target.parentNode;
+
+						var arrElementId = element.id.split( "-" );
+
+						switch ( arrElementId[0] ) {
+
+							case "__SlxBay__":
+
+								var id = arrElementId[1]
+
+								if ( Bay.instancesById[ id ].currentlyDockedAt === arEvent_target_id[0] ) {
+
+									Bay.instancesById[ id ].restorePreviousDimensions();
+
+								} else {
+
+									Bay.instancesById[ id ].initDrag();
+
+									Input.userIs = "__DRAGGING_BAY__"
+
+									SlxDocument.inDockZone = "__SlxDocumentRightDockZone__"
+
+									Bay.instancesById[ id ].finishDragging();
+
+								}
+
+							break;
+
+						}
+
+					break;
+
+					case "__resizeBottomRight__":
+
+						var element = event.target.parentNode;
+
+						var arrElementId = element.id.split( "-" );
+
+						switch ( arrElementId[0] ) {
+
+							case "__SlxBay__":
+
+								var id = arrElementId[1]
+
+								if ( Bay.instancesById[ id ].currentlyDockedAt === arEvent_target_id[0] ) {
+
+									Bay.instancesById[ id ].restorePreviousDimensions();
+
+								} else {
+
+									Bay.instancesById[ id ].initDrag();
+
+									Input.userIs = "__DRAGGING_BAY__"
+
+									SlxDocument.inDockZone = "__SlxDocumentBottomRightDockZone__"
+
+									Bay.instancesById[ id ].finishDragging();
+
+								}
+
+							break;
+
+						}
+
+					break;
+					
+					case "__resizeBottom__":
+
+						var element = event.target.parentNode;
+
+						var arrElementId = element.id.split( "-" );
+
+						switch ( arrElementId[0] ) {
+
+							case "__SlxBay__":
+
+								var id = arrElementId[1]
+
+								if ( Bay.instancesById[ id ].currentlyDockedAt === arEvent_target_id[0] ) {
+
+									Bay.instancesById[ id ].restorePreviousDimensions();
+
+								} else {
+
+									Bay.instancesById[ id ].initDrag();
+
+									Input.userIs = "__DRAGGING_BAY__"
+
+									SlxDocument.inDockZone = "__SlxDocumentBottomDockZone__"
+
+									Bay.instancesById[ id ].finishDragging();
+
+								}
+
+							break;
+
+						}
+
+					break;
+					
+					case "__resizeBottomLeft__":
+
+						var element = event.target.parentNode;
+
+						var arrElementId = element.id.split( "-" );
+
+						switch ( arrElementId[0] ) {
+
+							case "__SlxBay__":
+
+								var id = arrElementId[1]
+
+								if ( Bay.instancesById[ id ].currentlyDockedAt === arEvent_target_id[0] ) {
+
+									Bay.instancesById[ id ].restorePreviousDimensions();
+
+								} else {
+
+									Bay.instancesById[ id ].initDrag();
+
+									Input.userIs = "__DRAGGING_BAY__"
+
+									SlxDocument.inDockZone = "__SlxDocumentBottomLeftDockZone__"
+
+									Bay.instancesById[ id ].finishDragging();
+
+								}
+
+							break;
+
+						}
+
+					break;
+
+					case "__resizeLeft__":
+
+						var element = event.target.parentNode;
+
+						var arrElementId = element.id.split( "-" );
+
+						switch ( arrElementId[0] ) {
+
+							case "__SlxBay__":
+
+								var id = arrElementId[1]
+
+								if ( Bay.instancesById[ id ].currentlyDockedAt === arEvent_target_id[0] ) {
+
+									Bay.instancesById[ id ].restorePreviousDimensions();
+
+								} else {
+
+									Bay.instancesById[ id ].initDrag();
+
+									Input.userIs = "__DRAGGING_BAY__"
+
+									SlxDocument.inDockZone = "__SlxDocumentLeftDockZone__"
+
+									Bay.instancesById[ id ].finishDragging();
+
+								}
+
+							break;
+
+						}
+
+					break;
+
+					case "__resizeTopLeft__":
+
+						var element = event.target.parentNode;
+
+						var arrElementId = element.id.split( "-" );
+
+						switch ( arrElementId[0] ) {
+
+							case "__SlxBay__":
+
+								var id = arrElementId[1]
+
+								if ( Bay.instancesById[ id ].currentlyDockedAt === "__SlxDocumentTopLeftDockZone__" ) {
+
+									Bay.instancesById[ id ].restorePreviousDimensions();
+
+								} else {
+
+									Bay.instancesById[ id ].initDrag();
+
+									Input.userIs = "__DRAGGING_BAY__"
+
+									SlxDocument.inDockZone = "__SlxDocumentTopLeftDockZone__"
+
+									Bay.instancesById[ id ].finishDragging();
+
+								}
+
+							break;
+
+						}
 
 					break;
 
@@ -374,7 +638,7 @@ Input.activateEventHandlers = function() {
 			var strEvent_target_id = event.target.id;
 			var arEvent_target_id = strEvent_target_id.split("-");
 
-			//console.log( event );
+			console.log( event );
 
 			switch ( arEvent_target_id[0] ) {
 
@@ -402,7 +666,7 @@ Input.activateEventHandlers = function() {
 	// Mouse Click
 	jQuery( document ).on( "click", function( event ) {
 
-		//console.log( event );
+		console.log( event );
 
 		event.stopPropagation();
 
@@ -446,11 +710,11 @@ Input.activateEventHandlers = function() {
 
 				var element = event.target.parentNode.parentNode;
 
-					//console.log( element );
+					console.log( element );
 
 				var arrElementId = element.id.split("-");
 
-					//console.log( arrElementId );
+					console.log( arrElementId );
 
 				switch ( arrElementId[0] ) {
 

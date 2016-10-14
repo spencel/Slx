@@ -75,7 +75,7 @@ function mainLoop( timestamp ) {
 
 		last20HzTick = timestamp;
 
-		document.getElementById( "fps" ).textContent = 1000 / deltaT;
+		///document.getElementById( "fps" ).textContent = 1000 / deltaT;
 													// ms/s *   1/ms
 	}
 

@@ -89,7 +89,7 @@ var Slx = (function() {
 	
 			last20HzTick = timestamp;
 	
-			document.getElementById( "fps" ).textContent = 1000 / deltaT;
+			///document.getElementById( "fps" ).textContent = 1000 / deltaT;
 														// ms/s *   1/ms
 		}
 	
@@ -147,12 +147,18 @@ var Slx = (function() {
 		Bay.nextId++;
 	
 		this.left = left; // Of root element
+		this.previousLeft = undefined;
 	
 		this.top = top; // Of root element
+		this.previousTop = undefined;
 	
 		this.width = width; // Of root element
+		this.previousWidth = undefined;
 	
 		this.height = height; // Of root element
+		this.previousHeight = undefined;
+	
+		this.currentlyDockedAt = undefined;
 	
 		this.isHtml = false; // Set after its html is injected into the document
 	
@@ -166,23 +172,21 @@ var Slx = (function() {
 	}
 	// End Constructor
 	
-	// Static (aka Class) Methods
+	// Methods
 	Bay.destroy = function ( id ) {
 	
 		this.instancesById[ id ] = undefined; // This is a memory leak, because the key remains in memory, but gives the best performance. In order to remove the key from memory, use the delete keyword; however, delete requires more process than setting the key to undefined
 		// delete this.instancesById[ id ]; // Reduces performance, however, will not cause a memory leak.
 	
 	}
-	// End Static Methods
 	
-	// Instance Methods
 	Bay.prototype.toggleHtml = function() {
 		
 		if ( this.isHtml === false ) {
 	
 			var element = document.createElement( "div" );
 			this.rootHtmlElement = element;
-			element.id = "__SlxBay__-" + this.id;
+			element.id = "__Bay__-" + this.id;
 			element.className = "__Bay__";
 			element.style.left = this.left + "px";
 			element.style.top = this.top + "px";
@@ -217,28 +221,36 @@ var Slx = (function() {
 			elementChildChild.appendChild( elementChildChildText );
 	
 			elementChild = document.createElement( "div" );
-			elementChild.id = "__resizeTop__";
+			elementChild.id = "__Bay__-__resizeTop__-" + this.id;
+			elementChild.className = "__Bay__-__resizeTop__";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "__resizeTopRight__";
+			elementChild.id = "__Bay__-__resizeTopRight__-" + this.id;
+			elementChild.className = "__Bay__-__resizeTopRight__";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "__resizeRight__";
+			elementChild.id = "__Bay__-__resizeRight__-" + this.id;
+			elementChild.className = "__Bay__-__resizeRight__";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "__resizeBottomRight__";
+			elementChild.id = "__Bay__-__resizeBottomRight__-" + this.id;
+			elementChild.className = "__Bay__-__resizeBottomRight__";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "__resizeBottom__";
+			elementChild.id = "__Bay__-__resizeBottom__-" + this.id;
+			elementChild.className = "__Bay__-__resizeBottom__";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "__resizeBottomLeft__";
+			elementChild.id = "__Bay__-__resizeBottomLeft__-" + this.id;
+			elementChild.className = "__Bay__-__resizeBottomLeft__";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "__resizeLeft__";
+			elementChild.id = "__Bay__-__resizeLeft__-" + this.id;
+			elementChild.className = "__Bay__-__resizeLeft__";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "__resizeTopLeft__";
+			elementChild.id = "__Bay__-__resizeTopLeft__-" + this.id;
+			elementChild.className = "__Bay__-__resizeTopLeft__";
 			element.appendChild( elementChild );
 	
 			this.contentHtmlElement = element.childNodes[ 9 ];
@@ -579,7 +591,379 @@ var Slx = (function() {
 	
 	Bay.prototype.finishDragging = function( left, top ) {
 	
+		this.currentlyDockedAt = SlxDocument.inDockZone;
+	
 		switch ( SlxDocument.inDockZone ) {
+	
+			case "__SlxDocumentTopDockZone__":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+	
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				
+				
+	
+				this.rootHtmlElement.style.left = 0 + "px";
+				this.left = 0;
+				this.rootHtmlElement.style.top = 0 + "px";
+				this.top = 0;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth;
+				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight / 2;
+	
+			break;
+	
+			case "__SlxDocumentTopRightDockZone__":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+	
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				this.rootHtmlElement.style.left = window.innerWidth / 2 + "px";
+				this.left = window.innerWidth / 2;
+				this.rootHtmlElement.style.top = 0 + "px";
+				this.top = 0;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth / 2;
+				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight / 2;
+	
+			break;
+	
+			case "__SlxDocumentRightDockZone__":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+					
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
+				this.left = window.innerWidth / 2;
+				this.rootHtmlElement.style.top = 0 + "px";
+				this.top = 0;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth / 2;
+				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight;
+	
+			break;
+	
+			case "__SlxDocumentBottomRightDockZone__":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+	
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
+				this.left = window.innerWidth / 2;
+				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+				this.top = window.innerHeight / 2;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth / 2;
+				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight / 2;
+	
+			break;
+	
+			case "__SlxDocumentBottomDockZone__":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+	
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				this.rootHtmlElement.style.left = 0 + "px";
+				this.left = 0;
+				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+				this.top = window.innerHeight / 2;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth;
+				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight / 2;
+	
+			break;
+	
+			case "__SlxDocumentBottomLeftDockZone__":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+	
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				this.rootHtmlElement.style.left = 0 + "px";
+				this.left = 0;
+				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+				this.top = window.innerHeight / 2;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth / 2;
+				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight / 2;
+	
+			break;
+	
+			case "__SlxDocumentLeftDockZone__":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+	
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				this.rootHtmlElement.style.left = 0 + "px";
+				this.left = 0;
+				this.rootHtmlElement.style.top = 0 + "px";
+				this.top = 0;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth / 2;
+				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight;
+				
+			break;
+	
+			case "__SlxDocumentTopLeftDockZone__":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+	
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				this.rootHtmlElement.style.left = 0 + "px";
+				this.left = 0;
+				this.rootHtmlElement.style.top = 0 + "px";
+				this.top = 0;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth / 2;
+				this.rootHtmlElement.style.height = ( window.innerHeight / 2- Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight / 2;
+				
+			break;
+	
+			case "__SlxDocumentFullScreen__":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+	
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				this.rootHtmlElement.style.left = 0 + "px";
+				this.left = 0;
+				this.rootHtmlElement.style.top = 0 + "px";
+				this.top = 0;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth;
+				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight;
+				
+			break;
+	
+			default:
+	
+				this.left = parseInt( this.rootHtmlElement.style.left );
+				this.top = parseInt( this.rootHtmlElement.style.top );
+	
+		}
+	
+		Bay.nowDragging = undefined;
+	
+	}
+	
+	Bay.prototype.restorePreviousDimensions = function() {
+	
+		// Change root left and top and content width and height
+		this.rootHtmlElement.style.left = ( this.previousLeft ) + "px";
+		this.previousLeft = undefined;
+		this.rootHtmlElement.style.top = ( this.previousTop ) + "px";
+		this.previousTop = undefined;
+		this.rootHtmlElement.style.width = ( this.previousWidth - Bay.borderWidthX2 ) + "px";
+		this.previousWidth = undefined;
+		this.rootHtmlElement.style.height = ( this.previousHeight - Bay.borderWidthX2 ) + "px";
+		this.previousHeight = undefined;
+		this.currentlyDockedAt = undefined;
+	
+	}
+	
+	Bay.handleQuickMouseup = function( arEvent_target_id ) {
+	
+		console.log( arEvent_target_id );
+	
+		switch ( arEvent_target_id[1] ) {
+	
+			case "__resizeTop__":
+			case "__resizeTopRight__":
+			case "__resizeRight__":
+			case "__resizeBottomRight__":
+			case "__resizeBottom__":
+			case "__resizeBottomLeft__":
+			case "__resizeLeft__":
+			case "__resizeTopLeft__": 
+				console.log( "this.handleDocking( arEvent_target_id )" );
+				this.handleDocking( arEvent_target_id );
+			break;
+	
+		}
+	
+	}
+	
+	Bay.handleDocking = function( arEvent_target_id ) {
+	
+		var resizeDirection = arEvent_target_id[1];
+		var instanceId = arEvent_target_id[2];
+		var dockZone = undefined;
+	
+		console.log( resizeDirection );
+	
+		switch ( resizeDirection ) {
+	
+			case "__resizeTop__":
+				dockZone = "__SlxDocumentFullScreenDockZone__";
+			break;
+			case "__resizeTopRight__":
+				dockZone = "__SlxDocumentTopRightDockZone__";
+			break;
+			case "__resizeRight__":
+				dockZone = "__SlxDocumentRightDockZone__";
+			break;
+			case "__resizeBottomRight__":
+				dockZone = "__SlxDocumentBottomRightDockZone__";
+			break;
+			case "__resizeBottom__":
+				dockZone = "__SlxDocumentBottomDockZone__";
+			break;
+			case "__resizeBottomLeft__":
+				dockZone = "__SlxDocumentBottomLeftDockZone__";
+			break;
+			case "__resizeLeft__":
+				dockZone = "__SlxDocumentLeftDockZone__";
+			break;
+			case "__resizeTopLeft__":
+				dockZone = "__SlxDocumentTopLeftDockZone__";
+			break;
+	
+		}
+	
+		this.instancesById[ instanceId ].dock( dockZone );
+	
+	}
+	
+	Bay.prototype.dock = function( dockZone ) {
+	
+		console.log( dockZone);
+	
+		this.currentDock = dockZone;
+	
+		switch ( dockZone ) {
 	
 			case "__SlxDocumentTopDockZone__":
 	
@@ -592,11 +976,6 @@ var Slx = (function() {
 				this.width = window.innerWidth;
 				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight / 2;
-	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
 	
 			break;
 	
@@ -612,11 +991,6 @@ var Slx = (function() {
 				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight / 2;
 	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
-	
 			break;
 	
 			case "__SlxDocumentRightDockZone__":
@@ -630,11 +1004,6 @@ var Slx = (function() {
 				this.width = window.innerWidth / 2;
 				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight;
-	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
 	
 			break;
 	
@@ -650,11 +1019,6 @@ var Slx = (function() {
 				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight / 2;
 	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
-	
 			break;
 	
 			case "__SlxDocumentBottomDockZone__":
@@ -668,11 +1032,6 @@ var Slx = (function() {
 				this.width = window.innerWidth;
 				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight / 2;
-	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
 	
 			break;
 	
@@ -688,11 +1047,6 @@ var Slx = (function() {
 				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight / 2;
 	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
-	
 			break;
 	
 			case "__SlxDocumentLeftDockZone__":
@@ -706,11 +1060,6 @@ var Slx = (function() {
 				this.width = window.innerWidth / 2;
 				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight;
-	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
 				
 			break;
 	
@@ -725,15 +1074,10 @@ var Slx = (function() {
 				this.width = window.innerWidth / 2;
 				this.rootHtmlElement.style.height = ( window.innerHeight / 2- Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight / 2;
-	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
 				
 			break;
 	
-			case "__SlxDocumentFullScreen__":
+			case "__SlxDocumentFullScreenDockZone__":
 	
 				this.rootHtmlElement.style.left = 0 + "px";
 				this.left = 0;
@@ -744,31 +1088,22 @@ var Slx = (function() {
 				this.width = window.innerWidth;
 				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight;
-	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
 				
 			break;
 	
-			default:
-	
-				this.left = parseInt( this.rootHtmlElement.style.left );
-				this.top = parseInt( this.rootHtmlElement.style.top );
-	
 		}
 	
-		Bay.nowDragging = undefined;
-	
 	}
-	// End Instance Methods
+	// End Methods
 	
 	// End Bay Class
 	
 	/**
 	 * @author spencel / https://github.com/spencel
+	 * @version 0.2
 	 */
+	
+	
 	
 	// Input Class
 	var Input = {}; // Singleton
@@ -810,13 +1145,13 @@ var Slx = (function() {
 			event.stopPropagation();
 	
 			var event_target_id = event.target.id;
-			console.log(event_target_id);
+			//console.log(event_target_id);
 	
 			switch ( event_target_id ) {
 	
 				case "ConvertUnits":
 	
-					console.log('test');
+					//console.log('test');
 	
 					convertUnits( event_target_id );
 	
@@ -861,9 +1196,9 @@ var Slx = (function() {
 	
 			event.stopPropagation();
 	
-			//console.log( event );
-			//console.log( "event.clientX: " + event.clientX );
-			//console.log( "event.clientY: " + event.clientY );
+			////console.log( event );
+			////console.log( "event.clientX: " + event.clientX );
+			////console.log( "event.clientY: " + event.clientY );
 	
 			Input.mousemoveX = event.clientX;
 			Input.mousemoveY = event.clientY;
@@ -908,15 +1243,15 @@ var Slx = (function() {
 	
 			event.stopPropagation();
 	
-			console.log( event );
+			//console.log( event );
 	
 			Input.mousedownTimestamp = performance.now();
 			Input.isMousedown = true;
 			Input.mousedownClientX = event.clientX;
 			Input.mousedownClientY = event.clientY;
 	
-			console.log( "Input.mousedownClientX: " + Input.mousedownClientX );
-			console.log( "Input.mousedownClientY: " + Input.mousedownClientY );
+			//console.log( "Input.mousedownClientX: " + Input.mousedownClientX );
+			//console.log( "Input.mousedownClientY: " + Input.mousedownClientY );
 	
 			var strEvent_target_id = event.target.id;
 			var arEvent_target_id = strEvent_target_id.split("-");
@@ -924,7 +1259,7 @@ var Slx = (function() {
 			// Left Mouse Button is Down
 			if ( event.button === 0 ) { 
 	
-				console.log( arEvent_target_id[0] );
+				//console.log( arEvent_target_id[0] );
 	
 				switch ( arEvent_target_id[0] ) {
 	
@@ -945,7 +1280,7 @@ var Slx = (function() {
 	
 						var arrElementId = element.id.split( "-" );
 	
-						console.log( arrElementId );
+						//console.log( arrElementId );
 	
 						switch ( arrElementId[0] ) {
 	
@@ -1021,17 +1356,11 @@ var Slx = (function() {
 	
 		};
 	
-		/*jQuery( document ).on( "contextmenu", function( event ) {
-	
-			return false;
-	
-		});*/
-	
 		document.onmouseup = function( event ) {
-			console.log( "rightclick" );
+	
 			event.stopPropagation();
 	
-			//console.log( event );
+			////console.log( event );
 	
 			Input.mouseupTimestamp = performance.now();
 			Input.isMouseDown = false;
@@ -1058,11 +1387,12 @@ var Slx = (function() {
 	
 			}
 	
-			console.log( "mouseup delta: " + ( Input.mouseupTimestamp - Input.mousedownTimestamp ) );
+			//console.log( "mouseup delta: " + ( Input.mouseupTimestamp - Input.mousedownTimestamp ) );
 	
 			var strEvent_target_id = event.target.id;
 			var arEvent_target_id = strEvent_target_id.split("-");
 	
+			// Quick Mouseup
 			if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) {
 	
 				// Left mouse button is up
@@ -1072,15 +1402,15 @@ var Slx = (function() {
 	
 						case "panelHeader":
 	
-							console.log( Input.mouseupTimestamp - Input.mousedownTimestamp );
+							//console.log( Input.mouseupTimestamp - Input.mousedownTimestamp );
 	
 							if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) { // if less than 100 ms has elapsed
 	
 								var id = arEvent_target_id[ 1 ];
 	
-									console.log( "id: " + id );
+									//console.log( "id: " + id );
 	
-									console.log( Panel.byId[ id ] );
+									//console.log( Panel.byId[ id ] );
 	
 								Panel.byId[ id ].cycleDisplay();
 	
@@ -1090,11 +1420,11 @@ var Slx = (function() {
 	
 									var id = arEvent_target_id[ 1 ];
 	
-										console.log( Panel.byId[ id ] );
+										//console.log( Panel.byId[ id ] );
 	
 									Panel.draggingPanel = Panel.byId[ id ];
 	
-										console.log( Panel.draggingPanel );
+										//console.log( Panel.draggingPanel );
 	
 								}
 	
@@ -1102,211 +1432,11 @@ var Slx = (function() {
 	
 						break;
 	
-						case "__resizeTop__":
+						case "__Bay__": 
 	
-							var element = event.target.parentNode;
+							console.log( "Bay.handleQuickMouseup( arEvent_target_id )" );
 	
-							var arrElementId = element.id.split( "-" );
-	
-							switch ( arrElementId[0] ) {
-	
-								case "__SlxBay__":
-	
-									var id = arrElementId[1]
-	
-									Bay.instancesById[ id ].initDrag();
-	
-									Input.userIs = "__DRAGGING_BAY__"
-	
-									SlxDocument.inDockZone = "__SlxDocumentFullScreen__"
-	
-									Bay.instancesById[ id ].finishDragging();
-	
-								break;
-	
-							}
-	
-						break;
-	
-						case "__resizeTopRight__":
-	
-							var element = event.target.parentNode;
-	
-							var arrElementId = element.id.split( "-" );
-	
-							switch ( arrElementId[0] ) {
-	
-								case "__SlxBay__":
-	
-									var id = arrElementId[1]
-	
-									Bay.instancesById[ id ].initDrag();
-	
-									Input.userIs = "__DRAGGING_BAY__"
-	
-									SlxDocument.inDockZone = "__SlxDocumentTopRightDockZone__"
-	
-									Bay.instancesById[ id ].finishDragging();
-	
-								break;
-	
-							}
-	
-						break;
-	
-						case "__resizeRight__":
-	
-							var element = event.target.parentNode;
-	
-							var arrElementId = element.id.split( "-" );
-	
-							switch ( arrElementId[0] ) {
-	
-								case "__SlxBay__":
-	
-									var id = arrElementId[1]
-	
-									Bay.instancesById[ id ].initDrag();
-	
-									Input.userIs = "__DRAGGING_BAY__"
-	
-									SlxDocument.inDockZone = "__SlxDocumentRightDockZone__"
-	
-									Bay.instancesById[ id ].finishDragging();
-	
-								break;
-	
-							}
-	
-						break;
-	
-						case "__resizeBottomRight__":
-	
-							var element = event.target.parentNode;
-	
-							var arrElementId = element.id.split( "-" );
-	
-							switch ( arrElementId[0] ) {
-	
-								case "__SlxBay__":
-	
-									var id = arrElementId[1]
-	
-									Bay.instancesById[ id ].initDrag();
-	
-									Input.userIs = "__DRAGGING_BAY__"
-	
-									SlxDocument.inDockZone = "__SlxDocumentBottomRightDockZone__"
-	
-									Bay.instancesById[ id ].finishDragging();
-	
-								break;
-	
-							}
-	
-						break;
-						
-						case "__resizeBottom__":
-	
-							var element = event.target.parentNode;
-	
-							var arrElementId = element.id.split( "-" );
-	
-							switch ( arrElementId[0] ) {
-	
-								case "__SlxBay__":
-	
-									var id = arrElementId[1]
-	
-									Bay.instancesById[ id ].initDrag();
-	
-									Input.userIs = "__DRAGGING_BAY__"
-	
-									SlxDocument.inDockZone = "__SlxDocumentBottomDockZone__"
-	
-									Bay.instancesById[ id ].finishDragging();
-	
-								break;
-	
-							}
-	
-						break;
-						
-						case "__resizeBottomLeft__":
-	
-							var element = event.target.parentNode;
-	
-							var arrElementId = element.id.split( "-" );
-	
-							switch ( arrElementId[0] ) {
-	
-								case "__SlxBay__":
-	
-									var id = arrElementId[1]
-	
-									Bay.instancesById[ id ].initDrag();
-	
-									Input.userIs = "__DRAGGING_BAY__"
-	
-									SlxDocument.inDockZone = "__SlxDocumentBottomLeftDockZone__"
-	
-									Bay.instancesById[ id ].finishDragging();
-	
-								break;
-	
-							}
-	
-						break;
-	
-						case "__resizeLeft__":
-	
-							var element = event.target.parentNode;
-	
-							var arrElementId = element.id.split( "-" );
-	
-							switch ( arrElementId[0] ) {
-	
-								case "__SlxBay__":
-	
-									var id = arrElementId[1]
-	
-									Bay.instancesById[ id ].initDrag();
-	
-									Input.userIs = "__DRAGGING_BAY__"
-	
-									SlxDocument.inDockZone = "__SlxDocumentLeftDockZone__"
-	
-									Bay.instancesById[ id ].finishDragging();
-	
-								break;
-	
-							}
-	
-						break;
-	
-						case "__resizeTopLeft__":
-	
-							var element = event.target.parentNode;
-	
-							var arrElementId = element.id.split( "-" );
-	
-							switch ( arrElementId[0] ) {
-	
-								case "__SlxBay__":
-	
-									var id = arrElementId[1]
-	
-									Bay.instancesById[ id ].initDrag();
-	
-									Input.userIs = "__DRAGGING_BAY__"
-	
-									SlxDocument.inDockZone = "__SlxDocumentTopLeftDockZone__"
-	
-									Bay.instancesById[ id ].finishDragging();
-	
-								break;
-	
-							}
+							Bay.handleQuickMouseup( arEvent_target_id );
 	
 						break;
 	
@@ -1344,7 +1474,7 @@ var Slx = (function() {
 				var strEvent_target_id = event.target.id;
 				var arEvent_target_id = strEvent_target_id.split("-");
 	
-				console.log( event );
+				//console.log( event );
 	
 				switch ( arEvent_target_id[0] ) {
 	
@@ -1372,7 +1502,7 @@ var Slx = (function() {
 		// Mouse Click
 		jQuery( document ).on( "click", function( event ) {
 	
-			console.log( event );
+			//console.log( event );
 	
 			event.stopPropagation();
 	
@@ -1416,11 +1546,11 @@ var Slx = (function() {
 	
 					var element = event.target.parentNode.parentNode;
 	
-						console.log( element );
+						//console.log( element );
 	
 					var arrElementId = element.id.split("-");
 	
-						console.log( arrElementId );
+						//console.log( arrElementId );
 	
 					switch ( arrElementId[0] ) {
 	
@@ -1996,6 +2126,7 @@ var Slx = (function() {
 	SlxDocument.objectInDockZone = undefined;
 	
 	SlxDocument.inDockZone = undefined;
+	
 	// End Static Properties
 	
 	// Constructor

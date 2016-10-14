@@ -89,7 +89,7 @@ var Slx = (function() {
 	
 			last20HzTick = timestamp;
 	
-			document.getElementById( "fps" ).textContent = 1000 / deltaT;
+			///document.getElementById( "fps" ).textContent = 1000 / deltaT;
 														// ms/s *   1/ms
 		}
 	
@@ -147,12 +147,18 @@ var Slx = (function() {
 		Bay.nextId++;
 	
 		this.left = left; // Of root element
+		this.previousLeft = undefined;
 	
 		this.top = top; // Of root element
+		this.previousTop = undefined;
 	
 		this.width = width; // Of root element
+		this.previousWidth = undefined;
 	
 		this.height = height; // Of root element
+		this.previousHeight = undefined;
+	
+		this.currentlyDockedAt = undefined;
 	
 		this.isHtml = false; // Set after its html is injected into the document
 	
@@ -166,16 +172,14 @@ var Slx = (function() {
 	}
 	// End Constructor
 	
-	// Static (aka Class) Methods
+	// Methods
 	Bay.destroy = function ( id ) {
 	
 		this.instancesById[ id ] = undefined; // This is a memory leak, because the key remains in memory, but gives the best performance. In order to remove the key from memory, use the delete keyword; however, delete requires more process than setting the key to undefined
 		// delete this.instancesById[ id ]; // Reduces performance, however, will not cause a memory leak.
 	
 	}
-	// End Static Methods
 	
-	// Instance Methods
 	Bay.prototype.toggleHtml = function() {
 		
 		if ( this.isHtml === false ) {
@@ -183,7 +187,7 @@ var Slx = (function() {
 			var element = document.createElement( "div" );
 			this.rootHtmlElement = element;
 			element.id = "_0-" + this.id;
-			element.className = "_1";
+			element.className = "_0";
 			element.style.left = this.left + "px";
 			element.style.top = this.top + "px";
 			element.style.width = ( this.width - Bay.borderWidthX2 ) + "px"; // 
@@ -193,52 +197,60 @@ var Slx = (function() {
 			document.body.appendChild( element );
 	
 			/*var elementChild = document.createElement( "div" );
-			elementChild.id = "_2";
+			elementChild.id = "_1";
 			element.appendChild( elementChild );
 	
 			var elementChildChild = document.createElement( "div" );
-			elementChildChild.id = "_3";
+			elementChildChild.id = "_2";
 			elementChild.appendChild( elementChildChild );
 			elementChildChild = document.createElement( "div" );
-			elementChildChild.id = "_4";
+			elementChildChild.id = "_3";
 			elementChild.appendChild( elementChildChild );
 			var text = document.createTextNode( "X" );
 			elementChildChild.appendChild( text );*/
 	
 			var elementChild = document.createElement( "div" );
-			elementChild.id = "_5";
+			elementChild.id = "_4";
 			element.appendChild( elementChild );
 	
 			var elementChildChild = document.createElement( "div" );
-			elementChildChild.id = "_6";
+			elementChildChild.id = "_5";
 			elementChild.appendChild( elementChildChild );
 	
 			var elementChildChildText = document.createTextNode("JavaScript (/ˈdʒævəˌskrɪpt/[5]) is a high-level, dynamic, untyped, and interpreted programming language.[6] It has been standardized in the ECMAScript language specification.[7] Alongside HTML and CSS, it is one of the three core technologies of World Wide Web content production; the majority of websites employ it and it is supported by all modern Web browsers without plug-ins.[6] JavaScript is prototype-based with first-class functions, making it a multi-paradigm language, supporting object-oriented,[8] imperative, and functional programming styles.[6] It has an API for working with text, arrays, dates and regular expressions, but does not include any I/O, such as networking, storage, or graphics facilities, relying for these upon the host environment in which it is embedded.[7] Although there are strong outward similarities between JavaScript and Java, including language name, syntax, and respective standard libraries, the two are distinct languages and differ greatly in their design. JavaScript was influenced by programming languages such as Self and Scheme.[9] JavaScript is also used in environments that are not Web-based, such as PDF documents, site-specific browsers, and desktop widgets. Newer and faster JavaScript virtual machines (VMs) and platforms built upon them have also increased the popularity of JavaScript for server-side Web applications. On the client side, JavaScript has been traditionally implemented as an interpreted language, but more recent browsers perform just-in-time compilation. It is also used in game development, the creation of desktop and mobile applications, and server-side network programming with run-time environments such as Node.js.");
 			elementChildChild.appendChild( elementChildChildText );
 	
 			elementChild = document.createElement( "div" );
-			elementChild.id = "_7";
+			elementChild.id = "_0-_6-" + this.id;
+			elementChild.className = "_0-_6";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "_8";
+			elementChild.id = "_0-_7-" + this.id;
+			elementChild.className = "_0-_7";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "_9";
+			elementChild.id = "_0-_8-" + this.id;
+			elementChild.className = "_0-_8";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "_10";
+			elementChild.id = "_0-_9-" + this.id;
+			elementChild.className = "_0-_9";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "_11";
+			elementChild.id = "_0-_10-" + this.id;
+			elementChild.className = "_0-_10";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "_12";
+			elementChild.id = "_0-_11-" + this.id;
+			elementChild.className = "_0-_11";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "_13";
+			elementChild.id = "_0-_12-" + this.id;
+			elementChild.className = "_0-_12";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "_14";
+			elementChild.id = "_0-_13-" + this.id;
+			elementChild.className = "_0-_13";
 			element.appendChild( elementChild );
 	
 			this.contentHtmlElement = element.childNodes[ 9 ];
@@ -249,7 +261,7 @@ var Slx = (function() {
 	
 		} else {
 	
-			document.getElementById( "_0-" + this.id ).outerHTML = "";
+			document.getElementById( "_14-" + this.id ).outerHTML = "";
 	
 			this.isHtml = false;
 	
@@ -261,7 +273,7 @@ var Slx = (function() {
 	
 			console.log( this.id )
 	
-		document.getElementById( "_0-" + this.id ).outerHTML = "";
+		document.getElementById( "_14-" + this.id ).outerHTML = "";
 	
 		Bay.destroy( this.id );
 	
@@ -284,7 +296,7 @@ var Slx = (function() {
 	
 		switch ( Bay.resizeType ) {
 	
-			case "_7":
+			case "_6":
 	
 				//console.log( "resizeTop" );
 	
@@ -294,7 +306,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "_8":
+			case "_7":
 	
 				// Change root top and content width and height
 				this.rootHtmlElement.style.top =  ( this.top - Input.mousedownClientY + top ) + "px";
@@ -303,7 +315,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "_9":
+			case "_8":
 	
 	
 	
@@ -313,7 +325,7 @@ var Slx = (function() {
 				
 			break;
 	
-			case "_10":
+			case "_9":
 	
 				// Change content width and height
 				this.rootHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.borderWidthX2 ) + "px";
@@ -321,14 +333,14 @@ var Slx = (function() {
 	
 			break;
 	
-			case "_11":
+			case "_10":
 	
 				// Change content height
 				this.rootHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.borderWidthX2 ) + "px";
 	
 			break;
 	
-			case "_12":
+			case "_11":
 	
 				// Change root left and content width and height
 				this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
@@ -337,7 +349,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "_13":
+			case "_12":
 	
 				// Change root left and content width
 				this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
@@ -345,7 +357,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "_14":
+			case "_13":
 	
 				// Change root left and top and content width and height
 				this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
@@ -579,7 +591,379 @@ var Slx = (function() {
 	
 	Bay.prototype.finishDragging = function( left, top ) {
 	
+		this.currentlyDockedAt = SlxDocument.inDockZone;
+	
 		switch ( SlxDocument.inDockZone ) {
+	
+			case "_22":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+	
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				
+				
+	
+				this.rootHtmlElement.style.left = 0 + "px";
+				this.left = 0;
+				this.rootHtmlElement.style.top = 0 + "px";
+				this.top = 0;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth;
+				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight / 2;
+	
+			break;
+	
+			case "_18":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+	
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				this.rootHtmlElement.style.left = window.innerWidth / 2 + "px";
+				this.left = window.innerWidth / 2;
+				this.rootHtmlElement.style.top = 0 + "px";
+				this.top = 0;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth / 2;
+				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight / 2;
+	
+			break;
+	
+			case "_20":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+					
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
+				this.left = window.innerWidth / 2;
+				this.rootHtmlElement.style.top = 0 + "px";
+				this.top = 0;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth / 2;
+				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight;
+	
+			break;
+	
+			case "_19":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+	
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
+				this.left = window.innerWidth / 2;
+				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+				this.top = window.innerHeight / 2;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth / 2;
+				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight / 2;
+	
+			break;
+	
+			case "_23":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+	
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				this.rootHtmlElement.style.left = 0 + "px";
+				this.left = 0;
+				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+				this.top = window.innerHeight / 2;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth;
+				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight / 2;
+	
+			break;
+	
+			case "_16":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+	
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				this.rootHtmlElement.style.left = 0 + "px";
+				this.left = 0;
+				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+				this.top = window.innerHeight / 2;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth / 2;
+				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight / 2;
+	
+			break;
+	
+			case "_17":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+	
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				this.rootHtmlElement.style.left = 0 + "px";
+				this.left = 0;
+				this.rootHtmlElement.style.top = 0 + "px";
+				this.top = 0;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth / 2;
+				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight;
+				
+			break;
+	
+			case "_15":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+	
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				this.rootHtmlElement.style.left = 0 + "px";
+				this.left = 0;
+				this.rootHtmlElement.style.top = 0 + "px";
+				this.top = 0;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth / 2;
+				this.rootHtmlElement.style.height = ( window.innerHeight / 2- Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight / 2;
+				
+			break;
+	
+			case "_21":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+	
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				this.rootHtmlElement.style.left = 0 + "px";
+				this.left = 0;
+				this.rootHtmlElement.style.top = 0 + "px";
+				this.top = 0;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth;
+				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight;
+				
+			break;
+	
+			default:
+	
+				this.left = parseInt( this.rootHtmlElement.style.left );
+				this.top = parseInt( this.rootHtmlElement.style.top );
+	
+		}
+	
+		Bay.nowDragging = undefined;
+	
+	}
+	
+	Bay.prototype.restorePreviousDimensions = function() {
+	
+		// Change root left and top and content width and height
+		this.rootHtmlElement.style.left = ( this.previousLeft ) + "px";
+		this.previousLeft = undefined;
+		this.rootHtmlElement.style.top = ( this.previousTop ) + "px";
+		this.previousTop = undefined;
+		this.rootHtmlElement.style.width = ( this.previousWidth - Bay.borderWidthX2 ) + "px";
+		this.previousWidth = undefined;
+		this.rootHtmlElement.style.height = ( this.previousHeight - Bay.borderWidthX2 ) + "px";
+		this.previousHeight = undefined;
+		this.currentlyDockedAt = undefined;
+	
+	}
+	
+	Bay.handleQuickMouseup = function( arEventtargetid ) {
+	
+		console.log( arEventtargetid );
+	
+		switch ( arEventtargetid[1] ) {
+	
+			case "_6":
+			case "_7":
+			case "_8":
+			case "_9":
+			case "_10":
+			case "_11":
+			case "_12":
+			case "_13": 
+				console.log( "this.handleDocking( arEventtargetid )" );
+				this.handleDocking( arEventtargetid );
+			break;
+	
+		}
+	
+	}
+	
+	Bay.handleDocking = function( arEventtargetid ) {
+	
+		var resizeDirection = arEventtargetid[1];
+		var instanceId = arEventtargetid[2];
+		var dockZone = undefined;
+	
+		console.log( resizeDirection );
+	
+		switch ( resizeDirection ) {
+	
+			case "_6":
+				dockZone = "_24";
+			break;
+			case "_7":
+				dockZone = "_18";
+			break;
+			case "_8":
+				dockZone = "_20";
+			break;
+			case "_9":
+				dockZone = "_19";
+			break;
+			case "_10":
+				dockZone = "_23";
+			break;
+			case "_11":
+				dockZone = "_16";
+			break;
+			case "_12":
+				dockZone = "_17";
+			break;
+			case "_13":
+				dockZone = "_15";
+			break;
+	
+		}
+	
+		this.instancesById[ instanceId ].dock( dockZone );
+	
+	}
+	
+	Bay.prototype.dock = function( dockZone ) {
+	
+		console.log( dockZone);
+	
+		this.currentDock = dockZone;
+	
+		switch ( dockZone ) {
 	
 			case "_22":
 	
@@ -592,11 +976,6 @@ var Slx = (function() {
 				this.width = window.innerWidth;
 				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight / 2;
-	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
 	
 			break;
 	
@@ -612,11 +991,6 @@ var Slx = (function() {
 				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight / 2;
 	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
-	
 			break;
 	
 			case "_20":
@@ -630,11 +1004,6 @@ var Slx = (function() {
 				this.width = window.innerWidth / 2;
 				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight;
-	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
 	
 			break;
 	
@@ -650,11 +1019,6 @@ var Slx = (function() {
 				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight / 2;
 	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
-	
 			break;
 	
 			case "_23":
@@ -668,11 +1032,6 @@ var Slx = (function() {
 				this.width = window.innerWidth;
 				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight / 2;
-	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
 	
 			break;
 	
@@ -688,11 +1047,6 @@ var Slx = (function() {
 				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight / 2;
 	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
-	
 			break;
 	
 			case "_17":
@@ -706,11 +1060,6 @@ var Slx = (function() {
 				this.width = window.innerWidth / 2;
 				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight;
-	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
 				
 			break;
 	
@@ -725,15 +1074,10 @@ var Slx = (function() {
 				this.width = window.innerWidth / 2;
 				this.rootHtmlElement.style.height = ( window.innerHeight / 2- Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight / 2;
-	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
 				
 			break;
 	
-			case "_21":
+			case "_24":
 	
 				this.rootHtmlElement.style.left = 0 + "px";
 				this.left = 0;
@@ -744,31 +1088,22 @@ var Slx = (function() {
 				this.width = window.innerWidth;
 				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight;
-	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
 				
 			break;
 	
-			default:
-	
-				this.left = parseInt( this.rootHtmlElement.style.left );
-				this.top = parseInt( this.rootHtmlElement.style.top );
-	
 		}
 	
-		Bay.nowDragging = undefined;
-	
 	}
-	// End Instance Methods
+	// End Methods
 	
 	// End Bay Class
 	
 	/**
 	 * @author spencel / https://github.com/spencel
+	 * @version 0.2
 	 */
+	
+	
 	
 	// Input Class
 	var Input = {}; // Singleton
@@ -810,13 +1145,13 @@ var Slx = (function() {
 			event.stopPropagation();
 	
 			var eventtargetid = event.target.id;
-			console.log(eventtargetid);
+			//console.log(eventtargetid);
 	
 			switch ( eventtargetid ) {
 	
 				case "ConvertUnits":
 	
-					console.log('test');
+					//console.log('test');
 	
 					convertUnits( eventtargetid );
 	
@@ -861,9 +1196,9 @@ var Slx = (function() {
 	
 			event.stopPropagation();
 	
-			//console.log( event );
-			//console.log( "event.clientX: " + event.clientX );
-			//console.log( "event.clientY: " + event.clientY );
+			////console.log( event );
+			////console.log( "event.clientX: " + event.clientX );
+			////console.log( "event.clientY: " + event.clientY );
 	
 			Input.mousemoveX = event.clientX;
 			Input.mousemoveY = event.clientY;
@@ -881,7 +1216,7 @@ var Slx = (function() {
 	
 			switch ( Input.userIs ) {
 	
-				case "_24":
+				case "_25":
 	
 					event.preventDefault(); // Prevent text selection and dragging
 	
@@ -889,7 +1224,7 @@ var Slx = (function() {
 	
 				break;
 	
-				case "_25":
+				case "_26":
 	
 					event.preventDefault(); // Prevent text selection and dragging
 	
@@ -908,15 +1243,15 @@ var Slx = (function() {
 	
 			event.stopPropagation();
 	
-			console.log( event );
+			//console.log( event );
 	
 			Input.mousedownTimestamp = performance.now();
 			Input.isMousedown = true;
 			Input.mousedownClientX = event.clientX;
 			Input.mousedownClientY = event.clientY;
 	
-			console.log( "Input.mousedownClientX: " + Input.mousedownClientX );
-			console.log( "Input.mousedownClientY: " + Input.mousedownClientY );
+			//console.log( "Input.mousedownClientX: " + Input.mousedownClientX );
+			//console.log( "Input.mousedownClientY: " + Input.mousedownClientY );
 	
 			var strEventtargetid = event.target.id;
 			var arEventtargetid = strEventtargetid.split("-");
@@ -924,12 +1259,13 @@ var Slx = (function() {
 			// Left Mouse Button is Down
 			if ( event.button === 0 ) { 
 	
-				console.log( arEventtargetid[0] );
+				//console.log( arEventtargetid[0] );
 	
 				switch ( arEventtargetid[0] ) {
 	
 					// Handle Resize Buttons
 	
+					case "_6":
 					case "_7":
 					case "_8":
 					case "_9":
@@ -937,7 +1273,6 @@ var Slx = (function() {
 					case "_11":
 					case "_12":
 					case "_13":
-					case "_14":
 	
 						event.preventDefault(); // Prevent text selection and dragging
 	
@@ -945,11 +1280,11 @@ var Slx = (function() {
 	
 						var arrElementId = element.id.split( "-" );
 	
-						console.log( arrElementId );
+						//console.log( arrElementId );
 	
 						switch ( arrElementId[0] ) {
 	
-							case "_0":
+							case "_14":
 	
 								var id = arrElementId[1]
 	
@@ -957,7 +1292,7 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initResize( resizeType );
 	
-								Input.userIs = "_24"
+								Input.userIs = "_25"
 	
 							break;
 	
@@ -965,7 +1300,7 @@ var Slx = (function() {
 	
 					break;
 	
-					case "_2": // also a drag button
+					case "_1": // also a drag button
 	
 						var element = event.target.parentNode;
 	
@@ -973,13 +1308,13 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "_0":
+							case "_14":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_25"
+								Input.userIs = "_26"
 	
 							break;
 	
@@ -987,7 +1322,7 @@ var Slx = (function() {
 	
 					break;
 	
-					case "_3": // ensures some amount of space of the topbar is showing
+					case "_2": // ensures some amount of space of the topbar is showing
 	
 						var element = event.target.parentNode.parentNode.parentNode;
 	
@@ -995,13 +1330,13 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "_0":
+							case "_14":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_25"
+								Input.userIs = "_26"
 	
 							break;
 	
@@ -1021,17 +1356,11 @@ var Slx = (function() {
 	
 		};
 	
-		/*jQuery( document ).on( "contextmenu", function( event ) {
-	
-			return false;
-	
-		});*/
-	
 		document.onmouseup = function( event ) {
-			console.log( "rightclick" );
+	
 			event.stopPropagation();
 	
-			//console.log( event );
+			////console.log( event );
 	
 			Input.mouseupTimestamp = performance.now();
 			Input.isMouseDown = false;
@@ -1040,7 +1369,7 @@ var Slx = (function() {
 	
 			switch ( Input.userIs ) {
 	
-				case "_24":
+				case "_25":
 	
 					event.preventDefault(); // Prevent text selection and dragging
 	
@@ -1048,7 +1377,7 @@ var Slx = (function() {
 	
 				break;
 	
-				case "_25":
+				case "_26":
 	
 					event.preventDefault(); // Prevent text selection and dragging
 	
@@ -1058,11 +1387,12 @@ var Slx = (function() {
 	
 			}
 	
-			console.log( "mouseup delta: " + ( Input.mouseupTimestamp - Input.mousedownTimestamp ) );
+			//console.log( "mouseup delta: " + ( Input.mouseupTimestamp - Input.mousedownTimestamp ) );
 	
 			var strEventtargetid = event.target.id;
 			var arEventtargetid = strEventtargetid.split("-");
 	
+			// Quick Mouseup
 			if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) {
 	
 				// Left mouse button is up
@@ -1072,15 +1402,15 @@ var Slx = (function() {
 	
 						case "panelHeader":
 	
-							console.log( Input.mouseupTimestamp - Input.mousedownTimestamp );
+							//console.log( Input.mouseupTimestamp - Input.mousedownTimestamp );
 	
 							if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) { // if less than 100 ms has elapsed
 	
 								var id = arEventtargetid[ 1 ];
 	
-									console.log( "id: " + id );
+									//console.log( "id: " + id );
 	
-									console.log( Panel.byId[ id ] );
+									//console.log( Panel.byId[ id ] );
 	
 								Panel.byId[ id ].cycleDisplay();
 	
@@ -1090,11 +1420,11 @@ var Slx = (function() {
 	
 									var id = arEventtargetid[ 1 ];
 	
-										console.log( Panel.byId[ id ] );
+										//console.log( Panel.byId[ id ] );
 	
 									Panel.draggingPanel = Panel.byId[ id ];
 	
-										console.log( Panel.draggingPanel );
+										//console.log( Panel.draggingPanel );
 	
 								}
 	
@@ -1102,211 +1432,11 @@ var Slx = (function() {
 	
 						break;
 	
-						case "_7":
+						case "_0": 
 	
-							var element = event.target.parentNode;
+							console.log( "Bay.handleQuickMouseup( arEventtargetid )" );
 	
-							var arrElementId = element.id.split( "-" );
-	
-							switch ( arrElementId[0] ) {
-	
-								case "_0":
-	
-									var id = arrElementId[1]
-	
-									Bay.instancesById[ id ].initDrag();
-	
-									Input.userIs = "_25"
-	
-									SlxDocument.inDockZone = "_21"
-	
-									Bay.instancesById[ id ].finishDragging();
-	
-								break;
-	
-							}
-	
-						break;
-	
-						case "_8":
-	
-							var element = event.target.parentNode;
-	
-							var arrElementId = element.id.split( "-" );
-	
-							switch ( arrElementId[0] ) {
-	
-								case "_0":
-	
-									var id = arrElementId[1]
-	
-									Bay.instancesById[ id ].initDrag();
-	
-									Input.userIs = "_25"
-	
-									SlxDocument.inDockZone = "_18"
-	
-									Bay.instancesById[ id ].finishDragging();
-	
-								break;
-	
-							}
-	
-						break;
-	
-						case "_9":
-	
-							var element = event.target.parentNode;
-	
-							var arrElementId = element.id.split( "-" );
-	
-							switch ( arrElementId[0] ) {
-	
-								case "_0":
-	
-									var id = arrElementId[1]
-	
-									Bay.instancesById[ id ].initDrag();
-	
-									Input.userIs = "_25"
-	
-									SlxDocument.inDockZone = "_20"
-	
-									Bay.instancesById[ id ].finishDragging();
-	
-								break;
-	
-							}
-	
-						break;
-	
-						case "_10":
-	
-							var element = event.target.parentNode;
-	
-							var arrElementId = element.id.split( "-" );
-	
-							switch ( arrElementId[0] ) {
-	
-								case "_0":
-	
-									var id = arrElementId[1]
-	
-									Bay.instancesById[ id ].initDrag();
-	
-									Input.userIs = "_25"
-	
-									SlxDocument.inDockZone = "_19"
-	
-									Bay.instancesById[ id ].finishDragging();
-	
-								break;
-	
-							}
-	
-						break;
-						
-						case "_11":
-	
-							var element = event.target.parentNode;
-	
-							var arrElementId = element.id.split( "-" );
-	
-							switch ( arrElementId[0] ) {
-	
-								case "_0":
-	
-									var id = arrElementId[1]
-	
-									Bay.instancesById[ id ].initDrag();
-	
-									Input.userIs = "_25"
-	
-									SlxDocument.inDockZone = "_23"
-	
-									Bay.instancesById[ id ].finishDragging();
-	
-								break;
-	
-							}
-	
-						break;
-						
-						case "_12":
-	
-							var element = event.target.parentNode;
-	
-							var arrElementId = element.id.split( "-" );
-	
-							switch ( arrElementId[0] ) {
-	
-								case "_0":
-	
-									var id = arrElementId[1]
-	
-									Bay.instancesById[ id ].initDrag();
-	
-									Input.userIs = "_25"
-	
-									SlxDocument.inDockZone = "_16"
-	
-									Bay.instancesById[ id ].finishDragging();
-	
-								break;
-	
-							}
-	
-						break;
-	
-						case "_13":
-	
-							var element = event.target.parentNode;
-	
-							var arrElementId = element.id.split( "-" );
-	
-							switch ( arrElementId[0] ) {
-	
-								case "_0":
-	
-									var id = arrElementId[1]
-	
-									Bay.instancesById[ id ].initDrag();
-	
-									Input.userIs = "_25"
-	
-									SlxDocument.inDockZone = "_17"
-	
-									Bay.instancesById[ id ].finishDragging();
-	
-								break;
-	
-							}
-	
-						break;
-	
-						case "_14":
-	
-							var element = event.target.parentNode;
-	
-							var arrElementId = element.id.split( "-" );
-	
-							switch ( arrElementId[0] ) {
-	
-								case "_0":
-	
-									var id = arrElementId[1]
-	
-									Bay.instancesById[ id ].initDrag();
-	
-									Input.userIs = "_25"
-	
-									SlxDocument.inDockZone = "_15"
-	
-									Bay.instancesById[ id ].finishDragging();
-	
-								break;
-	
-							}
+							Bay.handleQuickMouseup( arEventtargetid );
 	
 						break;
 	
@@ -1318,6 +1448,7 @@ var Slx = (function() {
 					switch ( arEventtargetid[0] ) {
 	
 						// Resize Handles become Open Menu button on right click
+						case "_6":
 						case "_7":
 						case "_8":
 						case "_9":
@@ -1325,7 +1456,6 @@ var Slx = (function() {
 						case "_11":
 						case "_12":
 						case "_13":
-						case "_14":
 	
 						break;
 	
@@ -1344,11 +1474,12 @@ var Slx = (function() {
 				var strEventtargetid = event.target.id;
 				var arEventtargetid = strEventtargetid.split("-");
 	
-				console.log( event );
+				//console.log( event );
 	
 				switch ( arEventtargetid[0] ) {
 	
 					// Resize Handles become Open Menu button on right click
+					case "_6":
 					case "_7":
 					case "_8":
 					case "_9":
@@ -1356,7 +1487,6 @@ var Slx = (function() {
 					case "_11":
 					case "_12":
 					case "_13":
-					case "_14":
 	
 						event.preventDefault();
 						return false;
@@ -1372,7 +1502,7 @@ var Slx = (function() {
 		// Mouse Click
 		jQuery( document ).on( "click", function( event ) {
 	
-			console.log( event );
+			//console.log( event );
 	
 			event.stopPropagation();
 	
@@ -1412,19 +1542,19 @@ var Slx = (function() {
 	
 				// Handle Close Buttons
 	
-				case "_4":
+				case "_3":
 	
 					var element = event.target.parentNode.parentNode;
 	
-						console.log( element );
+						//console.log( element );
 	
 					var arrElementId = element.id.split("-");
 	
-						console.log( arrElementId );
+						//console.log( arrElementId );
 	
 					switch ( arrElementId[0] ) {
 	
-						case "_0":
+						case "_14":
 	
 							var id = arrElementId[1]
 	
@@ -1451,7 +1581,7 @@ var Slx = (function() {
 				switch ( arEventtargetid[0] ) {
 	
 					// Auto dock on click instead of double click
-					/*case "_7":
+					/*case "_6":
 	
 						var element = event.target.parentNode;
 	
@@ -1459,15 +1589,41 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "_0":
+							case "_14":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_25"
+								Input.userIs = "_26"
 	
 								SlxDocument.inDockZone = "_21"
+	
+								Bay.instancesById[ id ].finishDragging();
+	
+							break;
+	
+						}
+	
+					break;
+	
+					case "_7":
+	
+						var element = event.target.parentNode;
+	
+						var arrElementId = element.id.split( "-" );
+	
+						switch ( arrElementId[0] ) {
+	
+							case "_14":
+	
+								var id = arrElementId[1]
+	
+								Bay.instancesById[ id ].initDrag();
+	
+								Input.userIs = "_26"
+	
+								SlxDocument.inDockZone = "_18"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1485,15 +1641,15 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "_0":
+							case "_14":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_25"
+								Input.userIs = "_26"
 	
-								SlxDocument.inDockZone = "_18"
+								SlxDocument.inDockZone = "_20"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1511,15 +1667,15 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "_0":
+							case "_14":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_25"
+								Input.userIs = "_26"
 	
-								SlxDocument.inDockZone = "_20"
+								SlxDocument.inDockZone = "_19"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1528,7 +1684,7 @@ var Slx = (function() {
 						}
 	
 					break;
-	
+					
 					case "_10":
 	
 						var element = event.target.parentNode;
@@ -1537,15 +1693,15 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "_0":
+							case "_14":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_25"
+								Input.userIs = "_26"
 	
-								SlxDocument.inDockZone = "_19"
+								SlxDocument.inDockZone = "_23"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1563,15 +1719,15 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "_0":
+							case "_14":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_25"
+								Input.userIs = "_26"
 	
-								SlxDocument.inDockZone = "_23"
+								SlxDocument.inDockZone = "_16"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1580,7 +1736,7 @@ var Slx = (function() {
 						}
 	
 					break;
-					
+	
 					case "_12":
 	
 						var element = event.target.parentNode;
@@ -1589,15 +1745,15 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "_0":
+							case "_14":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_25"
+								Input.userIs = "_26"
 	
-								SlxDocument.inDockZone = "_16"
+								SlxDocument.inDockZone = "_17"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1615,39 +1771,13 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "_0":
+							case "_14":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_25"
-	
-								SlxDocument.inDockZone = "_17"
-	
-								Bay.instancesById[ id ].finishDragging();
-	
-							break;
-	
-						}
-	
-					break;
-	
-					case "_14":
-	
-						var element = event.target.parentNode;
-	
-						var arrElementId = element.id.split( "-" );
-	
-						switch ( arrElementId[0] ) {
-	
-							case "_0":
-	
-								var id = arrElementId[1]
-	
-								Bay.instancesById[ id ].initDrag();
-	
-								Input.userIs = "_25"
+								Input.userIs = "_26"
 	
 								SlxDocument.inDockZone = "_15"
 	
@@ -1660,7 +1790,7 @@ var Slx = (function() {
 					break;*/
 	
 					// Resize Handles double as fullscreen button on double click
-					/*case "_2": // also a drag button
+					/*case "_1": // also a drag button
 	
 						var element = event.target.parentNode;
 	
@@ -1668,13 +1798,13 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "_0":
+							case "_14":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_25"
+								Input.userIs = "_26"
 	
 								SlxDocument.inDockZone = "_21"
 	
@@ -1686,7 +1816,7 @@ var Slx = (function() {
 	
 					break;
 	
-					case "_3": // ensures some amount of space of the topbar is showing
+					case "_2": // ensures some amount of space of the topbar is showing
 	
 						var element = event.target.parentNode.parentNode;
 	
@@ -1694,13 +1824,13 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "_0":
+							case "_14":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_25"
+								Input.userIs = "_26"
 	
 								SlxDocument.inDockZone = "_21"
 	
@@ -1996,6 +2126,7 @@ var Slx = (function() {
 	SlxDocument.objectInDockZone = undefined;
 	
 	SlxDocument.inDockZone = undefined;
+	
 	// End Static Properties
 	
 	// Constructor
@@ -2008,42 +2139,42 @@ var Slx = (function() {
 	
 		var element = document.createElement( "div" );
 		element.id = "_22";
-		element.className = "_26"
+		element.className = "_27"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
 		element.id = "_18";
-		element.className = "_26"
+		element.className = "_27"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
 		element.id = "_20";
-		element.className = "_26"
+		element.className = "_27"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
 		element.id = "_19";
-		element.className = "_26"
+		element.className = "_27"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
 		element.id = "_23";
-		element.className = "_26"
+		element.className = "_27"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
 		element.id = "_16";
-		element.className = "_26"
+		element.className = "_27"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
 		element.id = "_17";
-		element.className = "_26"
+		element.className = "_27"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
 		element.id = "_15";
-		element.className = "_26"
+		element.className = "_27"
 		document.body.appendChild( element );
 	
 	}

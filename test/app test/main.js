@@ -8,7 +8,7 @@ function main() {
 	var x = new Slx.Bay( 60, 60, 60, 60);
 	x.toggleHtml();
 
-	SlxDebug.initialize();
+	//SlxDebug.initialize();
 
 	Slx.startMainLoop();
 

@@ -21,6 +21,7 @@ SlxDocument.fullScreenZoneEnd = 0.625; // 25% percent of window.innerWidth (loca
 SlxDocument.objectInDockZone = undefined;
 
 SlxDocument.inDockZone = undefined;
+
 // End Static Properties
 
 // Constructor
