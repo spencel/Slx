@@ -136,7 +136,7 @@ Input.activateEventHandlers = function() {
 
 	});
 
-	jQuery( document ).on( "mousedown", function( event ) {
+	document.onmousedown = function( event ) {
 
 		event.stopPropagation();
 
@@ -153,7 +153,7 @@ Input.activateEventHandlers = function() {
 		var strEvent_target_id = event.target.id;
 		var arEvent_target_id = strEvent_target_id.split("-");
 
-		// If left mouse button is down
+		// Left Mouse Button is Down
 		if ( event.button === 0 ) { 
 
 			console.log( arEvent_target_id[0] );
@@ -199,7 +199,7 @@ Input.activateEventHandlers = function() {
 
 				case "__topBar__": // also a drag button
 
-					var element = event.target.parentNode.parentNode;
+					var element = event.target.parentNode;
 
 					var arrElementId = element.id.split( "-" );
 
@@ -251,13 +251,19 @@ Input.activateEventHandlers = function() {
 
 		}
 
-	});
+	};
 
-	jQuery( document ).on( "mouseup", function( event ) {
+	/*jQuery( document ).on( "contextmenu", function( event ) {
 
+		return false;
+
+	});*/
+
+	document.onmouseup = function( event ) {
+		console.log( "rightclick" );
 		event.stopPropagation();
 
-		console.log( event );
+		//console.log( event );
 
 		Input.mouseupTimestamp = performance.now();
 		Input.isMouseDown = false;
@@ -272,8 +278,6 @@ Input.activateEventHandlers = function() {
 
 				Bay.nowResizing.finishResizing( event.clientX, event.clientY );
 
-				Input.userIs = undefined;
-
 			break;
 
 			case "__DRAGGING_BAY__":
@@ -282,60 +286,312 @@ Input.activateEventHandlers = function() {
 
 				Bay.nowDragging.finishDragging( event.clientX, event.clientY );
 
-				Input.userIs = undefined;
-
 			break;
 
 		}
-
 
 		console.log( "mouseup delta: " + ( Input.mouseupTimestamp - Input.mousedownTimestamp ) );
 
 		var strEvent_target_id = event.target.id;
 		var arEvent_target_id = strEvent_target_id.split("-");
 
-		// If left mouse button is up
-		if ( event.button === 1 ) {
+		if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) {
 
-			switch ( arEvent_target_id[0] ) {
+			// Left mouse button is up
+			if ( event.button === 0 ) {
 
-				case "div":
+				switch ( arEvent_target_id[0] ) {
 
-					case "panel":
-
-					break;
-
-				break;
-
-				case "panelHeader":
+					case "panelHeader":
 
 						console.log( Input.mouseupTimestamp - Input.mousedownTimestamp );
 
-					if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) { // if less than 100 ms has elapsed
-
-						var id = arEvent_target_id[ 1 ];
-
-							console.log( "id: " + id );
-
-							console.log( Panel.byId[ id ] );
-
-						Panel.byId[ id ].cycleDisplay();
-
-					} else {
-
-						if  ( Panel.isDraggable === true ) {
+						if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) { // if less than 100 ms has elapsed
 
 							var id = arEvent_target_id[ 1 ];
 
+								console.log( "id: " + id );
+
 								console.log( Panel.byId[ id ] );
 
-							Panel.draggingPanel = Panel.byId[ id ];
+							Panel.byId[ id ].cycleDisplay();
 
-								console.log( Panel.draggingPanel );
+						} else {
+
+							if  ( Panel.isDraggable === true ) {
+
+								var id = arEvent_target_id[ 1 ];
+
+									console.log( Panel.byId[ id ] );
+
+								Panel.draggingPanel = Panel.byId[ id ];
+
+									console.log( Panel.draggingPanel );
+
+							}
 
 						}
 
-					}
+					break;
+
+					case "__resizeTop__":
+
+						var element = event.target.parentNode;
+
+						var arrElementId = element.id.split( "-" );
+
+						switch ( arrElementId[0] ) {
+
+							case "__SlxBay__":
+
+								var id = arrElementId[1]
+
+								Bay.instancesById[ id ].initDrag();
+
+								Input.userIs = "__DRAGGING_BAY__"
+
+								SlxDocument.inDockZone = "__SlxDocumentFullScreen__"
+
+								Bay.instancesById[ id ].finishDragging();
+
+							break;
+
+						}
+
+					break;
+
+					case "__resizeTopRight__":
+
+						var element = event.target.parentNode;
+
+						var arrElementId = element.id.split( "-" );
+
+						switch ( arrElementId[0] ) {
+
+							case "__SlxBay__":
+
+								var id = arrElementId[1]
+
+								Bay.instancesById[ id ].initDrag();
+
+								Input.userIs = "__DRAGGING_BAY__"
+
+								SlxDocument.inDockZone = "__SlxDocumentTopRightDockZone__"
+
+								Bay.instancesById[ id ].finishDragging();
+
+							break;
+
+						}
+
+					break;
+
+					case "__resizeRight__":
+
+						var element = event.target.parentNode;
+
+						var arrElementId = element.id.split( "-" );
+
+						switch ( arrElementId[0] ) {
+
+							case "__SlxBay__":
+
+								var id = arrElementId[1]
+
+								Bay.instancesById[ id ].initDrag();
+
+								Input.userIs = "__DRAGGING_BAY__"
+
+								SlxDocument.inDockZone = "__SlxDocumentRightDockZone__"
+
+								Bay.instancesById[ id ].finishDragging();
+
+							break;
+
+						}
+
+					break;
+
+					case "__resizeBottomRight__":
+
+						var element = event.target.parentNode;
+
+						var arrElementId = element.id.split( "-" );
+
+						switch ( arrElementId[0] ) {
+
+							case "__SlxBay__":
+
+								var id = arrElementId[1]
+
+								Bay.instancesById[ id ].initDrag();
+
+								Input.userIs = "__DRAGGING_BAY__"
+
+								SlxDocument.inDockZone = "__SlxDocumentBottomRightDockZone__"
+
+								Bay.instancesById[ id ].finishDragging();
+
+							break;
+
+						}
+
+					break;
+					
+					case "__resizeBottom__":
+
+						var element = event.target.parentNode;
+
+						var arrElementId = element.id.split( "-" );
+
+						switch ( arrElementId[0] ) {
+
+							case "__SlxBay__":
+
+								var id = arrElementId[1]
+
+								Bay.instancesById[ id ].initDrag();
+
+								Input.userIs = "__DRAGGING_BAY__"
+
+								SlxDocument.inDockZone = "__SlxDocumentBottomDockZone__"
+
+								Bay.instancesById[ id ].finishDragging();
+
+							break;
+
+						}
+
+					break;
+					
+					case "__resizeBottomLeft__":
+
+						var element = event.target.parentNode;
+
+						var arrElementId = element.id.split( "-" );
+
+						switch ( arrElementId[0] ) {
+
+							case "__SlxBay__":
+
+								var id = arrElementId[1]
+
+								Bay.instancesById[ id ].initDrag();
+
+								Input.userIs = "__DRAGGING_BAY__"
+
+								SlxDocument.inDockZone = "__SlxDocumentBottomLeftDockZone__"
+
+								Bay.instancesById[ id ].finishDragging();
+
+							break;
+
+						}
+
+					break;
+
+					case "__resizeLeft__":
+
+						var element = event.target.parentNode;
+
+						var arrElementId = element.id.split( "-" );
+
+						switch ( arrElementId[0] ) {
+
+							case "__SlxBay__":
+
+								var id = arrElementId[1]
+
+								Bay.instancesById[ id ].initDrag();
+
+								Input.userIs = "__DRAGGING_BAY__"
+
+								SlxDocument.inDockZone = "__SlxDocumentLeftDockZone__"
+
+								Bay.instancesById[ id ].finishDragging();
+
+							break;
+
+						}
+
+					break;
+
+					case "__resizeTopLeft__":
+
+						var element = event.target.parentNode;
+
+						var arrElementId = element.id.split( "-" );
+
+						switch ( arrElementId[0] ) {
+
+							case "__SlxBay__":
+
+								var id = arrElementId[1]
+
+								Bay.instancesById[ id ].initDrag();
+
+								Input.userIs = "__DRAGGING_BAY__"
+
+								SlxDocument.inDockZone = "__SlxDocumentTopLeftDockZone__"
+
+								Bay.instancesById[ id ].finishDragging();
+
+							break;
+
+						}
+
+					break;
+
+				}
+
+			// Right mouse button is up
+			} else if ( event.button === 2 ) {
+
+				switch ( arEvent_target_id[0] ) {
+
+					// Resize Handles become Open Menu button on right click
+					case "__resizeTop__":
+					case "__resizeTopRight__":
+					case "__resizeRight__":
+					case "__resizeBottomRight__":
+					case "__resizeBottom__":
+					case "__resizeBottomLeft__":
+					case "__resizeLeft__":
+					case "__resizeTopLeft__":
+
+					break;
+
+				}
+
+			}
+
+		}
+
+	};
+
+	document.oncontextmenu = function( event ) {
+
+		if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) {
+
+			var strEvent_target_id = event.target.id;
+			var arEvent_target_id = strEvent_target_id.split("-");
+
+			console.log( event );
+
+			switch ( arEvent_target_id[0] ) {
+
+				// Resize Handles become Open Menu button on right click
+				case "__resizeTop__":
+				case "__resizeTopRight__":
+				case "__resizeRight__":
+				case "__resizeBottomRight__":
+				case "__resizeBottom__":
+				case "__resizeBottomLeft__":
+				case "__resizeLeft__":
+				case "__resizeTopLeft__":
+
+					event.preventDefault();
+					return false;
 
 				break;
 
@@ -343,10 +599,12 @@ Input.activateEventHandlers = function() {
 
 		}
 
-	});
+	}
 
 	// Mouse Click
 	jQuery( document ).on( "click", function( event ) {
+
+		console.log( event );
 
 		event.stopPropagation();
 
@@ -388,7 +646,7 @@ Input.activateEventHandlers = function() {
 
 			case "__close__":
 
-				var element = event.target.parentNode.parentNode.parentNode;
+				var element = event.target.parentNode.parentNode;
 
 					console.log( element );
 
@@ -424,9 +682,219 @@ Input.activateEventHandlers = function() {
 
 			switch ( arEvent_target_id[0] ) {
 
-				case "__topBar__": // also a drag button
+				// Auto dock on click instead of double click
+				/*case "__resizeTop__":
 
-					var element = event.target.parentNode.parentNode;
+					var element = event.target.parentNode;
+
+					var arrElementId = element.id.split( "-" );
+
+					switch ( arrElementId[0] ) {
+
+						case "__SlxBay__":
+
+							var id = arrElementId[1]
+
+							Bay.instancesById[ id ].initDrag();
+
+							Input.userIs = "__DRAGGING_BAY__"
+
+							SlxDocument.inDockZone = "__SlxDocumentFullScreen__"
+
+							Bay.instancesById[ id ].finishDragging();
+
+						break;
+
+					}
+
+				break;
+
+				case "__resizeTopRight__":
+
+					var element = event.target.parentNode;
+
+					var arrElementId = element.id.split( "-" );
+
+					switch ( arrElementId[0] ) {
+
+						case "__SlxBay__":
+
+							var id = arrElementId[1]
+
+							Bay.instancesById[ id ].initDrag();
+
+							Input.userIs = "__DRAGGING_BAY__"
+
+							SlxDocument.inDockZone = "__SlxDocumentTopRightDockZone__"
+
+							Bay.instancesById[ id ].finishDragging();
+
+						break;
+
+					}
+
+				break;
+
+				case "__resizeRight__":
+
+					var element = event.target.parentNode;
+
+					var arrElementId = element.id.split( "-" );
+
+					switch ( arrElementId[0] ) {
+
+						case "__SlxBay__":
+
+							var id = arrElementId[1]
+
+							Bay.instancesById[ id ].initDrag();
+
+							Input.userIs = "__DRAGGING_BAY__"
+
+							SlxDocument.inDockZone = "__SlxDocumentRightDockZone__"
+
+							Bay.instancesById[ id ].finishDragging();
+
+						break;
+
+					}
+
+				break;
+
+				case "__resizeBottomRight__":
+
+					var element = event.target.parentNode;
+
+					var arrElementId = element.id.split( "-" );
+
+					switch ( arrElementId[0] ) {
+
+						case "__SlxBay__":
+
+							var id = arrElementId[1]
+
+							Bay.instancesById[ id ].initDrag();
+
+							Input.userIs = "__DRAGGING_BAY__"
+
+							SlxDocument.inDockZone = "__SlxDocumentBottomRightDockZone__"
+
+							Bay.instancesById[ id ].finishDragging();
+
+						break;
+
+					}
+
+				break;
+				
+				case "__resizeBottom__":
+
+					var element = event.target.parentNode;
+
+					var arrElementId = element.id.split( "-" );
+
+					switch ( arrElementId[0] ) {
+
+						case "__SlxBay__":
+
+							var id = arrElementId[1]
+
+							Bay.instancesById[ id ].initDrag();
+
+							Input.userIs = "__DRAGGING_BAY__"
+
+							SlxDocument.inDockZone = "__SlxDocumentBottomDockZone__"
+
+							Bay.instancesById[ id ].finishDragging();
+
+						break;
+
+					}
+
+				break;
+				
+				case "__resizeBottomLeft__":
+
+					var element = event.target.parentNode;
+
+					var arrElementId = element.id.split( "-" );
+
+					switch ( arrElementId[0] ) {
+
+						case "__SlxBay__":
+
+							var id = arrElementId[1]
+
+							Bay.instancesById[ id ].initDrag();
+
+							Input.userIs = "__DRAGGING_BAY__"
+
+							SlxDocument.inDockZone = "__SlxDocumentBottomLeftDockZone__"
+
+							Bay.instancesById[ id ].finishDragging();
+
+						break;
+
+					}
+
+				break;
+
+				case "__resizeLeft__":
+
+					var element = event.target.parentNode;
+
+					var arrElementId = element.id.split( "-" );
+
+					switch ( arrElementId[0] ) {
+
+						case "__SlxBay__":
+
+							var id = arrElementId[1]
+
+							Bay.instancesById[ id ].initDrag();
+
+							Input.userIs = "__DRAGGING_BAY__"
+
+							SlxDocument.inDockZone = "__SlxDocumentLeftDockZone__"
+
+							Bay.instancesById[ id ].finishDragging();
+
+						break;
+
+					}
+
+				break;
+
+				case "__resizeTopLeft__":
+
+					var element = event.target.parentNode;
+
+					var arrElementId = element.id.split( "-" );
+
+					switch ( arrElementId[0] ) {
+
+						case "__SlxBay__":
+
+							var id = arrElementId[1]
+
+							Bay.instancesById[ id ].initDrag();
+
+							Input.userIs = "__DRAGGING_BAY__"
+
+							SlxDocument.inDockZone = "__SlxDocumentTopLeftDockZone__"
+
+							Bay.instancesById[ id ].finishDragging();
+
+						break;
+
+					}
+
+				break;*/
+
+				// Resize Handles double as fullscreen button on double click
+				/*case "__topBar__": // also a drag button
+
+					var element = event.target.parentNode;
 
 					var arrElementId = element.id.split( "-" );
 
@@ -452,7 +920,7 @@ Input.activateEventHandlers = function() {
 
 				case "__drag__": // ensures some amount of space of the topbar is showing
 
-					var element = event.target.parentNode.parentNode.parentNode;
+					var element = event.target.parentNode.parentNode;
 
 					var arrElementId = element.id.split( "-" );
 
@@ -474,7 +942,7 @@ Input.activateEventHandlers = function() {
 
 					}
 
-				break;
+				break;*/
 
 			}
 

@@ -222,7 +222,7 @@ div#menu {
 	background-color: #FFFFFF;
 }
 #__overflowHidden__ {
-	position: absolute;
+	position: static;
 	display: block;
 	width: 100%;
 	height: 100%;

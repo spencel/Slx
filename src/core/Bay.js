@@ -2,7 +2,7 @@
 * @author spencel / https://github.com/spencel
 */
 
-// Version 0.1
+// Version 0.3
 
 // Bay Class
 
@@ -46,9 +46,9 @@ function Bay( left, top, width, height ) {
 
 	this.top = top; // Of root element
 
-	this.width = width; // Of content element
+	this.width = width; // Of root element
 
-	this.height = height; // Of content element
+	this.height = height; // Of root element
 
 	this.isHtml = false; // Set after its html is injected into the document
 
@@ -88,26 +88,29 @@ Bay.prototype.toggleHtml = function() {
 
 		document.body.appendChild( element );
 
+		/*var elementChild = document.createElement( "div" );
+		elementChild.id = "__topBar__";
+		element.appendChild( elementChild );
+
+		var elementChildChild = document.createElement( "div" );
+		elementChildChild.id = "__drag__";
+		elementChild.appendChild( elementChildChild );
+		elementChildChild = document.createElement( "div" );
+		elementChildChild.id = "__close__";
+		elementChild.appendChild( elementChildChild );
+		var text = document.createTextNode( "X" );
+		elementChildChild.appendChild( text );*/
+
 		var elementChild = document.createElement( "div" );
 		elementChild.id = "__overflowHidden__";
 		element.appendChild( elementChild );
 
 		var elementChildChild = document.createElement( "div" );
-		elementChildChild.id = "__topBar__";
-		elementChild.appendChild( elementChildChild );
-
-		var elementChildChildChild = document.createElement( "div" );
-		elementChildChildChild.id = "__drag__";
-		elementChildChild.appendChild( elementChildChildChild );
-		elementChildChildChild = document.createElement( "div" );
-		elementChildChildChild.id = "__close__";
-		elementChildChild.appendChild( elementChildChildChild );
-		var text = document.createTextNode( "X" );
-		elementChildChildChild.appendChild( text );
-
-		elementChildChild = document.createElement( "div" );
 		elementChildChild.id = "__content__";
 		elementChild.appendChild( elementChildChild );
+
+		var elementChildChildText = document.createTextNode("JavaScript (/ˈdʒævəˌskrɪpt/[5]) is a high-level, dynamic, untyped, and interpreted programming language.[6] It has been standardized in the ECMAScript language specification.[7] Alongside HTML and CSS, it is one of the three core technologies of World Wide Web content production; the majority of websites employ it and it is supported by all modern Web browsers without plug-ins.[6] JavaScript is prototype-based with first-class functions, making it a multi-paradigm language, supporting object-oriented,[8] imperative, and functional programming styles.[6] It has an API for working with text, arrays, dates and regular expressions, but does not include any I/O, such as networking, storage, or graphics facilities, relying for these upon the host environment in which it is embedded.[7] Although there are strong outward similarities between JavaScript and Java, including language name, syntax, and respective standard libraries, the two are distinct languages and differ greatly in their design. JavaScript was influenced by programming languages such as Self and Scheme.[9] JavaScript is also used in environments that are not Web-based, such as PDF documents, site-specific browsers, and desktop widgets. Newer and faster JavaScript virtual machines (VMs) and platforms built upon them have also increased the popularity of JavaScript for server-side Web applications. On the client side, JavaScript has been traditionally implemented as an interpreted language, but more recent browsers perform just-in-time compilation. It is also used in game development, the creation of desktop and mobile applications, and server-side network programming with run-time environments such as Node.js.");
+		elementChildChild.appendChild( elementChildChildText );
 
 		elementChild = document.createElement( "div" );
 		elementChild.id = "__resizeTop__";
@@ -173,6 +176,7 @@ Bay.prototype.initResize = function( resizeType ) {
 Bay.prototype.resize = function( left, top ) {
 
 	//console.log( "left: " + left + "; top: " + top + ";");
+	console.log( "deltaX: " + (Input.mousedownClientX - left) + "; deltaY: " + (top - Input.mousedownClientY) );
 
 	switch ( Bay.resizeType ) {
 
@@ -197,7 +201,10 @@ Bay.prototype.resize = function( left, top ) {
 
 		case "__resizeRight__":
 
+
+
 			// Change content width
+			// 							  58 =           60         
 			this.rootHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.borderWidthX2 ) + "px";
 			
 		break;
@@ -254,13 +261,14 @@ Bay.prototype.finishResizing = function() {
 	console.log( "this.left :" + this.left );
 	this.top = parseInt( this.rootHtmlElement.style.top );
 	console.log( "this.top :" + this.top );
-	this.width = this.rootHtmlElement.offsetWidth + Bay.borderWidthX2;
+	this.width = this.rootHtmlElement.offsetWidth; // offsetWidth includes border
 	console.log( "this.width :" + this.width );
-	this.height = this.rootHtmlElement.offsetHeight + Bay.borderWidthX2;
+	this.height = this.rootHtmlElement.offsetHeight; // offsetWidth includes border
 	console.log( "this.height :" + this.height );
 
 	Bay.nowResizing = undefined;
 	Bay.resizeType = undefined;
+	Input.userIs = undefined;
 
 }
 
@@ -484,6 +492,7 @@ Bay.prototype.finishDragging = function( left, top ) {
 			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
 			SlxDocument.objectInDockZone = undefined;
 			SlxDocument.inDockZone = undefined;
+			Input.userIs = undefined;
 
 		break;
 
@@ -502,6 +511,7 @@ Bay.prototype.finishDragging = function( left, top ) {
 			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
 			SlxDocument.objectInDockZone = undefined;
 			SlxDocument.inDockZone = undefined;
+			Input.userIs = undefined;
 
 		break;
 
@@ -520,6 +530,7 @@ Bay.prototype.finishDragging = function( left, top ) {
 			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
 			SlxDocument.objectInDockZone = undefined;
 			SlxDocument.inDockZone = undefined;
+			Input.userIs = undefined;
 
 		break;
 
@@ -538,6 +549,7 @@ Bay.prototype.finishDragging = function( left, top ) {
 			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
 			SlxDocument.objectInDockZone = undefined;
 			SlxDocument.inDockZone = undefined;
+			Input.userIs = undefined;
 
 		break;
 
@@ -556,6 +568,7 @@ Bay.prototype.finishDragging = function( left, top ) {
 			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
 			SlxDocument.objectInDockZone = undefined;
 			SlxDocument.inDockZone = undefined;
+			Input.userIs = undefined;
 
 		break;
 
@@ -574,6 +587,7 @@ Bay.prototype.finishDragging = function( left, top ) {
 			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
 			SlxDocument.objectInDockZone = undefined;
 			SlxDocument.inDockZone = undefined;
+			Input.userIs = undefined;
 
 		break;
 
@@ -592,6 +606,7 @@ Bay.prototype.finishDragging = function( left, top ) {
 			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
 			SlxDocument.objectInDockZone = undefined;
 			SlxDocument.inDockZone = undefined;
+			Input.userIs = undefined;
 			
 		break;
 
@@ -610,6 +625,7 @@ Bay.prototype.finishDragging = function( left, top ) {
 			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
 			SlxDocument.objectInDockZone = undefined;
 			SlxDocument.inDockZone = undefined;
+			Input.userIs = undefined;
 			
 		break;
 
@@ -628,6 +644,7 @@ Bay.prototype.finishDragging = function( left, top ) {
 			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
 			SlxDocument.objectInDockZone = undefined;
 			SlxDocument.inDockZone = undefined;
+			Input.userIs = undefined;
 			
 		break;
 

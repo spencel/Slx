@@ -221,8 +221,8 @@ div#menu {
 	border: 1px solid #000000;
 	background-color: #FFFFFF;
 }
-#_2 {
-	position: absolute;
+#_5 {
+	position: static;
 	display: block;
 	width: 100%;
 	height: 100%;
@@ -292,16 +292,16 @@ div#menu {
 	width: 7px;
 	cursor: nwse-resize;
 }
-#_3 {
+#_2 {
 	position: static;
 	display: block;
 	margin: 3px;
 	padding: 0px;
 }
-#_3:hover {
+#_2:hover {
 	cursor: pointer;
 }
-#_5 {
+#_4 {
 	position: static;
 	display:inline-block;
 	margin: 0px;
@@ -312,11 +312,11 @@ div#menu {
 	vertical-align: middle;
 	cursor: pointer;
 }
-#_5:hover {
+#_4:hover {
 	background-color: #000000;
 	color: #FFFFFF;
 }
-#_4 {
+#_3 {
 	position: static;
 	display:inline-block;
 	width: 20px;

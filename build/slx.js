@@ -106,7 +106,7 @@ var Slx = (function() {
 	* @author spencel / https://github.com/spencel
 	*/
 	
-	// Version 0.1
+	// Version 0.3
 	
 	// Bay Class
 	
@@ -150,9 +150,9 @@ var Slx = (function() {
 	
 		this.top = top; // Of root element
 	
-		this.width = width; // Of content element
+		this.width = width; // Of root element
 	
-		this.height = height; // Of content element
+		this.height = height; // Of root element
 	
 		this.isHtml = false; // Set after its html is injected into the document
 	
@@ -192,26 +192,29 @@ var Slx = (function() {
 	
 			document.body.appendChild( element );
 	
+			/*var elementChild = document.createElement( "div" );
+			elementChild.id = "__topBar__";
+			element.appendChild( elementChild );
+	
+			var elementChildChild = document.createElement( "div" );
+			elementChildChild.id = "__drag__";
+			elementChild.appendChild( elementChildChild );
+			elementChildChild = document.createElement( "div" );
+			elementChildChild.id = "__close__";
+			elementChild.appendChild( elementChildChild );
+			var text = document.createTextNode( "X" );
+			elementChildChild.appendChild( text );*/
+	
 			var elementChild = document.createElement( "div" );
 			elementChild.id = "__overflowHidden__";
 			element.appendChild( elementChild );
 	
 			var elementChildChild = document.createElement( "div" );
-			elementChildChild.id = "__topBar__";
-			elementChild.appendChild( elementChildChild );
-	
-			var elementChildChildChild = document.createElement( "div" );
-			elementChildChildChild.id = "__drag__";
-			elementChildChild.appendChild( elementChildChildChild );
-			elementChildChildChild = document.createElement( "div" );
-			elementChildChildChild.id = "__close__";
-			elementChildChild.appendChild( elementChildChildChild );
-			var text = document.createTextNode( "X" );
-			elementChildChildChild.appendChild( text );
-	
-			elementChildChild = document.createElement( "div" );
 			elementChildChild.id = "__content__";
 			elementChild.appendChild( elementChildChild );
+	
+			var elementChildChildText = document.createTextNode("JavaScript (/ˈdʒævəˌskrɪpt/[5]) is a high-level, dynamic, untyped, and interpreted programming language.[6] It has been standardized in the ECMAScript language specification.[7] Alongside HTML and CSS, it is one of the three core technologies of World Wide Web content production; the majority of websites employ it and it is supported by all modern Web browsers without plug-ins.[6] JavaScript is prototype-based with first-class functions, making it a multi-paradigm language, supporting object-oriented,[8] imperative, and functional programming styles.[6] It has an API for working with text, arrays, dates and regular expressions, but does not include any I/O, such as networking, storage, or graphics facilities, relying for these upon the host environment in which it is embedded.[7] Although there are strong outward similarities between JavaScript and Java, including language name, syntax, and respective standard libraries, the two are distinct languages and differ greatly in their design. JavaScript was influenced by programming languages such as Self and Scheme.[9] JavaScript is also used in environments that are not Web-based, such as PDF documents, site-specific browsers, and desktop widgets. Newer and faster JavaScript virtual machines (VMs) and platforms built upon them have also increased the popularity of JavaScript for server-side Web applications. On the client side, JavaScript has been traditionally implemented as an interpreted language, but more recent browsers perform just-in-time compilation. It is also used in game development, the creation of desktop and mobile applications, and server-side network programming with run-time environments such as Node.js.");
+			elementChildChild.appendChild( elementChildChildText );
 	
 			elementChild = document.createElement( "div" );
 			elementChild.id = "__resizeTop__";
@@ -277,6 +280,7 @@ var Slx = (function() {
 	Bay.prototype.resize = function( left, top ) {
 	
 		//console.log( "left: " + left + "; top: " + top + ";");
+		console.log( "deltaX: " + (Input.mousedownClientX - left) + "; deltaY: " + (top - Input.mousedownClientY) );
 	
 		switch ( Bay.resizeType ) {
 	
@@ -301,7 +305,10 @@ var Slx = (function() {
 	
 			case "__resizeRight__":
 	
+	
+	
 				// Change content width
+				// 							  58 =           60         
 				this.rootHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.borderWidthX2 ) + "px";
 				
 			break;
@@ -358,13 +365,14 @@ var Slx = (function() {
 		console.log( "this.left :" + this.left );
 		this.top = parseInt( this.rootHtmlElement.style.top );
 		console.log( "this.top :" + this.top );
-		this.width = this.rootHtmlElement.offsetWidth + Bay.borderWidthX2;
+		this.width = this.rootHtmlElement.offsetWidth; // offsetWidth includes border
 		console.log( "this.width :" + this.width );
-		this.height = this.rootHtmlElement.offsetHeight + Bay.borderWidthX2;
+		this.height = this.rootHtmlElement.offsetHeight; // offsetWidth includes border
 		console.log( "this.height :" + this.height );
 	
 		Bay.nowResizing = undefined;
 		Bay.resizeType = undefined;
+		Input.userIs = undefined;
 	
 	}
 	
@@ -588,6 +596,7 @@ var Slx = (function() {
 				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
 				SlxDocument.objectInDockZone = undefined;
 				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
 	
 			break;
 	
@@ -606,6 +615,7 @@ var Slx = (function() {
 				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
 				SlxDocument.objectInDockZone = undefined;
 				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
 	
 			break;
 	
@@ -624,6 +634,7 @@ var Slx = (function() {
 				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
 				SlxDocument.objectInDockZone = undefined;
 				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
 	
 			break;
 	
@@ -642,6 +653,7 @@ var Slx = (function() {
 				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
 				SlxDocument.objectInDockZone = undefined;
 				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
 	
 			break;
 	
@@ -660,6 +672,7 @@ var Slx = (function() {
 				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
 				SlxDocument.objectInDockZone = undefined;
 				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
 	
 			break;
 	
@@ -678,6 +691,7 @@ var Slx = (function() {
 				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
 				SlxDocument.objectInDockZone = undefined;
 				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
 	
 			break;
 	
@@ -696,6 +710,7 @@ var Slx = (function() {
 				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
 				SlxDocument.objectInDockZone = undefined;
 				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
 				
 			break;
 	
@@ -714,6 +729,7 @@ var Slx = (function() {
 				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
 				SlxDocument.objectInDockZone = undefined;
 				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
 				
 			break;
 	
@@ -732,6 +748,7 @@ var Slx = (function() {
 				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
 				SlxDocument.objectInDockZone = undefined;
 				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
 				
 			break;
 	
@@ -887,7 +904,7 @@ var Slx = (function() {
 	
 		});
 	
-		jQuery( document ).on( "mousedown", function( event ) {
+		document.onmousedown = function( event ) {
 	
 			event.stopPropagation();
 	
@@ -904,7 +921,7 @@ var Slx = (function() {
 			var strEvent_target_id = event.target.id;
 			var arEvent_target_id = strEvent_target_id.split("-");
 	
-			// If left mouse button is down
+			// Left Mouse Button is Down
 			if ( event.button === 0 ) { 
 	
 				console.log( arEvent_target_id[0] );
@@ -950,7 +967,7 @@ var Slx = (function() {
 	
 					case "__topBar__": // also a drag button
 	
-						var element = event.target.parentNode.parentNode;
+						var element = event.target.parentNode;
 	
 						var arrElementId = element.id.split( "-" );
 	
@@ -1002,13 +1019,19 @@ var Slx = (function() {
 	
 			}
 	
-		});
+		};
 	
-		jQuery( document ).on( "mouseup", function( event ) {
+		/*jQuery( document ).on( "contextmenu", function( event ) {
 	
+			return false;
+	
+		});*/
+	
+		document.onmouseup = function( event ) {
+			console.log( "rightclick" );
 			event.stopPropagation();
 	
-			console.log( event );
+			//console.log( event );
 	
 			Input.mouseupTimestamp = performance.now();
 			Input.isMouseDown = false;
@@ -1023,8 +1046,6 @@ var Slx = (function() {
 	
 					Bay.nowResizing.finishResizing( event.clientX, event.clientY );
 	
-					Input.userIs = undefined;
-	
 				break;
 	
 				case "__DRAGGING_BAY__":
@@ -1033,60 +1054,312 @@ var Slx = (function() {
 	
 					Bay.nowDragging.finishDragging( event.clientX, event.clientY );
 	
-					Input.userIs = undefined;
-	
 				break;
 	
 			}
-	
 	
 			console.log( "mouseup delta: " + ( Input.mouseupTimestamp - Input.mousedownTimestamp ) );
 	
 			var strEvent_target_id = event.target.id;
 			var arEvent_target_id = strEvent_target_id.split("-");
 	
-			// If left mouse button is up
-			if ( event.button === 1 ) {
+			if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) {
 	
-				switch ( arEvent_target_id[0] ) {
+				// Left mouse button is up
+				if ( event.button === 0 ) {
 	
-					case "div":
+					switch ( arEvent_target_id[0] ) {
 	
-						case "panel":
-	
-						break;
-	
-					break;
-	
-					case "panelHeader":
+						case "panelHeader":
 	
 							console.log( Input.mouseupTimestamp - Input.mousedownTimestamp );
 	
-						if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) { // if less than 100 ms has elapsed
-	
-							var id = arEvent_target_id[ 1 ];
-	
-								console.log( "id: " + id );
-	
-								console.log( Panel.byId[ id ] );
-	
-							Panel.byId[ id ].cycleDisplay();
-	
-						} else {
-	
-							if  ( Panel.isDraggable === true ) {
+							if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) { // if less than 100 ms has elapsed
 	
 								var id = arEvent_target_id[ 1 ];
 	
+									console.log( "id: " + id );
+	
 									console.log( Panel.byId[ id ] );
 	
-								Panel.draggingPanel = Panel.byId[ id ];
+								Panel.byId[ id ].cycleDisplay();
 	
-									console.log( Panel.draggingPanel );
+							} else {
+	
+								if  ( Panel.isDraggable === true ) {
+	
+									var id = arEvent_target_id[ 1 ];
+	
+										console.log( Panel.byId[ id ] );
+	
+									Panel.draggingPanel = Panel.byId[ id ];
+	
+										console.log( Panel.draggingPanel );
+	
+								}
 	
 							}
 	
-						}
+						break;
+	
+						case "__resizeTop__":
+	
+							var element = event.target.parentNode;
+	
+							var arrElementId = element.id.split( "-" );
+	
+							switch ( arrElementId[0] ) {
+	
+								case "__SlxBay__":
+	
+									var id = arrElementId[1]
+	
+									Bay.instancesById[ id ].initDrag();
+	
+									Input.userIs = "__DRAGGING_BAY__"
+	
+									SlxDocument.inDockZone = "__SlxDocumentFullScreen__"
+	
+									Bay.instancesById[ id ].finishDragging();
+	
+								break;
+	
+							}
+	
+						break;
+	
+						case "__resizeTopRight__":
+	
+							var element = event.target.parentNode;
+	
+							var arrElementId = element.id.split( "-" );
+	
+							switch ( arrElementId[0] ) {
+	
+								case "__SlxBay__":
+	
+									var id = arrElementId[1]
+	
+									Bay.instancesById[ id ].initDrag();
+	
+									Input.userIs = "__DRAGGING_BAY__"
+	
+									SlxDocument.inDockZone = "__SlxDocumentTopRightDockZone__"
+	
+									Bay.instancesById[ id ].finishDragging();
+	
+								break;
+	
+							}
+	
+						break;
+	
+						case "__resizeRight__":
+	
+							var element = event.target.parentNode;
+	
+							var arrElementId = element.id.split( "-" );
+	
+							switch ( arrElementId[0] ) {
+	
+								case "__SlxBay__":
+	
+									var id = arrElementId[1]
+	
+									Bay.instancesById[ id ].initDrag();
+	
+									Input.userIs = "__DRAGGING_BAY__"
+	
+									SlxDocument.inDockZone = "__SlxDocumentRightDockZone__"
+	
+									Bay.instancesById[ id ].finishDragging();
+	
+								break;
+	
+							}
+	
+						break;
+	
+						case "__resizeBottomRight__":
+	
+							var element = event.target.parentNode;
+	
+							var arrElementId = element.id.split( "-" );
+	
+							switch ( arrElementId[0] ) {
+	
+								case "__SlxBay__":
+	
+									var id = arrElementId[1]
+	
+									Bay.instancesById[ id ].initDrag();
+	
+									Input.userIs = "__DRAGGING_BAY__"
+	
+									SlxDocument.inDockZone = "__SlxDocumentBottomRightDockZone__"
+	
+									Bay.instancesById[ id ].finishDragging();
+	
+								break;
+	
+							}
+	
+						break;
+						
+						case "__resizeBottom__":
+	
+							var element = event.target.parentNode;
+	
+							var arrElementId = element.id.split( "-" );
+	
+							switch ( arrElementId[0] ) {
+	
+								case "__SlxBay__":
+	
+									var id = arrElementId[1]
+	
+									Bay.instancesById[ id ].initDrag();
+	
+									Input.userIs = "__DRAGGING_BAY__"
+	
+									SlxDocument.inDockZone = "__SlxDocumentBottomDockZone__"
+	
+									Bay.instancesById[ id ].finishDragging();
+	
+								break;
+	
+							}
+	
+						break;
+						
+						case "__resizeBottomLeft__":
+	
+							var element = event.target.parentNode;
+	
+							var arrElementId = element.id.split( "-" );
+	
+							switch ( arrElementId[0] ) {
+	
+								case "__SlxBay__":
+	
+									var id = arrElementId[1]
+	
+									Bay.instancesById[ id ].initDrag();
+	
+									Input.userIs = "__DRAGGING_BAY__"
+	
+									SlxDocument.inDockZone = "__SlxDocumentBottomLeftDockZone__"
+	
+									Bay.instancesById[ id ].finishDragging();
+	
+								break;
+	
+							}
+	
+						break;
+	
+						case "__resizeLeft__":
+	
+							var element = event.target.parentNode;
+	
+							var arrElementId = element.id.split( "-" );
+	
+							switch ( arrElementId[0] ) {
+	
+								case "__SlxBay__":
+	
+									var id = arrElementId[1]
+	
+									Bay.instancesById[ id ].initDrag();
+	
+									Input.userIs = "__DRAGGING_BAY__"
+	
+									SlxDocument.inDockZone = "__SlxDocumentLeftDockZone__"
+	
+									Bay.instancesById[ id ].finishDragging();
+	
+								break;
+	
+							}
+	
+						break;
+	
+						case "__resizeTopLeft__":
+	
+							var element = event.target.parentNode;
+	
+							var arrElementId = element.id.split( "-" );
+	
+							switch ( arrElementId[0] ) {
+	
+								case "__SlxBay__":
+	
+									var id = arrElementId[1]
+	
+									Bay.instancesById[ id ].initDrag();
+	
+									Input.userIs = "__DRAGGING_BAY__"
+	
+									SlxDocument.inDockZone = "__SlxDocumentTopLeftDockZone__"
+	
+									Bay.instancesById[ id ].finishDragging();
+	
+								break;
+	
+							}
+	
+						break;
+	
+					}
+	
+				// Right mouse button is up
+				} else if ( event.button === 2 ) {
+	
+					switch ( arEvent_target_id[0] ) {
+	
+						// Resize Handles become Open Menu button on right click
+						case "__resizeTop__":
+						case "__resizeTopRight__":
+						case "__resizeRight__":
+						case "__resizeBottomRight__":
+						case "__resizeBottom__":
+						case "__resizeBottomLeft__":
+						case "__resizeLeft__":
+						case "__resizeTopLeft__":
+	
+						break;
+	
+					}
+	
+				}
+	
+			}
+	
+		};
+	
+		document.oncontextmenu = function( event ) {
+	
+			if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) {
+	
+				var strEvent_target_id = event.target.id;
+				var arEvent_target_id = strEvent_target_id.split("-");
+	
+				console.log( event );
+	
+				switch ( arEvent_target_id[0] ) {
+	
+					// Resize Handles become Open Menu button on right click
+					case "__resizeTop__":
+					case "__resizeTopRight__":
+					case "__resizeRight__":
+					case "__resizeBottomRight__":
+					case "__resizeBottom__":
+					case "__resizeBottomLeft__":
+					case "__resizeLeft__":
+					case "__resizeTopLeft__":
+	
+						event.preventDefault();
+						return false;
 	
 					break;
 	
@@ -1094,10 +1367,12 @@ var Slx = (function() {
 	
 			}
 	
-		});
+		}
 	
 		// Mouse Click
 		jQuery( document ).on( "click", function( event ) {
+	
+			console.log( event );
 	
 			event.stopPropagation();
 	
@@ -1139,7 +1414,7 @@ var Slx = (function() {
 	
 				case "__close__":
 	
-					var element = event.target.parentNode.parentNode.parentNode;
+					var element = event.target.parentNode.parentNode;
 	
 						console.log( element );
 	
@@ -1175,9 +1450,219 @@ var Slx = (function() {
 	
 				switch ( arEvent_target_id[0] ) {
 	
-					case "__topBar__": // also a drag button
+					// Auto dock on click instead of double click
+					/*case "__resizeTop__":
 	
-						var element = event.target.parentNode.parentNode;
+						var element = event.target.parentNode;
+	
+						var arrElementId = element.id.split( "-" );
+	
+						switch ( arrElementId[0] ) {
+	
+							case "__SlxBay__":
+	
+								var id = arrElementId[1]
+	
+								Bay.instancesById[ id ].initDrag();
+	
+								Input.userIs = "__DRAGGING_BAY__"
+	
+								SlxDocument.inDockZone = "__SlxDocumentFullScreen__"
+	
+								Bay.instancesById[ id ].finishDragging();
+	
+							break;
+	
+						}
+	
+					break;
+	
+					case "__resizeTopRight__":
+	
+						var element = event.target.parentNode;
+	
+						var arrElementId = element.id.split( "-" );
+	
+						switch ( arrElementId[0] ) {
+	
+							case "__SlxBay__":
+	
+								var id = arrElementId[1]
+	
+								Bay.instancesById[ id ].initDrag();
+	
+								Input.userIs = "__DRAGGING_BAY__"
+	
+								SlxDocument.inDockZone = "__SlxDocumentTopRightDockZone__"
+	
+								Bay.instancesById[ id ].finishDragging();
+	
+							break;
+	
+						}
+	
+					break;
+	
+					case "__resizeRight__":
+	
+						var element = event.target.parentNode;
+	
+						var arrElementId = element.id.split( "-" );
+	
+						switch ( arrElementId[0] ) {
+	
+							case "__SlxBay__":
+	
+								var id = arrElementId[1]
+	
+								Bay.instancesById[ id ].initDrag();
+	
+								Input.userIs = "__DRAGGING_BAY__"
+	
+								SlxDocument.inDockZone = "__SlxDocumentRightDockZone__"
+	
+								Bay.instancesById[ id ].finishDragging();
+	
+							break;
+	
+						}
+	
+					break;
+	
+					case "__resizeBottomRight__":
+	
+						var element = event.target.parentNode;
+	
+						var arrElementId = element.id.split( "-" );
+	
+						switch ( arrElementId[0] ) {
+	
+							case "__SlxBay__":
+	
+								var id = arrElementId[1]
+	
+								Bay.instancesById[ id ].initDrag();
+	
+								Input.userIs = "__DRAGGING_BAY__"
+	
+								SlxDocument.inDockZone = "__SlxDocumentBottomRightDockZone__"
+	
+								Bay.instancesById[ id ].finishDragging();
+	
+							break;
+	
+						}
+	
+					break;
+					
+					case "__resizeBottom__":
+	
+						var element = event.target.parentNode;
+	
+						var arrElementId = element.id.split( "-" );
+	
+						switch ( arrElementId[0] ) {
+	
+							case "__SlxBay__":
+	
+								var id = arrElementId[1]
+	
+								Bay.instancesById[ id ].initDrag();
+	
+								Input.userIs = "__DRAGGING_BAY__"
+	
+								SlxDocument.inDockZone = "__SlxDocumentBottomDockZone__"
+	
+								Bay.instancesById[ id ].finishDragging();
+	
+							break;
+	
+						}
+	
+					break;
+					
+					case "__resizeBottomLeft__":
+	
+						var element = event.target.parentNode;
+	
+						var arrElementId = element.id.split( "-" );
+	
+						switch ( arrElementId[0] ) {
+	
+							case "__SlxBay__":
+	
+								var id = arrElementId[1]
+	
+								Bay.instancesById[ id ].initDrag();
+	
+								Input.userIs = "__DRAGGING_BAY__"
+	
+								SlxDocument.inDockZone = "__SlxDocumentBottomLeftDockZone__"
+	
+								Bay.instancesById[ id ].finishDragging();
+	
+							break;
+	
+						}
+	
+					break;
+	
+					case "__resizeLeft__":
+	
+						var element = event.target.parentNode;
+	
+						var arrElementId = element.id.split( "-" );
+	
+						switch ( arrElementId[0] ) {
+	
+							case "__SlxBay__":
+	
+								var id = arrElementId[1]
+	
+								Bay.instancesById[ id ].initDrag();
+	
+								Input.userIs = "__DRAGGING_BAY__"
+	
+								SlxDocument.inDockZone = "__SlxDocumentLeftDockZone__"
+	
+								Bay.instancesById[ id ].finishDragging();
+	
+							break;
+	
+						}
+	
+					break;
+	
+					case "__resizeTopLeft__":
+	
+						var element = event.target.parentNode;
+	
+						var arrElementId = element.id.split( "-" );
+	
+						switch ( arrElementId[0] ) {
+	
+							case "__SlxBay__":
+	
+								var id = arrElementId[1]
+	
+								Bay.instancesById[ id ].initDrag();
+	
+								Input.userIs = "__DRAGGING_BAY__"
+	
+								SlxDocument.inDockZone = "__SlxDocumentTopLeftDockZone__"
+	
+								Bay.instancesById[ id ].finishDragging();
+	
+							break;
+	
+						}
+	
+					break;*/
+	
+					// Resize Handles double as fullscreen button on double click
+					/*case "__topBar__": // also a drag button
+	
+						var element = event.target.parentNode;
 	
 						var arrElementId = element.id.split( "-" );
 	
@@ -1203,7 +1688,7 @@ var Slx = (function() {
 	
 					case "__drag__": // ensures some amount of space of the topbar is showing
 	
-						var element = event.target.parentNode.parentNode.parentNode;
+						var element = event.target.parentNode.parentNode;
 	
 						var arrElementId = element.id.split( "-" );
 	
@@ -1225,7 +1710,7 @@ var Slx = (function() {
 	
 						}
 	
-					break;
+					break;*/
 	
 				}
 	
