@@ -129,9 +129,9 @@ var Slx = (function() {
 	
 	Bay.contentSizeModifier = 2 * Bay.contentMargin + 2 * Bay.borderWidth; // (px) (4 px); modifies size of content div so that the root div is the specified width from input parameter
 	
-	Bay.nowResizing = undefined; // Set to instance of Bay that is being resized
+	Bay.currentlyResizingInstance = undefined; // Set to instance of Bay that is being resized
 	
-	Bay.resizeType = undefined; // A string constant that indicates the resize type, e.g., top, bottom right, mirrored, etc.
+	Bay.resizeDirection = undefined; // A string constant that indicates the resize type, e.g., top, bottom right, mirrored, etc.
 	
 	Bay.nowDragging = undefined; // Set to instance of Bay that is being dragged
 	// End Static Properties
@@ -271,7 +271,7 @@ var Slx = (function() {
 	
 	Bay.prototype.close = function () {
 	
-			console.log( this.id )
+		console.log( this.id )
 	
 		document.getElementById( "__SlxBay__-" + this.id ).outerHTML = "";
 	
@@ -279,22 +279,95 @@ var Slx = (function() {
 	
 	}
 	
-	Bay.prototype.initResize = function( resizeType ) {
+	Bay.handleResize = function ( event ) {
 	
-		focus( this.rootHtmlElement ); // Bring it to the front of the view
+		//console.log( event );
 	
-		Bay.nowResizing = this;
+		event.preventDefault(); // Prevent text selection and dragging
 	
-		Bay.resizeType = resizeType;
+		switch ( event.type ) {
+	
+			case "mousedown":
+	
+				if ( Bay.currentlyResizingInstance === undefined ) {
+	
+					var arEvent_target_id = event.target.id.split( "-" );
+					Bay.instancesById[ arEvent_target_id[ 2 ] ].initResize( arEvent_target_id[ 1 ] );
+	
+				}	
+				
+			break;
+	
+			case "mousemove":
+	
+				Bay.currentlyResizingInstance.resize( event.clientX, event.clientY );
+	
+			break;
+	
+			case "mouseup":
+	
+				Bay.currentlyResizingInstance.finishResizing();
+	
+			break;
+	
+		}
+	
+	}
+	
+	Bay.prototype.initResize = function ( resizeDirection ) {
+	
+		Bay.currentlyResizingInstance = this;
+		Bay.resizeDirection = resizeDirection;
+		Input.userIs = "__RESIZING_BAY__";
 	
 	}
 	
 	Bay.prototype.resize = function( left, top ) {
 	
-		//console.log( "left: " + left + "; top: " + top + ";");
-		console.log( "deltaX: " + (Input.mousedownClientX - left) + "; deltaY: " + (top - Input.mousedownClientY) );
+		if ( ( performance.now() - Input.mousedownTimestamp ) >= 200 ) {
 	
-		switch ( Bay.resizeType ) {
+			switch ( this.currentlyDockedAt ) {
+				case "__SlxDocumentFullScreenDockZone__":
+					switch ( Bay.resizeDirection ) {
+						case "__resizeTop__": this.currentlyDockedAt = "__SlxDocumentBottomDockZone__"; break;
+						case "__resizeTopRight__": this.currentlyDockedAt = "__SlxDocumentBottomLeftDockZone__"; break;
+						case "__resizeRight__": this.currentlyDockedAt = "__SlxDocumentLeftDockZone__"; break;
+						case "__resizeBottomRight__": this.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
+						case "__resizeBottom__": this.currentlyDockedAt = "__SlxDocumentTopDockZone__"; break;
+						case "__resizeBottomLeft__": this.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
+						case "__resizeLeft__": this.currentlyDockedAt = "__SlxDocumentRightDockZone__"; break;
+						case "__resizeTopLeft__": this.currentlyDockedAt = "__SlxDocumentBottomRightDockZone__"; break;
+					}
+				break;
+				case "__SlxDocumentTopDockZone__":
+					switch ( Bay.resizeDirection ) {
+						case "__resizeRight__":
+						case "__resizeBottomRight__": this.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
+						case "__resizeBottom": break;
+						case "__resizeBottomLeft__":
+						case "__resizeLeft__": this.currentlyDockedAt = "__SlxDocumentTopRightDockZone__"; break;
+						default: this.currentlyDockedAt = undefined;
+					}
+				break;
+				case "__SlxDocumentTopRightDockZone__":
+				break;
+				case "__SlxDocumentRightDockZone__":
+				break;
+				case "__SlxDocumentBottomRightDockZone__":
+				break;
+				case "__SlxDocumentBottomDockZone__":
+				break;
+				case "__SlxDocumentBottomLeftDockZone__":
+				break;
+				case "__SlxDocumentLeftDockZone__":
+				break;
+				case "__SlxDocumentTopLeftDockZone__":
+				break;
+			}
+	
+		}
+	
+		switch ( Bay.resizeDirection ) {
 	
 			case "__resizeTop__":
 	
@@ -382,8 +455,8 @@ var Slx = (function() {
 		this.height = this.rootHtmlElement.offsetHeight; // offsetWidth includes border
 		console.log( "this.height :" + this.height );
 	
-		Bay.nowResizing = undefined;
-		Bay.resizeType = undefined;
+		Bay.currentlyResizingInstance = undefined;
+		Bay.resizeDirection = undefined;
 		Input.userIs = undefined;
 	
 	}
@@ -879,21 +952,6 @@ var Slx = (function() {
 	
 	}
 	
-	Bay.prototype.restorePreviousDimensions = function() {
-	
-		// Change root left and top and content width and height
-		this.rootHtmlElement.style.left = ( this.previousLeft ) + "px";
-		this.previousLeft = undefined;
-		this.rootHtmlElement.style.top = ( this.previousTop ) + "px";
-		this.previousTop = undefined;
-		this.rootHtmlElement.style.width = ( this.previousWidth - Bay.borderWidthX2 ) + "px";
-		this.previousWidth = undefined;
-		this.rootHtmlElement.style.height = ( this.previousHeight - Bay.borderWidthX2 ) + "px";
-		this.previousHeight = undefined;
-		this.currentlyDockedAt = undefined;
-	
-	}
-	
 	Bay.handleQuickMouseup = function( arEvent_target_id ) {
 	
 		console.log( arEvent_target_id );
@@ -908,26 +966,38 @@ var Slx = (function() {
 			case "__resizeBottomLeft__":
 			case "__resizeLeft__":
 			case "__resizeTopLeft__": 
-				console.log( "this.handleDocking( arEvent_target_id )" );
-				this.handleDocking( arEvent_target_id );
+				this.instancesById[ arEvent_target_id[ 2 ] ].handleDocking( arEvent_target_id[1] );
 			break;
 	
 		}
 	
 	}
 	
-	Bay.handleDocking = function( arEvent_target_id ) {
+	Bay.prototype.handleDocking = function( resizeDirection ) {
 	
-		var resizeDirection = arEvent_target_id[1];
-		var instanceId = arEvent_target_id[2];
 		var dockZone = undefined;
+		var savePreviousDimensions = true;
 	
-		console.log( resizeDirection );
+		if ( this.currentlyDockedAt !== undefined ) {
+	
+			savePreviousDimensions = false;
+	
+		}
 	
 		switch ( resizeDirection ) {
 	
 			case "__resizeTop__":
-				dockZone = "__SlxDocumentFullScreenDockZone__";
+				switch ( this.currentlyDockedAt ) {
+					case "__SlxDocumentFullScreenDockZone__":
+						dockZone = "__SlxDocumentTopDockZone__";
+					break;
+					case "__SlxDocumentTopDockZone__":
+						this.restorePreviousDimensions();
+						return; // prevent this.toggleDock from being called below
+					break;
+					default:
+						dockZone = "__SlxDocumentFullScreenDockZone__";
+				}			
 			break;
 			case "__resizeTopRight__":
 				dockZone = "__SlxDocumentTopRightDockZone__";
@@ -953,17 +1023,48 @@ var Slx = (function() {
 	
 		}
 	
-		this.instancesById[ instanceId ].dock( dockZone );
+		this.toggleDock( dockZone, savePreviousDimensions );
 	
 	}
 	
-	Bay.prototype.dock = function( dockZone ) {
+	Bay.prototype.toggleDock = function( dockZone, savePreviousDimensions ) {
 	
-		console.log( dockZone);
+		console.log( dockZone + " === " + this.currentlyDockedAt + "; savePreviousDimensions: " + savePreviousDimensions );
 	
-		this.currentDock = dockZone;
+		if ( dockZone === this.currentlyDockedAt ) {
+			this.restorePreviousDimensions();
+		} else {
+			this.dock( dockZone, savePreviousDimensions );
+		}
+	
+	}
+	
+	Bay.prototype.dock = function ( dockZone, savePreviousDimensions ) {
+	
+		if ( savePreviousDimensions === true ) {
+	
+			this.previousLeft = this.left;
+			this.previousTop = this.top;
+			this.previousWidth = this.width;
+			this.previousHeight = this.height;
+	
+		}
 	
 		switch ( dockZone ) {
+	
+			case "__SlxDocumentFullScreenDockZone__":
+	
+				this.rootHtmlElement.style.left = 0 + "px";
+				this.left = 0;
+				this.rootHtmlElement.style.top = 0 + "px";
+				this.top = 0;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth;
+				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight;
+	
+			break;
 	
 			case "__SlxDocumentTopDockZone__":
 	
@@ -976,7 +1077,7 @@ var Slx = (function() {
 				this.width = window.innerWidth;
 				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight / 2;
-	
+				
 			break;
 	
 			case "__SlxDocumentTopRightDockZone__":
@@ -1077,21 +1178,29 @@ var Slx = (function() {
 				
 			break;
 	
-			case "__SlxDocumentFullScreenDockZone__":
-	
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
-	
-				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth;
-				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight;
-				
-			break;
-	
 		}
+	
+		this.currentlyDockedAt = dockZone;
+	
+	}
+	
+	Bay.prototype.restorePreviousDimensions = function() {
+	
+		// Change root left and top and content width and height
+		this.left = this.previousLeft;
+		this.rootHtmlElement.style.left = ( this.previousLeft ) + "px";
+		this.previousLeft = undefined;
+		this.top = this.previousTop;
+		this.rootHtmlElement.style.top = ( this.previousTop ) + "px";
+		this.previousTop = undefined;
+		this.width = this.previousWidth;
+		this.rootHtmlElement.style.width = ( this.previousWidth - Bay.borderWidthX2 ) + "px";
+		this.previousWidth = undefined;
+		this.height = this.previousHeight;
+		this.rootHtmlElement.style.height = ( this.previousHeight - Bay.borderWidthX2 ) + "px";
+		this.previousHeight = undefined;
+	
+		this.currentlyDockedAt = undefined;
 	
 	}
 	// End Methods
@@ -1192,7 +1301,7 @@ var Slx = (function() {
 		});
 		*/
 	
-		jQuery( document ).on( "mousemove", function( event ) {
+		document.onmousemove =  function( event ) {
 	
 			event.stopPropagation();
 	
@@ -1218,9 +1327,7 @@ var Slx = (function() {
 	
 				case "__RESIZING_BAY__":
 	
-					event.preventDefault(); // Prevent text selection and dragging
-	
-					Bay.nowResizing.resize( event.clientX, event.clientY );
+					Bay.handleResize( event );
 	
 				break;
 	
@@ -1237,7 +1344,7 @@ var Slx = (function() {
 			var strEvent_target_id = event.target.id;
 			var arEvent_target_id = strEvent_target_id.split("-");
 	
-		});
+		};
 	
 		document.onmousedown = function( event ) {
 	
@@ -1265,34 +1372,20 @@ var Slx = (function() {
 	
 					// Handle Resize Buttons
 	
-					case "__resizeTop__":
-					case "__resizeTopRight__":
-					case "__resizeRight__":
-					case "__resizeBottomRight__":
-					case "__resizeBottom__":
-					case "__resizeBottomLeft__":
-					case "__resizeLeft__":
-					case "__resizeTopLeft__":
+					case "__Bay__":
 	
-						event.preventDefault(); // Prevent text selection and dragging
+						switch ( arEvent_target_id[1] ) {
 	
-						var element = event.target.parentNode;
+							case "__resizeTop__":
+							case "__resizeTopRight__":
+							case "__resizeRight__":
+							case "__resizeBottomRight__":
+							case "__resizeBottom__":
+							case "__resizeBottomLeft__":
+							case "__resizeLeft__":
+							case "__resizeTopLeft__":
 	
-						var arrElementId = element.id.split( "-" );
-	
-						//console.log( arrElementId );
-	
-						switch ( arrElementId[0] ) {
-	
-							case "__SlxBay__":
-	
-								var id = arrElementId[1]
-	
-								var resizeType = arEvent_target_id[0];
-	
-								Bay.instancesById[ id ].initResize( resizeType );
-	
-								Input.userIs = "__RESIZING_BAY__"
+								Bay.handleResize( event );
 	
 							break;
 	
@@ -1371,9 +1464,7 @@ var Slx = (function() {
 	
 				case "__RESIZING_BAY__":
 	
-					event.preventDefault(); // Prevent text selection and dragging
-	
-					Bay.nowResizing.finishResizing( event.clientX, event.clientY );
+					Bay.handleResize( event );
 	
 				break;
 	

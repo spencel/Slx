@@ -129,9 +129,9 @@ var Slx = (function() {
 	
 	Bay.contentSizeModifier = 2 * Bay.contentMargin + 2 * Bay.borderWidth; // (px) (4 px); modifies size of content div so that the root div is the specified width from input parameter
 	
-	Bay.nowResizing = undefined; // Set to instance of Bay that is being resized
+	Bay.currentlyResizingInstance = undefined; // Set to instance of Bay that is being resized
 	
-	Bay.resizeType = undefined; // A string constant that indicates the resize type, e.g., top, bottom right, mirrored, etc.
+	Bay.resizeDirection = undefined; // A string constant that indicates the resize type, e.g., top, bottom right, mirrored, etc.
 	
 	Bay.nowDragging = undefined; // Set to instance of Bay that is being dragged
 	// End Static Properties
@@ -271,7 +271,7 @@ var Slx = (function() {
 	
 	Bay.prototype.close = function () {
 	
-			console.log( this.id )
+		console.log( this.id )
 	
 		document.getElementById( "_14-" + this.id ).outerHTML = "";
 	
@@ -279,22 +279,94 @@ var Slx = (function() {
 	
 	}
 	
-	Bay.prototype.initResize = function( resizeType ) {
+	Bay.handleResize = function ( event ) {
 	
-		focus( this.rootHtmlElement ); // Bring it to the front of the view
+		//console.log( event );
 	
-		Bay.nowResizing = this;
+		event.preventDefault(); // Prevent text selection and dragging
 	
-		Bay.resizeType = resizeType;
+		switch ( event.type ) {
+	
+			case "mousedown":
+	
+				if ( Bay.currentlyResizingInstance === undefined ) {
+	
+					var arEventtargetid = event.target.id.split( "-" );
+					Bay.instancesById[ arEventtargetid[ 2 ] ].initResize( arEventtargetid[ 1 ] );
+	
+				}	
+				
+			break;
+	
+			case "mousemove":
+	
+				Bay.currentlyResizingInstance.resize( event.clientX, event.clientY );
+	
+			break;
+	
+			case "mouseup":
+	
+				Bay.currentlyResizingInstance.finishResizing();
+	
+			break;
+	
+		}
+	
+	}
+	
+	Bay.prototype.initResize = function ( resizeDirection ) {
+	
+		Bay.currentlyResizingInstance = this;
+		Bay.resizeDirection = resizeDirection;
+		Input.userIs = "_15";
 	
 	}
 	
 	Bay.prototype.resize = function( left, top ) {
 	
-		//console.log( "left: " + left + "; top: " + top + ";");
-		console.log( "deltaX: " + (Input.mousedownClientX - left) + "; deltaY: " + (top - Input.mousedownClientY) );
+		if ( ( performance.now() - Input.mousedownTimestamp ) >= 200 ) {
 	
-		switch ( Bay.resizeType ) {
+			switch ( this.currentlyDockedAt ) {
+				case "_16":
+					switch ( Bay.resizeDirection ) {
+						case "_6": this.currentlyDockedAt = "_17"; break;
+						case "_7": this.currentlyDockedAt = "_18"; break;
+						case "_8": this.currentlyDockedAt = "_19"; break;
+						case "_9": this.currentlyDockedAt = "_20"; break;
+						case "_10": this.currentlyDockedAt = "_21"; break;
+						case "_11": this.currentlyDockedAt = "_20"; break;
+						case "_12": this.currentlyDockedAt = "_22"; break;
+						case "_13": this.currentlyDockedAt = "_23"; break;
+					}
+				break;
+				case "_21":
+					switch ( Bay.resizeDirection ) {
+						case "_8":
+						case "_9": this.currentlyDockedAt = "_20"; break;
+						case "						case "_11":
+						case "_12": this.currentlyDockedAt = "_24"; break;
+						default: this.currentlyDockedAt = undefined;
+					}
+				break;
+				case "_24":
+				break;
+				case "_22":
+				break;
+				case "_23":
+				break;
+				case "_17":
+				break;
+				case "_18":
+				break;
+				case "_19":
+				break;
+				case "_20":
+				break;
+			}
+	
+		}
+	
+		switch ( Bay.resizeDirection ) {
 	
 			case "_6":
 	
@@ -382,8 +454,8 @@ var Slx = (function() {
 		this.height = this.rootHtmlElement.offsetHeight; // offsetWidth includes border
 		console.log( "this.height :" + this.height );
 	
-		Bay.nowResizing = undefined;
-		Bay.resizeType = undefined;
+		Bay.currentlyResizingInstance = undefined;
+		Bay.resizeDirection = undefined;
 		Input.userIs = undefined;
 	
 	}
@@ -421,7 +493,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.nowDragging;
 	
-				SlxDocument.inDockZone = "_15";
+				SlxDocument.inDockZone = "_20";
 	
 				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
 	
@@ -439,7 +511,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.nowDragging;
 	
-				SlxDocument.inDockZone = "_16";
+				SlxDocument.inDockZone = "_18";
 	
 				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
 	
@@ -457,7 +529,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.nowDragging;
 	
-				SlxDocument.inDockZone = "_17";
+				SlxDocument.inDockZone = "_19";
 	
 				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
 	
@@ -479,7 +551,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.nowDragging;
 	
-				SlxDocument.inDockZone = "_18";
+				SlxDocument.inDockZone = "_24";
 	
 				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
 	
@@ -497,7 +569,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.nowDragging;
 	
-				SlxDocument.inDockZone = "_19";
+				SlxDocument.inDockZone = "_23";
 	
 				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
 	
@@ -515,7 +587,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.nowDragging;
 	
-				SlxDocument.inDockZone = "_20";
+				SlxDocument.inDockZone = "_22";
 	
 				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
 	
@@ -535,7 +607,7 @@ var Slx = (function() {
 	
 			SlxDocument.objectInDockZone = Bay.nowDragging;
 	
-			SlxDocument.inDockZone = "_21";
+			SlxDocument.inDockZone = "_25";
 	
 			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
 	
@@ -553,7 +625,7 @@ var Slx = (function() {
 	
 			SlxDocument.objectInDockZone = Bay.nowDragging;
 	
-			SlxDocument.inDockZone = "_22";
+			SlxDocument.inDockZone = "_21";
 	
 			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
 	
@@ -571,7 +643,7 @@ var Slx = (function() {
 	
 			SlxDocument.objectInDockZone = Bay.nowDragging;
 	
-			SlxDocument.inDockZone = "_23";
+			SlxDocument.inDockZone = "_17";
 	
 			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
 	
@@ -595,7 +667,7 @@ var Slx = (function() {
 	
 		switch ( SlxDocument.inDockZone ) {
 	
-			case "_22":
+			case "_21":
 	
 				if ( this.currentlyDockedAt === undefined ) {
 	
@@ -628,7 +700,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "_18":
+			case "_24":
 	
 				if ( this.currentlyDockedAt === undefined ) {
 	
@@ -658,7 +730,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "_20":
+			case "_22":
 	
 				if ( this.currentlyDockedAt === undefined ) {
 					
@@ -688,7 +760,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "_19":
+			case "_23":
 	
 				if ( this.currentlyDockedAt === undefined ) {
 	
@@ -708,66 +780,6 @@ var Slx = (function() {
 	
 				this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
 				this.left = window.innerWidth / 2;
-				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
-				this.top = window.innerHeight / 2;
-	
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
-	
-			break;
-	
-			case "_23":
-	
-				if ( this.currentlyDockedAt === undefined ) {
-	
-					this.previousLeft = this.left;
-					this.previousTop = this.top;
-					this.previousWidth = this.width;
-					this.previousHeight = this.height;
-	
-				}
-	
-				this.currentlyDockedAt = SlxDocument.inDockZone;
-	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
-	
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
-				this.top = window.innerHeight / 2;
-	
-				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
-	
-			break;
-	
-			case "_16":
-	
-				if ( this.currentlyDockedAt === undefined ) {
-	
-					this.previousLeft = this.left;
-					this.previousTop = this.top;
-					this.previousWidth = this.width;
-					this.previousHeight = this.height;
-	
-				}
-	
-				this.currentlyDockedAt = SlxDocument.inDockZone;
-	
-				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				SlxDocument.inDockZone = undefined;
-				Input.userIs = undefined;
-	
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
 				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
 				this.top = window.innerHeight / 2;
 	
@@ -798,6 +810,66 @@ var Slx = (function() {
 	
 				this.rootHtmlElement.style.left = 0 + "px";
 				this.left = 0;
+				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+				this.top = window.innerHeight / 2;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth;
+				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight / 2;
+	
+			break;
+	
+			case "_18":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+	
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				this.rootHtmlElement.style.left = 0 + "px";
+				this.left = 0;
+				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+				this.top = window.innerHeight / 2;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth / 2;
+				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight / 2;
+	
+			break;
+	
+			case "_19":
+	
+				if ( this.currentlyDockedAt === undefined ) {
+	
+					this.previousLeft = this.left;
+					this.previousTop = this.top;
+					this.previousWidth = this.width;
+					this.previousHeight = this.height;
+	
+				}
+	
+				this.currentlyDockedAt = SlxDocument.inDockZone;
+	
+				document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				SlxDocument.inDockZone = undefined;
+				Input.userIs = undefined;
+	
+				this.rootHtmlElement.style.left = 0 + "px";
+				this.left = 0;
 				this.rootHtmlElement.style.top = 0 + "px";
 				this.top = 0;
 	
@@ -808,7 +880,7 @@ var Slx = (function() {
 				
 			break;
 	
-			case "_15":
+			case "_20":
 	
 				if ( this.currentlyDockedAt === undefined ) {
 	
@@ -838,7 +910,7 @@ var Slx = (function() {
 				
 			break;
 	
-			case "_21":
+			case "_25":
 	
 				if ( this.currentlyDockedAt === undefined ) {
 	
@@ -879,21 +951,6 @@ var Slx = (function() {
 	
 	}
 	
-	Bay.prototype.restorePreviousDimensions = function() {
-	
-		// Change root left and top and content width and height
-		this.rootHtmlElement.style.left = ( this.previousLeft ) + "px";
-		this.previousLeft = undefined;
-		this.rootHtmlElement.style.top = ( this.previousTop ) + "px";
-		this.previousTop = undefined;
-		this.rootHtmlElement.style.width = ( this.previousWidth - Bay.borderWidthX2 ) + "px";
-		this.previousWidth = undefined;
-		this.rootHtmlElement.style.height = ( this.previousHeight - Bay.borderWidthX2 ) + "px";
-		this.previousHeight = undefined;
-		this.currentlyDockedAt = undefined;
-	
-	}
-	
 	Bay.handleQuickMouseup = function( arEventtargetid ) {
 	
 		console.log( arEventtargetid );
@@ -908,64 +965,107 @@ var Slx = (function() {
 			case "_11":
 			case "_12":
 			case "_13": 
-				console.log( "this.handleDocking( arEventtargetid )" );
-				this.handleDocking( arEventtargetid );
+				this.instancesById[ arEventtargetid[ 2 ] ].handleDocking( arEventtargetid[1] );
 			break;
 	
 		}
 	
 	}
 	
-	Bay.handleDocking = function( arEventtargetid ) {
+	Bay.prototype.handleDocking = function( resizeDirection ) {
 	
-		var resizeDirection = arEventtargetid[1];
-		var instanceId = arEventtargetid[2];
 		var dockZone = undefined;
+		var savePreviousDimensions = true;
 	
-		console.log( resizeDirection );
+		if ( this.currentlyDockedAt !== undefined ) {
+	
+			savePreviousDimensions = false;
+	
+		}
 	
 		switch ( resizeDirection ) {
 	
 			case "_6":
-				dockZone = "_24";
+				switch ( this.currentlyDockedAt ) {
+					case "_16":
+						dockZone = "_21";
+					break;
+					case "_21":
+						this.restorePreviousDimensions();
+						return; // prevent this.toggleDock from being called below
+					break;
+					default:
+						dockZone = "_16";
+				}			
 			break;
 			case "_7":
-				dockZone = "_18";
+				dockZone = "_24";
 			break;
 			case "_8":
-				dockZone = "_20";
+				dockZone = "_22";
 			break;
 			case "_9":
-				dockZone = "_19";
-			break;
-			case "_10":
 				dockZone = "_23";
 			break;
-			case "_11":
-				dockZone = "_16";
-			break;
-			case "_12":
+			case "_10":
 				dockZone = "_17";
 			break;
+			case "_11":
+				dockZone = "_18";
+			break;
+			case "_12":
+				dockZone = "_19";
+			break;
 			case "_13":
-				dockZone = "_15";
+				dockZone = "_20";
 			break;
 	
 		}
 	
-		this.instancesById[ instanceId ].dock( dockZone );
+		this.toggleDock( dockZone, savePreviousDimensions );
 	
 	}
 	
-	Bay.prototype.dock = function( dockZone ) {
+	Bay.prototype.toggleDock = function( dockZone, savePreviousDimensions ) {
 	
-		console.log( dockZone);
+		console.log( dockZone + " === " + this.currentlyDockedAt + "; savePreviousDimensions: " + savePreviousDimensions );
 	
-		this.currentDock = dockZone;
+		if ( dockZone === this.currentlyDockedAt ) {
+			this.restorePreviousDimensions();
+		} else {
+			this.dock( dockZone, savePreviousDimensions );
+		}
+	
+	}
+	
+	Bay.prototype.dock = function ( dockZone, savePreviousDimensions ) {
+	
+		if ( savePreviousDimensions === true ) {
+	
+			this.previousLeft = this.left;
+			this.previousTop = this.top;
+			this.previousWidth = this.width;
+			this.previousHeight = this.height;
+	
+		}
 	
 		switch ( dockZone ) {
 	
-			case "_22":
+			case "_16":
+	
+				this.rootHtmlElement.style.left = 0 + "px";
+				this.left = 0;
+				this.rootHtmlElement.style.top = 0 + "px";
+				this.top = 0;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth;
+				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight;
+	
+			break;
+	
+			case "_21":
 	
 				this.rootHtmlElement.style.left = 0 + "px";
 				this.left = 0;
@@ -976,10 +1076,10 @@ var Slx = (function() {
 				this.width = window.innerWidth;
 				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
 				this.height = window.innerHeight / 2;
-	
+				
 			break;
 	
-			case "_18":
+			case "_24":
 	
 				this.rootHtmlElement.style.left = window.innerWidth / 2 + "px";
 				this.left = window.innerWidth / 2;
@@ -993,7 +1093,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "_20":
+			case "_22":
 	
 				this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
 				this.left = window.innerWidth / 2;
@@ -1007,38 +1107,10 @@ var Slx = (function() {
 	
 			break;
 	
-			case "_19":
+			case "_23":
 	
 				this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
 				this.left = window.innerWidth / 2;
-				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
-				this.top = window.innerHeight / 2;
-	
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
-	
-			break;
-	
-			case "_23":
-	
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
-				this.top = window.innerHeight / 2;
-	
-				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
-	
-			break;
-	
-			case "_16":
-	
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
 				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
 				this.top = window.innerHeight / 2;
 	
@@ -1053,6 +1125,34 @@ var Slx = (function() {
 	
 				this.rootHtmlElement.style.left = 0 + "px";
 				this.left = 0;
+				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+				this.top = window.innerHeight / 2;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth;
+				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight / 2;
+	
+			break;
+	
+			case "_18":
+	
+				this.rootHtmlElement.style.left = 0 + "px";
+				this.left = 0;
+				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+				this.top = window.innerHeight / 2;
+	
+				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+				this.width = window.innerWidth / 2;
+				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+				this.height = window.innerHeight / 2;
+	
+			break;
+	
+			case "_19":
+	
+				this.rootHtmlElement.style.left = 0 + "px";
+				this.left = 0;
 				this.rootHtmlElement.style.top = 0 + "px";
 				this.top = 0;
 	
@@ -1063,7 +1163,7 @@ var Slx = (function() {
 				
 			break;
 	
-			case "_15":
+			case "_20":
 	
 				this.rootHtmlElement.style.left = 0 + "px";
 				this.left = 0;
@@ -1077,21 +1177,29 @@ var Slx = (function() {
 				
 			break;
 	
-			case "_24":
-	
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
-	
-				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth;
-				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight;
-				
-			break;
-	
 		}
+	
+		this.currentlyDockedAt = dockZone;
+	
+	}
+	
+	Bay.prototype.restorePreviousDimensions = function() {
+	
+		// Change root left and top and content width and height
+		this.left = this.previousLeft;
+		this.rootHtmlElement.style.left = ( this.previousLeft ) + "px";
+		this.previousLeft = undefined;
+		this.top = this.previousTop;
+		this.rootHtmlElement.style.top = ( this.previousTop ) + "px";
+		this.previousTop = undefined;
+		this.width = this.previousWidth;
+		this.rootHtmlElement.style.width = ( this.previousWidth - Bay.borderWidthX2 ) + "px";
+		this.previousWidth = undefined;
+		this.height = this.previousHeight;
+		this.rootHtmlElement.style.height = ( this.previousHeight - Bay.borderWidthX2 ) + "px";
+		this.previousHeight = undefined;
+	
+		this.currentlyDockedAt = undefined;
 	
 	}
 	// End Methods
@@ -1192,7 +1300,7 @@ var Slx = (function() {
 		});
 		*/
 	
-		jQuery( document ).on( "mousemove", function( event ) {
+		document.onmousemove =  function( event ) {
 	
 			event.stopPropagation();
 	
@@ -1216,11 +1324,9 @@ var Slx = (function() {
 	
 			switch ( Input.userIs ) {
 	
-				case "_25":
+				case "_15":
 	
-					event.preventDefault(); // Prevent text selection and dragging
-	
-					Bay.nowResizing.resize( event.clientX, event.clientY );
+					Bay.handleResize( event );
 	
 				break;
 	
@@ -1237,7 +1343,7 @@ var Slx = (function() {
 			var strEventtargetid = event.target.id;
 			var arEventtargetid = strEventtargetid.split("-");
 	
-		});
+		};
 	
 		document.onmousedown = function( event ) {
 	
@@ -1265,34 +1371,20 @@ var Slx = (function() {
 	
 					// Handle Resize Buttons
 	
-					case "_6":
-					case "_7":
-					case "_8":
-					case "_9":
-					case "_10":
-					case "_11":
-					case "_12":
-					case "_13":
+					case "_0":
 	
-						event.preventDefault(); // Prevent text selection and dragging
+						switch ( arEventtargetid[1] ) {
 	
-						var element = event.target.parentNode;
+							case "_6":
+							case "_7":
+							case "_8":
+							case "_9":
+							case "_10":
+							case "_11":
+							case "_12":
+							case "_13":
 	
-						var arrElementId = element.id.split( "-" );
-	
-						//console.log( arrElementId );
-	
-						switch ( arrElementId[0] ) {
-	
-							case "_14":
-	
-								var id = arrElementId[1]
-	
-								var resizeType = arEventtargetid[0];
-	
-								Bay.instancesById[ id ].initResize( resizeType );
-	
-								Input.userIs = "_25"
+								Bay.handleResize( event );
 	
 							break;
 	
@@ -1369,11 +1461,9 @@ var Slx = (function() {
 	
 			switch ( Input.userIs ) {
 	
-				case "_25":
+				case "_15":
 	
-					event.preventDefault(); // Prevent text selection and dragging
-	
-					Bay.nowResizing.finishResizing( event.clientX, event.clientY );
+					Bay.handleResize( event );
 	
 				break;
 	
@@ -1597,7 +1687,7 @@ var Slx = (function() {
 	
 								Input.userIs = "_26"
 	
-								SlxDocument.inDockZone = "_21"
+								SlxDocument.inDockZone = "_25"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1623,7 +1713,7 @@ var Slx = (function() {
 	
 								Input.userIs = "_26"
 	
-								SlxDocument.inDockZone = "_18"
+								SlxDocument.inDockZone = "_24"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1649,7 +1739,7 @@ var Slx = (function() {
 	
 								Input.userIs = "_26"
 	
-								SlxDocument.inDockZone = "_20"
+								SlxDocument.inDockZone = "_22"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1675,7 +1765,7 @@ var Slx = (function() {
 	
 								Input.userIs = "_26"
 	
-								SlxDocument.inDockZone = "_19"
+								SlxDocument.inDockZone = "_23"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1701,7 +1791,7 @@ var Slx = (function() {
 	
 								Input.userIs = "_26"
 	
-								SlxDocument.inDockZone = "_23"
+								SlxDocument.inDockZone = "_17"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1727,7 +1817,7 @@ var Slx = (function() {
 	
 								Input.userIs = "_26"
 	
-								SlxDocument.inDockZone = "_16"
+								SlxDocument.inDockZone = "_18"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1753,7 +1843,7 @@ var Slx = (function() {
 	
 								Input.userIs = "_26"
 	
-								SlxDocument.inDockZone = "_17"
+								SlxDocument.inDockZone = "_19"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1779,7 +1869,7 @@ var Slx = (function() {
 	
 								Input.userIs = "_26"
 	
-								SlxDocument.inDockZone = "_15"
+								SlxDocument.inDockZone = "_20"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1806,7 +1896,7 @@ var Slx = (function() {
 	
 								Input.userIs = "_26"
 	
-								SlxDocument.inDockZone = "_21"
+								SlxDocument.inDockZone = "_25"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1832,7 +1922,7 @@ var Slx = (function() {
 	
 								Input.userIs = "_26"
 	
-								SlxDocument.inDockZone = "_21"
+								SlxDocument.inDockZone = "_25"
 	
 								Bay.instancesById[ id ].finishDragging();	
 	
@@ -2135,25 +2225,20 @@ var Slx = (function() {
 	// Static (aka Class) Methods
 	SlxDocument.init = function() {
 	
-		document.body.id = "_21";
+		document.body.id = "_25";
+	
+		var element = document.createElement( "div" );
+		element.id = "_21";
+		element.className = "_27"
+		document.body.appendChild( element );
+	
+		var element = document.createElement( "div" );
+		element.id = "_24";
+		element.className = "_27"
+		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
 		element.id = "_22";
-		element.className = "_27"
-		document.body.appendChild( element );
-	
-		var element = document.createElement( "div" );
-		element.id = "_18";
-		element.className = "_27"
-		document.body.appendChild( element );
-	
-		var element = document.createElement( "div" );
-		element.id = "_20";
-		element.className = "_27"
-		document.body.appendChild( element );
-	
-		var element = document.createElement( "div" );
-		element.id = "_19";
 		element.className = "_27"
 		document.body.appendChild( element );
 	
@@ -2163,17 +2248,22 @@ var Slx = (function() {
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
-		element.id = "_16";
-		element.className = "_27"
-		document.body.appendChild( element );
-	
-		var element = document.createElement( "div" );
 		element.id = "_17";
 		element.className = "_27"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
-		element.id = "_15";
+		element.id = "_18";
+		element.className = "_27"
+		document.body.appendChild( element );
+	
+		var element = document.createElement( "div" );
+		element.id = "_19";
+		element.className = "_27"
+		document.body.appendChild( element );
+	
+		var element = document.createElement( "div" );
+		element.id = "_20";
 		element.className = "_27"
 		document.body.appendChild( element );
 	

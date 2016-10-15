@@ -92,7 +92,7 @@ Input.activateEventHandlers = function() {
 	});
 	*/
 
-	jQuery( document ).on( "mousemove", function( event ) {
+	document.onmousemove =  function( event ) {
 
 		event.stopPropagation();
 
@@ -118,9 +118,7 @@ Input.activateEventHandlers = function() {
 
 			case "__RESIZING_BAY__":
 
-				event.preventDefault(); // Prevent text selection and dragging
-
-				Bay.nowResizing.resize( event.clientX, event.clientY );
+				Bay.handleResize( event );
 
 			break;
 
@@ -137,7 +135,7 @@ Input.activateEventHandlers = function() {
 		var strEvent_target_id = event.target.id;
 		var arEvent_target_id = strEvent_target_id.split("-");
 
-	});
+	};
 
 	document.onmousedown = function( event ) {
 
@@ -165,34 +163,20 @@ Input.activateEventHandlers = function() {
 
 				// Handle Resize Buttons
 
-				case "__resizeTop__":
-				case "__resizeTopRight__":
-				case "__resizeRight__":
-				case "__resizeBottomRight__":
-				case "__resizeBottom__":
-				case "__resizeBottomLeft__":
-				case "__resizeLeft__":
-				case "__resizeTopLeft__":
+				case "__Bay__":
 
-					event.preventDefault(); // Prevent text selection and dragging
+					switch ( arEvent_target_id[1] ) {
 
-					var element = event.target.parentNode;
+						case "__resizeTop__":
+						case "__resizeTopRight__":
+						case "__resizeRight__":
+						case "__resizeBottomRight__":
+						case "__resizeBottom__":
+						case "__resizeBottomLeft__":
+						case "__resizeLeft__":
+						case "__resizeTopLeft__":
 
-					var arrElementId = element.id.split( "-" );
-
-					//console.log( arrElementId );
-
-					switch ( arrElementId[0] ) {
-
-						case "__SlxBay__":
-
-							var id = arrElementId[1]
-
-							var resizeType = arEvent_target_id[0];
-
-							Bay.instancesById[ id ].initResize( resizeType );
-
-							Input.userIs = "__RESIZING_BAY__"
+							Bay.handleResize( event );
 
 						break;
 
@@ -271,9 +255,7 @@ Input.activateEventHandlers = function() {
 
 			case "__RESIZING_BAY__":
 
-				event.preventDefault(); // Prevent text selection and dragging
-
-				Bay.nowResizing.finishResizing( event.clientX, event.clientY );
+				Bay.handleResize( event );
 
 			break;
 

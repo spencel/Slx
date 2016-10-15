@@ -330,21 +330,21 @@ div#menu {
 	display: block;
 	margin: 3px;
 }
-#_22{
+#_21{
 	position: absolute;
 	display: block;
 	left: 10px;
 	height: 10px;
 	width: calc( 100% - 20px );
 }
-#_18{
+#_24{
 	position: absolute;
 	display: block;
 	right: 0px;
 	width: 10px;
 	height: 10px;
 }
-#_20{
+#_22{
 	position: absolute;
 	display: block;
 	right: 0px;
@@ -352,25 +352,10 @@ div#menu {
 	width: 10px;
 	height: calc( 100% - 20px );
 }
-#_19{
-	position: absolute;
-	display: block;
-	right: 0px;
-	bottom: 0px;
-	width: 10px;
-	height: 10px;
-}
 #_23{
 	position: absolute;
 	display: block;
-	left: 10px;
-	bottom: 0px;
-	width: calc( 100% - 20px );
-	height: 10px;
-}
-#_16{
-	position: absolute;
-	display: block;
+	right: 0px;
 	bottom: 0px;
 	width: 10px;
 	height: 10px;
@@ -378,11 +363,26 @@ div#menu {
 #_17{
 	position: absolute;
 	display: block;
+	left: 10px;
+	bottom: 0px;
+	width: calc( 100% - 20px );
+	height: 10px;
+}
+#_18{
+	position: absolute;
+	display: block;
+	bottom: 0px;
+	width: 10px;
+	height: 10px;
+}
+#_19{
+	position: absolute;
+	display: block;
 	top: 10px;
 	width: 10px;
 	height: calc( 100% - 20px );
 }
-#_15{
+#_20{
 	position: absolute;
 	display: block;
 	width: 10px;
