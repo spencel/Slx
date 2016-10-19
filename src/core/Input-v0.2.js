@@ -1,6 +1,6 @@
 /**
  * @author spencel / https://github.com/spencel
- * @version 0.3
+ * @version 0.2
  */
 
 
@@ -60,10 +60,59 @@ Input.activateEventHandlers = function() {
 		}
 	});
 
+	/*
+	// Mouse Move (does not bubble like mouseenter event)
+	jQuery( "body" ).on( "mousemove", function( event ) {
+
+		var jQuery_targert = jQuery(event.target);
+
+		var strEvent_target_id = event.target.id;
+		var arEvent_target_id = strEvent_target_id.split("-");
+		var id = arEvent_target_id[1];
+
+		// Handle this stuff first
+		// Hide any context menus if any are visible
+		if ( jQuery_targert.hasClass( "button" ) === false &&  slxPanel.ContextMenu.isShowing === true ) {
+
+			slxPanel.hideContextMenu();
+
+		}
+
+		// Now handle input
+		switch ( arEvent_target_id[0] ) {
+
+			case "panelHeader":
+
+				slxPanel.showPanelButtons( id );
+
+			break;
+
+		}
+
+	});
+	*/
+
 	document.onmousemove =  function( event ) {
+
+		event.stopPropagation();
+
+		////console.log( event );
+		////console.log( "event.clientX: " + event.clientX );
+		////console.log( "event.clientY: " + event.clientY );
 
 		Input.mousemoveX = event.clientX;
 		Input.mousemoveY = event.clientY;
+
+		var draggingPanel = Panel.draggingPanel;
+
+		if ( draggingPanel !== null ) {
+
+			draggingPanel.htmlElement.setAttribute( "style",
+				"left: " + event.clientX + "px;" +
+				"top: " + event.clientY + "px;"
+			);
+
+		}
 
 		switch ( Input.userIs ) {
 
@@ -81,39 +130,94 @@ Input.activateEventHandlers = function() {
 
 		}
 
+		var strEvent_target_id = event.target.id;
+		var arEvent_target_id = strEvent_target_id.split("-");
+
 	};
 
 	document.onmousedown = function( event ) {
+
+		event.stopPropagation();
+
+		//console.log( event );
 
 		Input.mousedownTimestamp = performance.now();
 		Input.isMousedown = true;
 		Input.mousedownClientX = event.clientX;
 		Input.mousedownClientY = event.clientY;
 
+		//console.log( "Input.mousedownClientX: " + Input.mousedownClientX );
+		//console.log( "Input.mousedownClientY: " + Input.mousedownClientY );
+
 		var strEvent_target_id = event.target.id;
 		var arEvent_target_id = strEvent_target_id.split("-");
 
-		
-		switch ( event.button ) {
+		// Left Mouse Button is Down
+		if ( event.button === 0 ) { 
 
-			// Left Mouse Button is Down
-			case 0:
+			//console.log( arEvent_target_id[0] );
 
-				//console.log( arEvent_target_id[0] );
+			switch ( arEvent_target_id[0] ) {
 
-				switch ( arEvent_target_id[0] ) {
+				// Handle Resize Buttons
 
-					// Handle Resize Buttons
+				case "__Bay__":
 
-					case "__Bay__":
+					Bay.eventHandler( event, arEvent_target_id );
 
-						Bay.eventHandler( event, arEvent_target_id );
+				break;
 
-					break;
-		
-				}
+				case "__topBar__": // also a drag button
 
-			break;
+					var element = event.target.parentNode;
+
+					var arrElementId = element.id.split( "-" );
+
+					switch ( arrElementId[0] ) {
+
+						case "__SlxBay__":
+
+							var id = arrElementId[1]
+
+							Bay.instancesById[ id ].initDrag();
+
+							Input.userIs = "__DRAGGING_BAY__"
+
+						break;
+
+					}
+
+				break;
+
+				case "__drag__": // ensures some amount of space of the topbar is showing
+
+					var element = event.target.parentNode.parentNode.parentNode;
+
+					var arrElementId = element.id.split( "-" );
+
+					switch ( arrElementId[0] ) {
+
+						case "__SlxBay__":
+
+							var id = arrElementId[1]
+
+							Bay.instancesById[ id ].initDrag();
+
+							Input.userIs = "__DRAGGING_BAY__"
+
+						break;
+
+					}
+
+				break;
+
+				case "panelHeader":
+
+					//event.preventDefault(); // Prevent text selection and dragging
+
+				break;
+	
+			}
 
 		}
 
@@ -121,13 +225,14 @@ Input.activateEventHandlers = function() {
 
 	document.onmouseup = function( event ) {
 
+		event.stopPropagation();
+
+		////console.log( event );
+
 		Input.mouseupTimestamp = performance.now();
 		Input.isMouseDown = false;
 		Input.mouseupClientX = event.clientX;
 		Input.mouseupClientY = event.clientY;
-
-		var strEvent_target_id = event.target.id;
-		var arEvent_target_id = strEvent_target_id.split("-");
 
 		switch ( Input.userIs ) {
 
@@ -144,6 +249,11 @@ Input.activateEventHandlers = function() {
 			break;
 
 		}
+
+		//console.log( "mouseup delta: " + ( Input.mouseupTimestamp - Input.mousedownTimestamp ) );
+
+		var strEvent_target_id = event.target.id;
+		var arEvent_target_id = strEvent_target_id.split("-");
 
 		// Quick Mouseup
 		if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) {
@@ -600,20 +710,6 @@ Input.activateEventHandlers = function() {
 		}
 
 	});
-
-}
-
-Input.isMouseupQuick = function() {
-
-	if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) {
-
-		return true;
-
-	} else {
-
-		return false;
-
-	}
 
 }
 // End Static Methods
