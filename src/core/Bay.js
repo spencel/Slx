@@ -148,6 +148,11 @@ Bay.prototype.toggleHtml = function() {
 		elementChild.id = "__Bay__-__resizeTopLeft__-" + this.id;
 		elementChild.className = "__Bay__-__resizeTopLeft__";
 		element.appendChild( elementChild );
+		elementChild = document.createElement( "div" );
+		elementChild.id = "__Bay__-__drag__-" + this.id;
+		elementChild.className = "__Bay__-__drag__";
+		element.appendChild( elementChild );
+
 
 		this.contentHtmlElement = element.childNodes[ 9 ];
 
@@ -357,11 +362,27 @@ Bay.prototype.finishResizing = function() {
 
 }
 
-Bay.prototype.initDrag = function() {
+Bay.handleDrag = function( event ) {
 
-	focus( this.rootHtmlElement ); // Bring it to the front of the view
+	event.preventDefault(); // Prevent text selection and dragging
 
-	Bay.nowDragging = this;
+	if ( Bay.nowDragging === undefined ) {
+
+		var instance = this.instancesById[ event.target.id.split( "-" )[ 2 ] ];
+
+		console.log( instance );
+
+		this.nowDragging = instance;
+
+		focus( instance.rootHtmlElement ); // Bring it to the front of the view
+
+		Input.userIs = "__DRAGGING_BAY__";
+
+	} else {
+
+		this.nowDragging.drag( event.clientX, event.clientY );
+
+	}
 
 }
 
@@ -845,6 +866,8 @@ Bay.prototype.finishDragging = function( left, top ) {
 	}
 
 	Bay.nowDragging = undefined;
+
+	Input.userIs = undefined;
 
 }
 

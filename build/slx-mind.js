@@ -252,6 +252,11 @@ var Slx = (function() {
 			elementChild.id = "_0-_13-" + this.id;
 			elementChild.className = "_0-_13";
 			element.appendChild( elementChild );
+			elementChild = document.createElement( "div" );
+			elementChild.id = "_0-_2-" + this.id;
+			elementChild.className = "_0-_2";
+			element.appendChild( elementChild );
+	
 	
 			this.contentHtmlElement = element.childNodes[ 9 ];
 	
@@ -460,11 +465,27 @@ var Slx = (function() {
 	
 	}
 	
-	Bay.prototype.initDrag = function() {
+	Bay.handleDrag = function( event ) {
 	
-		focus( this.rootHtmlElement ); // Bring it to the front of the view
+		event.preventDefault(); // Prevent text selection and dragging
 	
-		Bay.nowDragging = this;
+		if ( Bay.nowDragging === undefined ) {
+	
+			var instance = this.instancesById[ event.target.id.split( "-" )[ 2 ] ];
+	
+			console.log( instance );
+	
+			this.nowDragging = instance;
+	
+			focus( instance.rootHtmlElement ); // Bring it to the front of the view
+	
+			Input.userIs = "_25";
+	
+		} else {
+	
+			this.nowDragging.drag( event.clientX, event.clientY );
+	
+		}
 	
 	}
 	
@@ -607,7 +628,7 @@ var Slx = (function() {
 	
 			SlxDocument.objectInDockZone = Bay.nowDragging;
 	
-			SlxDocument.inDockZone = "_25";
+			SlxDocument.inDockZone = "_26";
 	
 			document.getElementById( SlxDocument.inDockZone ).style.backgroundColor = "#000000";
 	
@@ -910,7 +931,7 @@ var Slx = (function() {
 				
 			break;
 	
-			case "_25":
+			case "_26":
 	
 				if ( this.currentlyDockedAt === undefined ) {
 	
@@ -948,6 +969,8 @@ var Slx = (function() {
 		}
 	
 		Bay.nowDragging = undefined;
+	
+		Input.userIs = undefined;
 	
 	}
 	
@@ -1330,11 +1353,9 @@ var Slx = (function() {
 	
 				break;
 	
-				case "_26":
+				case "_25":
 	
-					event.preventDefault(); // Prevent text selection and dragging
-	
-					Bay.nowDragging.drag( event.clientX, event.clientY );
+					Bay.handleDrag( event );
 	
 				break;
 	
@@ -1387,7 +1408,11 @@ var Slx = (function() {
 								Bay.handleResize( event );
 	
 							break;
+							case "_2":
 	
+								Bay.handleDrag( event );
+	
+							break;
 						}
 	
 					break;
@@ -1406,7 +1431,7 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_26"
+								Input.userIs = "_25"
 	
 							break;
 	
@@ -1428,7 +1453,7 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_26"
+								Input.userIs = "_25"
 	
 							break;
 	
@@ -1467,7 +1492,7 @@ var Slx = (function() {
 	
 				break;
 	
-				case "_26":
+				case "_25":
 	
 					event.preventDefault(); // Prevent text selection and dragging
 	
@@ -1685,9 +1710,9 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_26"
+								Input.userIs = "_25"
 	
-								SlxDocument.inDockZone = "_25"
+								SlxDocument.inDockZone = "_26"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1711,7 +1736,7 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_26"
+								Input.userIs = "_25"
 	
 								SlxDocument.inDockZone = "_24"
 	
@@ -1737,7 +1762,7 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_26"
+								Input.userIs = "_25"
 	
 								SlxDocument.inDockZone = "_22"
 	
@@ -1763,7 +1788,7 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_26"
+								Input.userIs = "_25"
 	
 								SlxDocument.inDockZone = "_23"
 	
@@ -1789,7 +1814,7 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_26"
+								Input.userIs = "_25"
 	
 								SlxDocument.inDockZone = "_17"
 	
@@ -1815,7 +1840,7 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_26"
+								Input.userIs = "_25"
 	
 								SlxDocument.inDockZone = "_18"
 	
@@ -1841,7 +1866,7 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_26"
+								Input.userIs = "_25"
 	
 								SlxDocument.inDockZone = "_19"
 	
@@ -1867,7 +1892,7 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_26"
+								Input.userIs = "_25"
 	
 								SlxDocument.inDockZone = "_20"
 	
@@ -1894,9 +1919,9 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_26"
+								Input.userIs = "_25"
 	
-								SlxDocument.inDockZone = "_25"
+								SlxDocument.inDockZone = "_26"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1920,9 +1945,9 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_26"
+								Input.userIs = "_25"
 	
-								SlxDocument.inDockZone = "_25"
+								SlxDocument.inDockZone = "_26"
 	
 								Bay.instancesById[ id ].finishDragging();	
 	
@@ -2225,7 +2250,7 @@ var Slx = (function() {
 	// Static (aka Class) Methods
 	SlxDocument.init = function() {
 	
-		document.body.id = "_25";
+		document.body.id = "_26";
 	
 		var element = document.createElement( "div" );
 		element.id = "_21";

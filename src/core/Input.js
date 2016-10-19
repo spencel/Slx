@@ -124,9 +124,7 @@ Input.activateEventHandlers = function() {
 
 			case "__DRAGGING_BAY__":
 
-				event.preventDefault(); // Prevent text selection and dragging
-
-				Bay.nowDragging.drag( event.clientX, event.clientY );
+				Bay.handleDrag( event );
 
 			break;
 
@@ -179,7 +177,11 @@ Input.activateEventHandlers = function() {
 							Bay.handleResize( event );
 
 						break;
+						case "__drag__":
 
+							Bay.handleDrag( event );
+
+						break;
 					}
 
 				break;

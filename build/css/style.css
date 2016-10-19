@@ -292,6 +292,14 @@ div#menu {
 	width: 7px;
 	cursor: nwse-resize;
 }
+.__Bay__-__drag__ {
+	position: absolute;
+	top: -4px;
+	left: 33%;
+	height: 7px;
+	width: 33%;
+	cursor: move;
+}
 .__Bay__-__topBar__ {
 	position: static;
 	display: block;

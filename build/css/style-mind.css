@@ -292,6 +292,14 @@ div#menu {
 	width: 7px;
 	cursor: nwse-resize;
 }
+._0-_2 {
+	position: absolute;
+	top: -4px;
+	left: 33%;
+	height: 7px;
+	width: 33%;
+	cursor: move;
+}
 ._0-_1 {
 	position: static;
 	display: block;
