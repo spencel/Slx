@@ -79,6 +79,8 @@ Bay.destroy = function ( id ) {
 }
 
 Bay.prototype.toggleHtml = function() {
+
+	console.log( "Bay.prototype.toggleHtml()" );
 	
 	if ( this.isHtml === false ) {
 
@@ -174,6 +176,8 @@ Bay.prototype.toggleHtml = function() {
 
 Bay.eventHandler = function( event, arEvent_target_id ) {
 
+	console.log( "Bay.eventHandler( event, arEvent_target_id )" );
+
 	switch ( arEvent_target_id[ 1 ] ) {
 
 		case "__resizeTop__":
@@ -199,6 +203,8 @@ Bay.eventHandler = function( event, arEvent_target_id ) {
 }
 
 Bay.handleResize = function ( event, arEvent_target_id ) {
+
+	console.log( "Bay.handleResize( event, arEvent_target_id )" );
 
 	event.preventDefault(); // Prevent text selection and dragging
 
@@ -228,6 +234,8 @@ Bay.handleResize = function ( event, arEvent_target_id ) {
 
 Bay.initializeResize = function ( arEvent_target_id ) {
 
+	console.log( "Bay.initializeResize( arEvent_target_id )" );
+
 	var resizeDirection = arEvent_target_id[ 1 ]
 	var instanceId = arEvent_target_id[ 2 ]
 	this.currentlyResizingInstance = this.instancesById[ instanceId ];
@@ -240,6 +248,8 @@ Bay.initializeResize = function ( arEvent_target_id ) {
 }
 
 Bay.prototype.resize = function( left, top ) {
+
+	console.log( "Bay.prototype.resize( left, top )" );
 
 	switch ( this.currentlyDockedAt ) {
 		case "__SlxDocumentFullScreenDockZone__":
@@ -358,11 +368,12 @@ Bay.prototype.resize = function( left, top ) {
 }
 
 Bay.prototype.finishResizing = function() {
-
+	console.log( "Bay.prototype.finishResizing()" );
 	console.log( "Bay.resizeDirection: " + Bay.resizeDirection);
 
 	// Quick Mouse Up
-	if ( Input.isMouseupQuick === true ) {
+	console.log( "if ( Input.isMouseupQuick→" + Input.isMouseupQuick() + " === true )" );
+	if ( Input.isMouseupQuick() === true ) {
 
 		this.handleDocking();
 
@@ -383,6 +394,8 @@ Bay.prototype.finishResizing = function() {
 }
 
 Bay.handleDrag = function( event, arEvent_target_id ) {
+
+	console.log( "Bay.handleDrag( event, arEvent_target_id )" );
 
 	event.preventDefault(); // Prevent text selection and dragging
 
@@ -413,6 +426,8 @@ Bay.handleDrag = function( event, arEvent_target_id ) {
 
 Bay.initializeDrag = function( instanceId ) {
 
+	console.log( "Bay.initializeDrag( instanceId )" );
+
 	this.currentlyDraggingInstance = this.instancesById[ instanceId ];
 	focus( this.currentlyDraggingInstance.rootHtmlElement ); // Bring it to the front of the view
 	Input.userIs = "__DRAGGING_BAY__";
@@ -421,11 +436,10 @@ Bay.initializeDrag = function( instanceId ) {
 
 Bay.prototype.drag = function( left, top ) {
 
+	console.log( "Bay.prototype.drag( left, top )" );
+
 	this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
 	this.rootHtmlElement.style.top = ( this.top - Input.mousedownClientY + top ) + "px";
-
-	//console.log( mouseLeft + " > " + ( window.innerWidth - SlxDocument.dockZoneWidth ) );
-	//console.log( mouseTop + " > " + ( window.innerHeight - SlxDocument.dockZoneWidth ) );
 
 	// This could be optimized
 	if ( left < SlxDocument.dockZoneWidth ) {
@@ -613,6 +627,8 @@ Bay.prototype.drag = function( left, top ) {
 }
 
 Bay.prototype.finishDragging = function( left, top ) {
+
+	console.log( "Bay.prototype.finishDragging( left, top )" );
 
 	this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
 
@@ -906,6 +922,8 @@ Bay.prototype.finishDragging = function( left, top ) {
 
 Bay.prototype.handleDocking = function() {
 
+	console.log( "Bay.prototype.handleDocking()" );
+
 	var dockZone = undefined;
 	var savePreviousDimensions = true;
 
@@ -964,6 +982,8 @@ Bay.prototype.handleDocking = function() {
 
 Bay.prototype.toggleDock = function( dockZone, savePreviousDimensions ) {
 
+	console.log( "Bay.prototype.toggleDock( dockZone, savePreviousDimensions )" );
+
 	console.log( dockZone + " === " + this.currentlyDockedAt + "; savePreviousDimensions: " + savePreviousDimensions );
 
 	if ( dockZone === this.currentlyDockedAt ) {
@@ -975,6 +995,8 @@ Bay.prototype.toggleDock = function( dockZone, savePreviousDimensions ) {
 }
 
 Bay.prototype.dock = function ( dockZone, savePreviousDimensions ) {
+
+	console.log( "Bay.prototype.dock( dockZone, savePreviousDimensions )" );
 
 	if ( savePreviousDimensions === true ) {
 
@@ -1121,6 +1143,8 @@ Bay.prototype.dock = function ( dockZone, savePreviousDimensions ) {
 
 Bay.handleQuickMouseup = function( arEvent_target_id ) {
 
+	console.log( "Bay.handleQuickMouseup( arEvent_target_id )" );
+
 	console.log( arEvent_target_id );
 
 	switch ( arEvent_target_id[1] ) {
@@ -1142,6 +1166,8 @@ Bay.handleQuickMouseup = function( arEvent_target_id ) {
 
 Bay.prototype.close = function () {
 
+	console.log( "Bay.prototype.close()" );
+
 	console.log( this.id )
 
 	document.getElementById( "__SlxBay__-" + this.id ).outerHTML = "";
@@ -1151,6 +1177,8 @@ Bay.prototype.close = function () {
 }
 
 Bay.prototype.restorePreviousDimensions = function() {
+
+	console.log( "Bay.prototype.restorePreviousDimensions()" );
 
 	// Change root left and top and content width and height
 	this.left = this.previousLeft;

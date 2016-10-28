@@ -79,6 +79,8 @@ Input.activateEventHandlers = function() {
 
 			break;
 
+			default:
+
 		}
 
 	};
@@ -146,7 +148,7 @@ Input.activateEventHandlers = function() {
 		}
 
 		// Quick Mouseup
-		if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) {
+		/*if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) {
 
 			// Left mouse button is up
 			if ( event.button === 0 ) {
@@ -187,8 +189,6 @@ Input.activateEventHandlers = function() {
 
 					case "__Bay__": 
 
-						console.log( "Bay.handleQuickMouseup( arEvent_target_id )" );
-
 						Bay.handleQuickMouseup( arEvent_target_id );
 
 					break;
@@ -216,7 +216,7 @@ Input.activateEventHandlers = function() {
 
 			}
 
-		}
+		}*/
 
 	};
 

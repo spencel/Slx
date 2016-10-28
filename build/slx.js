@@ -183,6 +183,8 @@ var Slx = (function() {
 	}
 	
 	Bay.prototype.toggleHtml = function() {
+	
+		console.log( "Bay.prototype.toggleHtml()" );
 		
 		if ( this.isHtml === false ) {
 	
@@ -278,6 +280,8 @@ var Slx = (function() {
 	
 	Bay.eventHandler = function( event, arEvent_target_id ) {
 	
+		console.log( "Bay.eventHandler( event, arEvent_target_id )" );
+	
 		switch ( arEvent_target_id[ 1 ] ) {
 	
 			case "__resizeTop__":
@@ -303,6 +307,8 @@ var Slx = (function() {
 	}
 	
 	Bay.handleResize = function ( event, arEvent_target_id ) {
+	
+		console.log( "Bay.handleResize( event, arEvent_target_id )" );
 	
 		event.preventDefault(); // Prevent text selection and dragging
 	
@@ -332,6 +338,8 @@ var Slx = (function() {
 	
 	Bay.initializeResize = function ( arEvent_target_id ) {
 	
+		console.log( "Bay.initializeResize( arEvent_target_id )" );
+	
 		var resizeDirection = arEvent_target_id[ 1 ]
 		var instanceId = arEvent_target_id[ 2 ]
 		this.currentlyResizingInstance = this.instancesById[ instanceId ];
@@ -344,6 +352,8 @@ var Slx = (function() {
 	}
 	
 	Bay.prototype.resize = function( left, top ) {
+	
+		console.log( "Bay.prototype.resize( left, top )" );
 	
 		switch ( this.currentlyDockedAt ) {
 			case "__SlxDocumentFullScreenDockZone__":
@@ -462,11 +472,12 @@ var Slx = (function() {
 	}
 	
 	Bay.prototype.finishResizing = function() {
-	
+		console.log( "Bay.prototype.finishResizing()" );
 		console.log( "Bay.resizeDirection: " + Bay.resizeDirection);
 	
 		// Quick Mouse Up
-		if ( Input.isMouseupQuick === true ) {
+		console.log( "if ( Input.isMouseupQuick→" + Input.isMouseupQuick() + " === true )" );
+		if ( Input.isMouseupQuick() === true ) {
 	
 			this.handleDocking();
 	
@@ -487,6 +498,8 @@ var Slx = (function() {
 	}
 	
 	Bay.handleDrag = function( event, arEvent_target_id ) {
+	
+		console.log( "Bay.handleDrag( event, arEvent_target_id )" );
 	
 		event.preventDefault(); // Prevent text selection and dragging
 	
@@ -517,6 +530,8 @@ var Slx = (function() {
 	
 	Bay.initializeDrag = function( instanceId ) {
 	
+		console.log( "Bay.initializeDrag( instanceId )" );
+	
 		this.currentlyDraggingInstance = this.instancesById[ instanceId ];
 		focus( this.currentlyDraggingInstance.rootHtmlElement ); // Bring it to the front of the view
 		Input.userIs = "__DRAGGING_BAY__";
@@ -524,6 +539,8 @@ var Slx = (function() {
 	}
 	
 	Bay.prototype.drag = function( left, top ) {
+	
+		console.log( "Bay.prototype.drag( left, top )" );
 	
 		this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
 		this.rootHtmlElement.style.top = ( this.top - Input.mousedownClientY + top ) + "px";
@@ -717,6 +734,8 @@ var Slx = (function() {
 	}
 	
 	Bay.prototype.finishDragging = function( left, top ) {
+	
+		console.log( "Bay.prototype.finishDragging( left, top )" );
 	
 		this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
 	
@@ -1010,6 +1029,8 @@ var Slx = (function() {
 	
 	Bay.prototype.handleDocking = function() {
 	
+		console.log( "Bay.prototype.handleDocking()" );
+	
 		var dockZone = undefined;
 		var savePreviousDimensions = true;
 	
@@ -1068,6 +1089,8 @@ var Slx = (function() {
 	
 	Bay.prototype.toggleDock = function( dockZone, savePreviousDimensions ) {
 	
+		console.log( "Bay.prototype.toggleDock( dockZone, savePreviousDimensions )" );
+	
 		console.log( dockZone + " === " + this.currentlyDockedAt + "; savePreviousDimensions: " + savePreviousDimensions );
 	
 		if ( dockZone === this.currentlyDockedAt ) {
@@ -1079,6 +1102,8 @@ var Slx = (function() {
 	}
 	
 	Bay.prototype.dock = function ( dockZone, savePreviousDimensions ) {
+	
+		console.log( "Bay.prototype.dock( dockZone, savePreviousDimensions )" );
 	
 		if ( savePreviousDimensions === true ) {
 	
@@ -1225,6 +1250,8 @@ var Slx = (function() {
 	
 	Bay.handleQuickMouseup = function( arEvent_target_id ) {
 	
+		console.log( "Bay.handleQuickMouseup( arEvent_target_id )" );
+	
 		console.log( arEvent_target_id );
 	
 		switch ( arEvent_target_id[1] ) {
@@ -1246,6 +1273,8 @@ var Slx = (function() {
 	
 	Bay.prototype.close = function () {
 	
+		console.log( "Bay.prototype.close()" );
+	
 		console.log( this.id )
 	
 		document.getElementById( "__SlxBay__-" + this.id ).outerHTML = "";
@@ -1255,6 +1284,8 @@ var Slx = (function() {
 	}
 	
 	Bay.prototype.restorePreviousDimensions = function() {
+	
+		console.log( "Bay.prototype.restorePreviousDimensions()" );
 	
 		// Change root left and top and content width and height
 		this.left = this.previousLeft;
@@ -1358,6 +1389,8 @@ var Slx = (function() {
 	
 				break;
 	
+				default:
+	
 			}
 	
 		};
@@ -1425,7 +1458,7 @@ var Slx = (function() {
 			}
 	
 			// Quick Mouseup
-			if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) {
+			/*if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) {
 	
 				// Left mouse button is up
 				if ( event.button === 0 ) {
@@ -1466,8 +1499,6 @@ var Slx = (function() {
 	
 						case "__Bay__": 
 	
-							console.log( "Bay.handleQuickMouseup( arEvent_target_id )" );
-	
 							Bay.handleQuickMouseup( arEvent_target_id );
 	
 						break;
@@ -1495,7 +1526,7 @@ var Slx = (function() {
 	
 				}
 	
-			}
+			}*/
 	
 		};
 	
