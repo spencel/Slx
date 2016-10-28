@@ -1,0 +1,34 @@
+<table>
+	<tbody>
+		<tr>
+			<td></td>
+			<td colspan='4'>Article</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td colspan='2'>Definite</td>
+			<td colspan='2'>Indefinite</td>
+		</tr>
+		<tr>
+			<td>Number</td>
+			<td>Masculine</td>
+			<td>Feminine</td>
+			<td>Masculine</td>
+			<td>Feminine</td>
+		</tr>
+		<tr>
+			<td>Singular</td>
+			<td>o</td>
+			<td>a</td>
+			<td>um</td>
+			<td>uma</td>
+		</tr>
+		<tr>
+			<td>Plural</td>
+			<td>os</td>
+			<td>as</td>
+			<td>uns</td>
+			<td>umas</td>
+		</tr>
+	</tbody>
+</table>

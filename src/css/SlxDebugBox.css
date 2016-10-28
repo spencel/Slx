@@ -1,0 +1,11 @@
+div#debugBox {
+	position:	fixed;
+	z-index: 999999;
+	top:		2px;
+	right:		2px;
+	/*border: 	1px solid hsl(0, 0%, 80%);*/
+	border: 	1px solid hsl(180, 25%, 90%);
+}
+.alignRight {
+	text-align: right;
+}

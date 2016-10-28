@@ -1,4 +1,4 @@
-# Version 0.2
+# Version 0.1
 
 import io
 import os
@@ -45,13 +45,19 @@ code += "\
 	// Classes\n\
 	\n"
 
-for entry in os.scandir( srcDir + "core"):
-	if entry.is_file() == True:
-		with open( srcDir + "core/" + entry.name, "r", encoding="utf-8" ) as f:
-			for line in f:
-				code += "\t" + line
-		code += "\n\
-		\n"
+fileNames = [
+	"Bay.js",
+	"Input.js",
+	"Panel.js",
+	"SlxDocument.js"
+]
+
+for fileName in fileNames:
+	with open( srcDir + "core/" + fileName, "r", encoding="utf-8" ) as f:
+		for line in f:
+			code += "\t" + line
+	code += "\n\
+	\n"
 
 code += "\
 	// End Classes\n\
@@ -75,8 +81,8 @@ code += "\
 with open( buildDir + "slx.js", "w", encoding="utf-8" ) as f:
 	f.write( code )
 
-with open( srcDir + "css/style.css", "r", encoding="utf-8" ) as fileInput:
-	with open( buildDir + "css/style.css", "w", encoding="utf-8" ) as fileOutput:
+with open( srcDir + "/css/style.css", "r", encoding="utf-8" ) as fileInput:
+	with open( buildDir + "/css/style.css", "w", encoding="utf-8" ) as fileOutput:
 		for line in fileInput:
 			fileOutput.write( line )
 

@@ -30,7 +30,7 @@ SlxDocument.inDockZone = undefined;
 // Static (aka Class) Methods
 SlxDocument.init = function() {
 
-	document.body.id = "__SlxDocumentFullScreen__";
+	document.body.id = "__SlxDocumentFullScreenDockZone__"
 
 	var element = document.createElement( "div" );
 	element.id = "__SlxDocumentTopDockZone__";
