@@ -2,7 +2,7 @@
 * @author spencel / https://github.com/spencel
 */
 
-// Version 0.4
+// Version 0.3
 
 // Bay Class
 
@@ -627,18 +627,30 @@ Bay.prototype.drag = function( left, top ) {
 }
 
 Bay.prototype.finishDragging = function( left, top ) {
+
 	console.log( "Bay.prototype.finishDragging( left, top )" );
+
+	this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
+
+	var savePreviousDimensions = true;
+
+	if ( this.currentlyDockedAt !== undefined ) {
+
+		savePreviousDimensions = false;
+
+	}
 
 	// Quick mouse up means it should fullscreen
 	console.log( "if ( Input.isMouseupQuick()→" + Input.isMouseupQuick() + " === true )" );
 	if ( Input.isMouseupQuick() === true ) {
 
-		console.log( "this.currentlyDockedAt: " + this.currentlyDockedAt );
 		switch ( this.currentlyDockedAt ) {
 
 			case "__SlxDocumentFullScreenDockZone__":
 
 				this.restorePreviousDimensions();
+
+				return;
 
 			break;
 
@@ -648,12 +660,10 @@ Bay.prototype.finishDragging = function( left, top ) {
 
 		}
 
-		this.toggleDock( dockZone );
+		this.toggleDock( dockZone, savePreviousDimensions );
 
 	// Check if it should be docked to the sides or corners
 	} else {
-
-		this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
 
 		switch ( Bay.cursorCurrentlyInDockZone ) {
 
@@ -669,6 +679,14 @@ Bay.prototype.finishDragging = function( left, top ) {
 				}
 
 				this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
+
+				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				Bay.cursorCurrentlyInDockZone = undefined;
+				Input.userIs = undefined;
+
+				
+				
 
 				this.rootHtmlElement.style.left = 0 + "px";
 				this.left = 0;
@@ -695,6 +713,11 @@ Bay.prototype.finishDragging = function( left, top ) {
 
 				this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
 
+				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				Bay.cursorCurrentlyInDockZone = undefined;
+				Input.userIs = undefined;
+
 				this.rootHtmlElement.style.left = window.innerWidth / 2 + "px";
 				this.left = window.innerWidth / 2;
 				this.rootHtmlElement.style.top = 0 + "px";
@@ -719,6 +742,11 @@ Bay.prototype.finishDragging = function( left, top ) {
 				}
 
 				this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
+
+				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				Bay.cursorCurrentlyInDockZone = undefined;
+				Input.userIs = undefined;
 
 				this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
 				this.left = window.innerWidth / 2;
@@ -745,6 +773,11 @@ Bay.prototype.finishDragging = function( left, top ) {
 
 				this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
 
+				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				Bay.cursorCurrentlyInDockZone = undefined;
+				Input.userIs = undefined;
+
 				this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
 				this.left = window.innerWidth / 2;
 				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
@@ -769,6 +802,11 @@ Bay.prototype.finishDragging = function( left, top ) {
 				}
 
 				this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
+
+				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				Bay.cursorCurrentlyInDockZone = undefined;
+				Input.userIs = undefined;
 
 				this.rootHtmlElement.style.left = 0 + "px";
 				this.left = 0;
@@ -795,6 +833,11 @@ Bay.prototype.finishDragging = function( left, top ) {
 
 				this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
 
+				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				Bay.cursorCurrentlyInDockZone = undefined;
+				Input.userIs = undefined;
+
 				this.rootHtmlElement.style.left = 0 + "px";
 				this.left = 0;
 				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
@@ -819,6 +862,11 @@ Bay.prototype.finishDragging = function( left, top ) {
 				}
 
 				this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
+
+				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				Bay.cursorCurrentlyInDockZone = undefined;
+				Input.userIs = undefined;
 
 				this.rootHtmlElement.style.left = 0 + "px";
 				this.left = 0;
@@ -845,6 +893,11 @@ Bay.prototype.finishDragging = function( left, top ) {
 
 				this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
 
+				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				Bay.cursorCurrentlyInDockZone = undefined;
+				Input.userIs = undefined;
+
 				this.rootHtmlElement.style.left = 0 + "px";
 				this.left = 0;
 				this.rootHtmlElement.style.top = 0 + "px";
@@ -870,6 +923,11 @@ Bay.prototype.finishDragging = function( left, top ) {
 
 				this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
 
+				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+				SlxDocument.objectInDockZone = undefined;
+				Bay.cursorCurrentlyInDockZone = undefined;
+				Input.userIs = undefined;
+
 				this.rootHtmlElement.style.left = 0 + "px";
 				this.left = 0;
 				this.rootHtmlElement.style.top = 0 + "px";
@@ -882,7 +940,6 @@ Bay.prototype.finishDragging = function( left, top ) {
 				
 			break;
 
-			// Not in a dockzone
 			default:
 
 				this.left = parseInt( this.rootHtmlElement.style.left );
@@ -892,11 +949,9 @@ Bay.prototype.finishDragging = function( left, top ) {
 
 	}
 
-	document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
-	SlxDocument.objectInDockZone = undefined;
-	Bay.cursorCurrentlyInDockZone = undefined;
-	Input.userIs = undefined;
 	Bay.currentlyDraggingInstance = undefined;
+
+	Input.userIs = undefined;
 
 }
 
@@ -956,162 +1011,168 @@ Bay.prototype.handleDocking = function() {
 
 	console.log( "dockZone: " + dockZone );
 
-	this.toggleDock( dockZone );
+	this.toggleDock( dockZone, savePreviousDimensions );
 
 }
 
-Bay.prototype.toggleDock = function( dockZone ) {
-	console.log( "Bay.prototype.toggleDock( dockZone )" );
+Bay.prototype.toggleDock = function( dockZone, savePreviousDimensions ) {
+
+	console.log( "Bay.prototype.toggleDock( dockZone, savePreviousDimensions )" );
+
+	console.log( dockZone + " === " + this.currentlyDockedAt + "; savePreviousDimensions: " + savePreviousDimensions );
 
 	if ( dockZone === this.currentlyDockedAt ) {
-
 		this.restorePreviousDimensions();
-
 	} else {
+		this.dock( dockZone, savePreviousDimensions );
+	}
 
-		if ( this.currentlyDockedAt === undefined ) {
+}
 
-			this.previousLeft = this.left;
-			this.previousTop = this.top;
-			this.previousWidth = this.width;
-			this.previousHeight = this.height;
+Bay.prototype.dock = function ( dockZone, savePreviousDimensions ) {
 
-		}
+	console.log( "Bay.prototype.dock( dockZone, savePreviousDimensions )" );
 
-		switch ( dockZone ) {
+	if ( savePreviousDimensions === true ) {
 
-			case "__SlxDocumentFullScreenDockZone__":
-
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
-
-				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth;
-				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight;
-
-			break;
-
-			case "__SlxDocumentTopDockZone__":
-
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
-
-				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
-				
-			break;
-
-			case "__SlxDocumentTopRightDockZone__":
-
-				this.rootHtmlElement.style.left = window.innerWidth / 2 + "px";
-				this.left = window.innerWidth / 2;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
-
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
-
-			break;
-
-			case "__SlxDocumentRightDockZone__":
-
-				this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
-				this.left = window.innerWidth / 2;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
-
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight;
-
-			break;
-
-			case "__SlxDocumentBottomRightDockZone__":
-
-				this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
-				this.left = window.innerWidth / 2;
-				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
-				this.top = window.innerHeight / 2;
-
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
-
-			break;
-
-			case "__SlxDocumentBottomDockZone__":
-
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
-				this.top = window.innerHeight / 2;
-
-				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
-
-			break;
-
-			case "__SlxDocumentBottomLeftDockZone__":
-
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
-				this.top = window.innerHeight / 2;
-
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
-
-			break;
-
-			case "__SlxDocumentLeftDockZone__":
-
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
-
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight;
-				
-			break;
-
-			case "__SlxDocumentTopLeftDockZone__":
-
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
-
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2- Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
-				
-			break;
-
-		}
-
-		this.currentlyDockedAt = dockZone;
-		console.log( "this.currentlyDockedAt: " + this.currentlyDockedAt );
+		this.previousLeft = this.left;
+		this.previousTop = this.top;
+		this.previousWidth = this.width;
+		this.previousHeight = this.height;
 
 	}
+
+	switch ( dockZone ) {
+
+		case "__SlxDocumentFullScreenDockZone__":
+
+			this.rootHtmlElement.style.left = 0 + "px";
+			this.left = 0;
+			this.rootHtmlElement.style.top = 0 + "px";
+			this.top = 0;
+
+			this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+			this.width = window.innerWidth;
+			this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+			this.height = window.innerHeight;
+
+		break;
+
+		case "__SlxDocumentTopDockZone__":
+
+			this.rootHtmlElement.style.left = 0 + "px";
+			this.left = 0;
+			this.rootHtmlElement.style.top = 0 + "px";
+			this.top = 0;
+
+			this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+			this.width = window.innerWidth;
+			this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+			this.height = window.innerHeight / 2;
+			
+		break;
+
+		case "__SlxDocumentTopRightDockZone__":
+
+			this.rootHtmlElement.style.left = window.innerWidth / 2 + "px";
+			this.left = window.innerWidth / 2;
+			this.rootHtmlElement.style.top = 0 + "px";
+			this.top = 0;
+
+			this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+			this.width = window.innerWidth / 2;
+			this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+			this.height = window.innerHeight / 2;
+
+		break;
+
+		case "__SlxDocumentRightDockZone__":
+
+			this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
+			this.left = window.innerWidth / 2;
+			this.rootHtmlElement.style.top = 0 + "px";
+			this.top = 0;
+
+			this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+			this.width = window.innerWidth / 2;
+			this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+			this.height = window.innerHeight;
+
+		break;
+
+		case "__SlxDocumentBottomRightDockZone__":
+
+			this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
+			this.left = window.innerWidth / 2;
+			this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+			this.top = window.innerHeight / 2;
+
+			this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+			this.width = window.innerWidth / 2;
+			this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+			this.height = window.innerHeight / 2;
+
+		break;
+
+		case "__SlxDocumentBottomDockZone__":
+
+			this.rootHtmlElement.style.left = 0 + "px";
+			this.left = 0;
+			this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+			this.top = window.innerHeight / 2;
+
+			this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+			this.width = window.innerWidth;
+			this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+			this.height = window.innerHeight / 2;
+
+		break;
+
+		case "__SlxDocumentBottomLeftDockZone__":
+
+			this.rootHtmlElement.style.left = 0 + "px";
+			this.left = 0;
+			this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+			this.top = window.innerHeight / 2;
+
+			this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+			this.width = window.innerWidth / 2;
+			this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+			this.height = window.innerHeight / 2;
+
+		break;
+
+		case "__SlxDocumentLeftDockZone__":
+
+			this.rootHtmlElement.style.left = 0 + "px";
+			this.left = 0;
+			this.rootHtmlElement.style.top = 0 + "px";
+			this.top = 0;
+
+			this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+			this.width = window.innerWidth / 2;
+			this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+			this.height = window.innerHeight;
+			
+		break;
+
+		case "__SlxDocumentTopLeftDockZone__":
+
+			this.rootHtmlElement.style.left = 0 + "px";
+			this.left = 0;
+			this.rootHtmlElement.style.top = 0 + "px";
+			this.top = 0;
+
+			this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+			this.width = window.innerWidth / 2;
+			this.rootHtmlElement.style.height = ( window.innerHeight / 2- Bay.borderWidthX2 ) + "px";
+			this.height = window.innerHeight / 2;
+			
+		break;
+
+	}
+
+	this.currentlyDockedAt = dockZone;
 
 }
 

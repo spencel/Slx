@@ -106,7 +106,7 @@ var Slx = (function() {
 	* @author spencel / https://github.com/spencel
 	*/
 	
-	// Version 0.3
+	// Version 0.4
 	
 	// Bay Class
 	
@@ -544,9 +544,6 @@ var Slx = (function() {
 		this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
 		this.rootHtmlElement.style.top = ( this.top - Input.mousedownClientY + top ) + "px";
 	
-		//console.log( mouseLeft + " > " + ( window.innerWidth - SlxDocument.dockZoneWidth ) );
-		//console.log( mouseTop + " > " + ( window.innerHeight - SlxDocument.dockZoneWidth ) );
-	
 		// This could be optimized
 		if ( left < SlxDocument.dockZoneWidth ) {
 	
@@ -733,296 +730,276 @@ var Slx = (function() {
 	}
 	
 	Bay.prototype.finishDragging = function( left, top ) {
-	
 		console.log( "Bay.prototype.finishDragging( left, top )" );
 	
-		this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
+		// Quick mouse up means it should fullscreen
+		console.log( "if ( Input.isMouseupQuick()→" + Input.isMouseupQuick() + " === true )" );
+		if ( Input.isMouseupQuick() === true ) {
 	
-		switch ( Bay.cursorCurrentlyInDockZone ) {
+			console.log( "this.currentlyDockedAt: " + this.currentlyDockedAt );
+			switch ( this.currentlyDockedAt ) {
 	
-			case "_21":
+				case "_16":
 	
-				if ( this.currentlyDockedAt === undefined ) {
+					this.restorePreviousDimensions();
 	
-					this.previousLeft = this.left;
-					this.previousTop = this.top;
-					this.previousWidth = this.width;
-					this.previousHeight = this.height;
+				break;
 	
-				}
+				default:
 	
-				this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
+					dockZone = "_16";
 	
-				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				Bay.cursorCurrentlyInDockZone = undefined;
-				Input.userIs = undefined;
+			}
 	
-				
-				
+			this.toggleDock( dockZone );
 	
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
+		// Check if it should be docked to the sides or corners
+		} else {
 	
-				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
+			this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
 	
-			break;
+			switch ( Bay.cursorCurrentlyInDockZone ) {
 	
-			case "_24":
+				case "_21":
 	
-				if ( this.currentlyDockedAt === undefined ) {
+					if ( this.currentlyDockedAt === undefined ) {
 	
-					this.previousLeft = this.left;
-					this.previousTop = this.top;
-					this.previousWidth = this.width;
-					this.previousHeight = this.height;
+						this.previousLeft = this.left;
+						this.previousTop = this.top;
+						this.previousWidth = this.width;
+						this.previousHeight = this.height;
 	
-				}
+					}
 	
-				this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
+					this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
 	
-				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				Bay.cursorCurrentlyInDockZone = undefined;
-				Input.userIs = undefined;
+					this.rootHtmlElement.style.left = 0 + "px";
+					this.left = 0;
+					this.rootHtmlElement.style.top = 0 + "px";
+					this.top = 0;
 	
-				this.rootHtmlElement.style.left = window.innerWidth / 2 + "px";
-				this.left = window.innerWidth / 2;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
+					this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+					this.width = window.innerWidth;
+					this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+					this.height = window.innerHeight / 2;
 	
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
+				break;
 	
-			break;
+				case "_24":
 	
-			case "_22":
+					if ( this.currentlyDockedAt === undefined ) {
 	
-				if ( this.currentlyDockedAt === undefined ) {
+						this.previousLeft = this.left;
+						this.previousTop = this.top;
+						this.previousWidth = this.width;
+						this.previousHeight = this.height;
+	
+					}
+	
+					this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
+	
+					this.rootHtmlElement.style.left = window.innerWidth / 2 + "px";
+					this.left = window.innerWidth / 2;
+					this.rootHtmlElement.style.top = 0 + "px";
+					this.top = 0;
+	
+					this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+					this.width = window.innerWidth / 2;
+					this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+					this.height = window.innerHeight / 2;
+	
+				break;
+	
+				case "_22":
+	
+					if ( this.currentlyDockedAt === undefined ) {
+						
+						this.previousLeft = this.left;
+						this.previousTop = this.top;
+						this.previousWidth = this.width;
+						this.previousHeight = this.height;
+	
+					}
+	
+					this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
+	
+					this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
+					this.left = window.innerWidth / 2;
+					this.rootHtmlElement.style.top = 0 + "px";
+					this.top = 0;
+	
+					this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+					this.width = window.innerWidth / 2;
+					this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+					this.height = window.innerHeight;
+	
+				break;
+	
+				case "_23":
+	
+					if ( this.currentlyDockedAt === undefined ) {
+	
+						this.previousLeft = this.left;
+						this.previousTop = this.top;
+						this.previousWidth = this.width;
+						this.previousHeight = this.height;
+	
+					}
+	
+					this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
+	
+					this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
+					this.left = window.innerWidth / 2;
+					this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+					this.top = window.innerHeight / 2;
+	
+					this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+					this.width = window.innerWidth / 2;
+					this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+					this.height = window.innerHeight / 2;
+	
+				break;
+	
+				case "_17":
+	
+					if ( this.currentlyDockedAt === undefined ) {
+	
+						this.previousLeft = this.left;
+						this.previousTop = this.top;
+						this.previousWidth = this.width;
+						this.previousHeight = this.height;
+	
+					}
+	
+					this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
+	
+					this.rootHtmlElement.style.left = 0 + "px";
+					this.left = 0;
+					this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+					this.top = window.innerHeight / 2;
+	
+					this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+					this.width = window.innerWidth;
+					this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+					this.height = window.innerHeight / 2;
+	
+				break;
+	
+				case "_18":
+	
+					if ( this.currentlyDockedAt === undefined ) {
+	
+						this.previousLeft = this.left;
+						this.previousTop = this.top;
+						this.previousWidth = this.width;
+						this.previousHeight = this.height;
+	
+					}
+	
+					this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
+	
+					this.rootHtmlElement.style.left = 0 + "px";
+					this.left = 0;
+					this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+					this.top = window.innerHeight / 2;
+	
+					this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+					this.width = window.innerWidth / 2;
+					this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+					this.height = window.innerHeight / 2;
+	
+				break;
+	
+				case "_19":
+	
+					if ( this.currentlyDockedAt === undefined ) {
+	
+						this.previousLeft = this.left;
+						this.previousTop = this.top;
+						this.previousWidth = this.width;
+						this.previousHeight = this.height;
+	
+					}
+	
+					this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
+	
+					this.rootHtmlElement.style.left = 0 + "px";
+					this.left = 0;
+					this.rootHtmlElement.style.top = 0 + "px";
+					this.top = 0;
+	
+					this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+					this.width = window.innerWidth / 2;
+					this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+					this.height = window.innerHeight;
 					
-					this.previousLeft = this.left;
-					this.previousTop = this.top;
-					this.previousWidth = this.width;
-					this.previousHeight = this.height;
+				break;
 	
-				}
+				case "_20":
 	
-				this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
+					if ( this.currentlyDockedAt === undefined ) {
 	
-				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				Bay.cursorCurrentlyInDockZone = undefined;
-				Input.userIs = undefined;
+						this.previousLeft = this.left;
+						this.previousTop = this.top;
+						this.previousWidth = this.width;
+						this.previousHeight = this.height;
 	
-				this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
-				this.left = window.innerWidth / 2;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
+					}
 	
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight;
+					this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
 	
-			break;
+					this.rootHtmlElement.style.left = 0 + "px";
+					this.left = 0;
+					this.rootHtmlElement.style.top = 0 + "px";
+					this.top = 0;
 	
-			case "_23":
+					this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+					this.width = window.innerWidth / 2;
+					this.rootHtmlElement.style.height = ( window.innerHeight / 2- Bay.borderWidthX2 ) + "px";
+					this.height = window.innerHeight / 2;
+					
+				break;
 	
-				if ( this.currentlyDockedAt === undefined ) {
+				case "_26":
 	
-					this.previousLeft = this.left;
-					this.previousTop = this.top;
-					this.previousWidth = this.width;
-					this.previousHeight = this.height;
+					if ( this.currentlyDockedAt === undefined ) {
 	
-				}
+						this.previousLeft = this.left;
+						this.previousTop = this.top;
+						this.previousWidth = this.width;
+						this.previousHeight = this.height;
 	
-				this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
+					}
 	
-				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				Bay.cursorCurrentlyInDockZone = undefined;
-				Input.userIs = undefined;
+					this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
 	
-				this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
-				this.left = window.innerWidth / 2;
-				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
-				this.top = window.innerHeight / 2;
+					this.rootHtmlElement.style.left = 0 + "px";
+					this.left = 0;
+					this.rootHtmlElement.style.top = 0 + "px";
+					this.top = 0;
 	
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
+					this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+					this.width = window.innerWidth;
+					this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+					this.height = window.innerHeight;
+					
+				break;
 	
-			break;
+				// Not in a dockzone
+				default:
 	
-			case "_17":
+					this.left = parseInt( this.rootHtmlElement.style.left );
+					this.top = parseInt( this.rootHtmlElement.style.top );
 	
-				if ( this.currentlyDockedAt === undefined ) {
-	
-					this.previousLeft = this.left;
-					this.previousTop = this.top;
-					this.previousWidth = this.width;
-					this.previousHeight = this.height;
-	
-				}
-	
-				this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
-	
-				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				Bay.cursorCurrentlyInDockZone = undefined;
-				Input.userIs = undefined;
-	
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
-				this.top = window.innerHeight / 2;
-	
-				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
-	
-			break;
-	
-			case "_18":
-	
-				if ( this.currentlyDockedAt === undefined ) {
-	
-					this.previousLeft = this.left;
-					this.previousTop = this.top;
-					this.previousWidth = this.width;
-					this.previousHeight = this.height;
-	
-				}
-	
-				this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
-	
-				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				Bay.cursorCurrentlyInDockZone = undefined;
-				Input.userIs = undefined;
-	
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
-				this.top = window.innerHeight / 2;
-	
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
-	
-			break;
-	
-			case "_19":
-	
-				if ( this.currentlyDockedAt === undefined ) {
-	
-					this.previousLeft = this.left;
-					this.previousTop = this.top;
-					this.previousWidth = this.width;
-					this.previousHeight = this.height;
-	
-				}
-	
-				this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
-	
-				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				Bay.cursorCurrentlyInDockZone = undefined;
-				Input.userIs = undefined;
-	
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
-	
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight;
-				
-			break;
-	
-			case "_20":
-	
-				if ( this.currentlyDockedAt === undefined ) {
-	
-					this.previousLeft = this.left;
-					this.previousTop = this.top;
-					this.previousWidth = this.width;
-					this.previousHeight = this.height;
-	
-				}
-	
-				this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
-	
-				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				Bay.cursorCurrentlyInDockZone = undefined;
-				Input.userIs = undefined;
-	
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
-	
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2- Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
-				
-			break;
-	
-			case "_26":
-	
-				if ( this.currentlyDockedAt === undefined ) {
-	
-					this.previousLeft = this.left;
-					this.previousTop = this.top;
-					this.previousWidth = this.width;
-					this.previousHeight = this.height;
-	
-				}
-	
-				this.currentlyDockedAt = Bay.cursorCurrentlyInDockZone;
-	
-				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
-				SlxDocument.objectInDockZone = undefined;
-				Bay.cursorCurrentlyInDockZone = undefined;
-				Input.userIs = undefined;
-	
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
-	
-				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth;
-				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight;
-				
-			break;
-	
-			default:
-	
-				this.left = parseInt( this.rootHtmlElement.style.left );
-				this.top = parseInt( this.rootHtmlElement.style.top );
+			}
 	
 		}
 	
-		Bay.currentlyDraggingInstance = undefined;
-	
+		document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+		SlxDocument.objectInDockZone = undefined;
+		Bay.cursorCurrentlyInDockZone = undefined;
 		Input.userIs = undefined;
+		Bay.currentlyDraggingInstance = undefined;
 	
 	}
 	
@@ -1054,7 +1031,7 @@ var Slx = (function() {
 					break;
 					default:
 						dockZone = "_16";
-				}			
+				}		
 			break;
 			case "_7":
 				dockZone = "_24";
@@ -1082,168 +1059,162 @@ var Slx = (function() {
 	
 		console.log( "dockZone: " + dockZone );
 	
-		this.toggleDock( dockZone, savePreviousDimensions );
+		this.toggleDock( dockZone );
 	
 	}
 	
-	Bay.prototype.toggleDock = function( dockZone, savePreviousDimensions ) {
-	
-		console.log( "Bay.prototype.toggleDock( dockZone, savePreviousDimensions )" );
-	
-		console.log( dockZone + " === " + this.currentlyDockedAt + "; savePreviousDimensions: " + savePreviousDimensions );
+	Bay.prototype.toggleDock = function( dockZone ) {
+		console.log( "Bay.prototype.toggleDock( dockZone )" );
 	
 		if ( dockZone === this.currentlyDockedAt ) {
+	
 			this.restorePreviousDimensions();
+	
 		} else {
-			this.dock( dockZone, savePreviousDimensions );
-		}
 	
-	}
+			if ( this.currentlyDockedAt === undefined ) {
 	
-	Bay.prototype.dock = function ( dockZone, savePreviousDimensions ) {
+				this.previousLeft = this.left;
+				this.previousTop = this.top;
+				this.previousWidth = this.width;
+				this.previousHeight = this.height;
 	
-		console.log( "Bay.prototype.dock( dockZone, savePreviousDimensions )" );
+			}
 	
-		if ( savePreviousDimensions === true ) {
+			switch ( dockZone ) {
 	
-			this.previousLeft = this.left;
-			this.previousTop = this.top;
-			this.previousWidth = this.width;
-			this.previousHeight = this.height;
+				case "_16":
 	
-		}
+					this.rootHtmlElement.style.left = 0 + "px";
+					this.left = 0;
+					this.rootHtmlElement.style.top = 0 + "px";
+					this.top = 0;
 	
-		switch ( dockZone ) {
+					this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+					this.width = window.innerWidth;
+					this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+					this.height = window.innerHeight;
 	
-			case "_16":
+				break;
 	
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
+				case "_21":
 	
-				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth;
-				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight;
+					this.rootHtmlElement.style.left = 0 + "px";
+					this.left = 0;
+					this.rootHtmlElement.style.top = 0 + "px";
+					this.top = 0;
 	
-			break;
+					this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+					this.width = window.innerWidth;
+					this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+					this.height = window.innerHeight / 2;
+					
+				break;
 	
-			case "_21":
+				case "_24":
 	
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
+					this.rootHtmlElement.style.left = window.innerWidth / 2 + "px";
+					this.left = window.innerWidth / 2;
+					this.rootHtmlElement.style.top = 0 + "px";
+					this.top = 0;
 	
-				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
-				
-			break;
+					this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+					this.width = window.innerWidth / 2;
+					this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+					this.height = window.innerHeight / 2;
 	
-			case "_24":
+				break;
 	
-				this.rootHtmlElement.style.left = window.innerWidth / 2 + "px";
-				this.left = window.innerWidth / 2;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
+				case "_22":
 	
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
+					this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
+					this.left = window.innerWidth / 2;
+					this.rootHtmlElement.style.top = 0 + "px";
+					this.top = 0;
 	
-			break;
+					this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+					this.width = window.innerWidth / 2;
+					this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+					this.height = window.innerHeight;
 	
-			case "_22":
+				break;
 	
-				this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
-				this.left = window.innerWidth / 2;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
+				case "_23":
 	
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight;
+					this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
+					this.left = window.innerWidth / 2;
+					this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+					this.top = window.innerHeight / 2;
 	
-			break;
+					this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+					this.width = window.innerWidth / 2;
+					this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+					this.height = window.innerHeight / 2;
 	
-			case "_23":
+				break;
 	
-				this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
-				this.left = window.innerWidth / 2;
-				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
-				this.top = window.innerHeight / 2;
+				case "_17":
 	
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
+					this.rootHtmlElement.style.left = 0 + "px";
+					this.left = 0;
+					this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+					this.top = window.innerHeight / 2;
 	
-			break;
+					this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
+					this.width = window.innerWidth;
+					this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+					this.height = window.innerHeight / 2;
 	
-			case "_17":
+				break;
 	
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
-				this.top = window.innerHeight / 2;
+				case "_18":
 	
-				this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
+					this.rootHtmlElement.style.left = 0 + "px";
+					this.left = 0;
+					this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
+					this.top = window.innerHeight / 2;
 	
-			break;
+					this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+					this.width = window.innerWidth / 2;
+					this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
+					this.height = window.innerHeight / 2;
 	
-			case "_18":
+				break;
 	
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
-				this.top = window.innerHeight / 2;
+				case "_19":
 	
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
+					this.rootHtmlElement.style.left = 0 + "px";
+					this.left = 0;
+					this.rootHtmlElement.style.top = 0 + "px";
+					this.top = 0;
 	
-			break;
+					this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+					this.width = window.innerWidth / 2;
+					this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
+					this.height = window.innerHeight;
+					
+				break;
 	
-			case "_19":
+				case "_20":
 	
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
+					this.rootHtmlElement.style.left = 0 + "px";
+					this.left = 0;
+					this.rootHtmlElement.style.top = 0 + "px";
+					this.top = 0;
 	
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight;
-				
-			break;
+					this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
+					this.width = window.innerWidth / 2;
+					this.rootHtmlElement.style.height = ( window.innerHeight / 2- Bay.borderWidthX2 ) + "px";
+					this.height = window.innerHeight / 2;
+					
+				break;
 	
-			case "_20":
+			}
 	
-				this.rootHtmlElement.style.left = 0 + "px";
-				this.left = 0;
-				this.rootHtmlElement.style.top = 0 + "px";
-				this.top = 0;
-	
-				this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-				this.width = window.innerWidth / 2;
-				this.rootHtmlElement.style.height = ( window.innerHeight / 2- Bay.borderWidthX2 ) + "px";
-				this.height = window.innerHeight / 2;
-				
-			break;
+			this.currentlyDockedAt = dockZone;
+			console.log( "this.currentlyDockedAt: " + this.currentlyDockedAt );
 	
 		}
-	
-		this.currentlyDockedAt = dockZone;
 	
 	}
 	
