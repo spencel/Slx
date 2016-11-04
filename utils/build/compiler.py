@@ -75,10 +75,22 @@ code += "\
 with open( buildDir + "slx.js", "w", encoding="utf-8" ) as f:
 	f.write( code )
 
+
+# Style
+with open( buildDir + "css/style.css", "w", encoding="utf-8" ) as bldFile:
+	for entry in os.scandir( srcDir + "css"):
+		if entry.is_file() == True:
+			with open( srcDir + "css/" + entry.name, "r", encoding="utf-8" ) as srcFile:
+				for srcLine in srcFile:
+					bldFile.write( srcLine );
+				bldFile.write( "\n" );
+
+'''
 with open( srcDir + "css/style.css", "r", encoding="utf-8" ) as fileInput:
 	with open( buildDir + "css/style.css", "w", encoding="utf-8" ) as fileOutput:
 		for line in fileInput:
 			fileOutput.write( line )
+'''
 
 
 
@@ -127,7 +139,7 @@ with open( buildDir + "slx.js", "r", encoding="utf-8" ) as inputFile:
 print( dictDirectives )
 
 # Have to replace directives in style sheet too.
-with open( srcDir + "css/style.css", "r", encoding="utf-8" ) as inputFile:
+with open( buildDir + "css/style.css", "r", encoding="utf-8" ) as inputFile:
 	with open( buildDir + "/css/style-mind.css", "w", encoding="utf-8" ) as outputFile:
 		for line in inputFile:
 			directive = ""

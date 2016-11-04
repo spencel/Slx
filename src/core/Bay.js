@@ -27,8 +27,6 @@ Bay.contentSizeModifier = 2 * Bay.contentMargin + 2 * Bay.borderWidth; // (px) (
 
 Bay.currentlyResizingInstance = undefined; // Set to instance of Bay that is being resized
 
-Bay.resizeDirection = undefined; // A string constant that indicates the resize type, e.g., top, bottom right, mirrored, etc.
-
 Bay.currentlyDraggingInstance = undefined; // Set to instance of Bay that is being dragged
 
 Bay.cursorCurrentlyInDockZone = undefined;
@@ -45,16 +43,16 @@ function Bay( left, top, width, height ) {
 	Bay.nextId++;
 
 	this.left = left; // Of root element
-	this.previousLeft = undefined;
+	this.previousLeft = left;
 
 	this.top = top; // Of root element
-	this.previousTop = undefined;
+	this.previousTop = top;
 
 	this.width = width; // Of root element
-	this.previousWidth = undefined;
+	this.previousWidth = width;
 
 	this.height = height; // Of root element
-	this.previousHeight = undefined;
+	this.previousHeight = height;
 
 	this.currentlyDockedAt = undefined;
 
@@ -63,6 +61,10 @@ function Bay( left, top, width, height ) {
 	this.rootHtmlElement = undefined;
 
 	this.contentHtmlElement = undefined;
+
+	this.resizeDirection = undefined; // A string constant that indicates the resize type, e.g., top, bottom right, mirrored, etc.
+
+	this.previousDockZone = undefined;
 	// End Instance Properties
 
 	return this;
@@ -238,12 +240,126 @@ Bay.initializeResize = function ( arEvent_target_id ) {
 
 	var resizeDirection = arEvent_target_id[ 1 ]
 	var instanceId = arEvent_target_id[ 2 ]
-	this.currentlyResizingInstance = this.instancesById[ instanceId ];
-	focus( this.currentlyResizingInstance.rootHtmlElement ); // Bring it to the front of the view
-	this.resizeDirection = resizeDirection;
+	var instance = this.instancesById[ instanceId ];
+	this.currentlyResizingInstance = instance;
+	focus( instance.rootHtmlElement ); // Bring it to the front of the view
+	instance.resizeDirection = resizeDirection;
 	Input.userIs = "__RESIZING_BAY__";
 
-	console.log( "Bay.resizeDirection: " + Bay.resizeDirection );
+	// Check if it should be undocked
+	instance.previousDockZone = instance.currentlyDockedAt;
+	switch ( instance.currentlyDockedAt ) {
+		case "__SlxDocumentFullScreenDockZone__":
+			switch ( instance.resizeDirection ) {
+				case "__resizeTop__": 			instance.currentlyDockedAt = "__SlxDocumentBottomDockZone__"; break;
+				case "__resizeTopRight__": 		instance.currentlyDockedAt = "__SlxDocumentBottomLeftDockZone__"; break;
+				case "__resizeRight__": 		instance.currentlyDockedAt = "__SlxDocumentLeftDockZone__"; break;
+				case "__resizeBottomRight__": 	instance.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
+				case "__resizeBottom__": 		instance.currentlyDockedAt = "__SlxDocumentTopDockZone__"; break;
+				case "__resizeBottomLeft__": 	instance.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
+				case "__resizeLeft__": 			instance.currentlyDockedAt = "__SlxDocumentRightDockZone__"; break;
+				case "__resizeTopLeft__": 		instance.currentlyDockedAt = "__SlxDocumentBottomRightDockZone__"; break;
+			}
+		break;
+		case "__SlxDocumentTopDockZone__":
+			switch ( instance.resizeDirection ) {
+				case "__resizeTop__": 			instance.currentlyDockedAt = undefined; break;
+				case "__resizeTopRight__": 		instance.currentlyDockedAt = undefined; break;
+				case "__resizeRight__": 		instance.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
+				case "__resizeBottomRight__": 	instance.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
+				case "__resizeBottom": 			break;
+				case "__resizeBottomLeft__": 	instance.currentlyDockedAt = "__SlxDocumentTopRightDockZone__"; break;
+				case "__resizeLeft__": 			instance.currentlyDockedAt = "__SlxDocumentTopRightDockZone__"; break;
+				case "__resizeTopLeft__": 		instance.currentlyDockedAt = undefined; break;
+			}
+		break;
+		case "__SlxDocumentTopRightDockZone__":
+			switch ( instance.resizeDirection ) {
+				case "__resizeTop__": 			instance.currentlyDockedAt = undefined; break;
+				case "__resizeTopRight__": 		instance.currentlyDockedAt = undefined; break;
+				case "__resizeRight__": 		instance.currentlyDockedAt = undefined; break;
+				case "__resizeBottomRight__": 	instance.currentlyDockedAt = undefined; break;
+				case "__resizeBottom__": 		break;
+				case "__resizeBottomLeft__": 	break;
+				case "__resizeLeft__": 			break;
+				case "__resizeTopLeft__": 		instance.currentlyDockedAt = undefined; break;
+			}
+		break;
+		case "__SlxDocumentRightDockZone__":
+			switch ( instance.resizeDirection ) {
+				case "__resizeTop__": 			instance.currentlyDockedAt = "__SlxDocumentBottomRightDockZone__"; break;
+				case "__resizeTopRight__": 		instance.currentlyDockedAt = undefined; break;
+				case "__resizeRight__": 		instance.currentlyDockedAt = undefined; break;
+				case "__resizeBottomRight__": 	instance.currentlyDockedAt = undefined; break;
+				case "__resizeBottom__": 		instance.currentlyDockedAt = "__SlxDocumentTopRightDockZone__"; break;
+				case "__resizeBottomLeft__": 	instance.currentlyDockedAt = "__SlxDocumentTopRightDockZone__"; break;
+				case "__resizeLeft__": 			break;
+				case "__resizeTopLeft__": 		instance.currentlyDockedAt = "__SlxDocumentBottomRightDockZone__"; break;
+			}
+		break;
+		case "__SlxDocumentBottomRightDockZone__":
+			switch ( instance.resizeDirection ) {
+				case "__resizeTop__": 			break;
+				case "__resizeTopRight__": 		instance.currentlyDockedAt = undefined; break;
+				case "__resizeRight__": 		instance.currentlyDockedAt = undefined; break;
+				case "__resizeBottomRight__": 	instance.currentlyDockedAt = undefined; break;
+				case "__resizeBottom__": 		instance.currentlyDockedAt = undefined; break;
+				case "__resizeBottomLeft__": 	instance.currentlyDockedAt = undefined; break;
+				case "__resizeLeft__": 			break;
+				case "__resizeTopLeft__": 		break;
+			}
+		break;
+		case "__SlxDocumentBottomDockZone__":
+			switch ( instance.resizeDirection ) {
+				case "__resizeTop__": 			break;
+				case "__resizeTopRight__": 		instance.currentlyDockedAt = "__SlxDocumentBottomLeftDockZone__"; break;
+				case "__resizeRight__": 		instance.currentlyDockedAt = "__SlxDocumentBottomLeftDockZone__"; break;
+				case "__resizeBottomRight__": 	instance.currentlyDockedAt = undefined; break;
+				case "__resizeBottom__": 		instance.currentlyDockedAt = undefined; break;
+				case "__resizeBottomLeft__": 	instance.currentlyDockedAt = undefined; break;
+				case "__resizeLeft__": 			instance.currentlyDockedAt = "__SlxDocumentBottomRightDockZone__"; break;
+				case "__resizeTopLeft__": 		instance.currentlyDockedAt = "__SlxDocumentBottomRightDockZone__"; break;
+			}
+		break;
+		case "__SlxDocumentBottomLeftDockZone__":
+			switch ( instance.resizeDirection ) {
+				case "__resizeTop__": 			break;
+				case "__resizeTopRight__": 		break;
+				case "__resizeRight__": 		break;
+				case "__resizeBottomRight__": 	instance.currentlyDockedAt = undefined; break;
+				case "__resizeBottom__": 		instance.currentlyDockedAt = undefined; break;
+				case "__resizeBottomLeft__": 	instance.currentlyDockedAt = undefined; break;
+				case "__resizeLeft__": 			instance.currentlyDockedAt = undefined; break;
+				case "__resizeTopLeft__": 		instance.currentlyDockedAt = undefined; break;
+			}
+		break;
+		case "__SlxDocumentLeftDockZone__":
+			switch ( instance.resizeDirection ) {
+				case "__resizeTop__": 			instance.currentlyDockedAt = "__SlxDocumentBottomLeftDockZone__"; break;
+				case "__resizeTopRight__": 		instance.currentlyDockedAt = "__SlxDocumentBottomLeftDockZone__"; break;
+				case "__resizeRight__": 		break;
+				case "__resizeBottomRight__": 	instance.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
+				case "__resizeBottom__": 		instance.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__";break;
+				case "__resizeBottomLeft__": 	instance.currentlyDockedAt = undefined; break;
+				case "__resizeLeft__": 			instance.currentlyDockedAt = undefined; break;
+				case "__resizeTopLeft__": 		instance.currentlyDockedAt = undefined; break;
+			}
+		break;
+		case "__SlxDocumentTopLeftDockZone__":
+			switch ( instance.resizeDirection ) {
+				case "__resizeTop__": 			instance.currentlyDockedAt = undefined; break;
+				case "__resizeTopRight__": 		instance.currentlyDockedAt = undefined; break;
+				case "__resizeRight__": 		break;
+				case "__resizeBottomRight__": 	break;
+				case "__resizeBottom__": 		break;
+				case "__resizeBottomLeft__": 	instance.currentlyDockedAt = undefined; break;
+				case "__resizeLeft__": 			instance.currentlyDockedAt = undefined; break;
+				case "__resizeTopLeft__": 		instance.currentlyDockedAt = undefined; break;
+			}
+		break;
+	}
+
+	console.log( "instance.resizeDirection: " + instance.resizeDirection );
 
 }
 
@@ -251,46 +367,8 @@ Bay.prototype.resize = function( left, top ) {
 
 	console.log( "Bay.prototype.resize( left, top )" );
 
-	switch ( this.currentlyDockedAt ) {
-		case "__SlxDocumentFullScreenDockZone__":
-			switch ( Bay.resizeDirection ) {
-				case "__resizeTop__": this.currentlyDockedAt = "__SlxDocumentBottomDockZone__"; break;
-				case "__resizeTopRight__": this.currentlyDockedAt = "__SlxDocumentBottomLeftDockZone__"; break;
-				case "__resizeRight__": this.currentlyDockedAt = "__SlxDocumentLeftDockZone__"; break;
-				case "__resizeBottomRight__": this.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
-				case "__resizeBottom__": this.currentlyDockedAt = "__SlxDocumentTopDockZone__"; break;
-				case "__resizeBottomLeft__": this.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
-				case "__resizeLeft__": this.currentlyDockedAt = "__SlxDocumentRightDockZone__"; break;
-				case "__resizeTopLeft__": this.currentlyDockedAt = "__SlxDocumentBottomRightDockZone__"; break;
-			}
-		break;
-		case "__SlxDocumentTopDockZone__":
-			switch ( Bay.resizeDirection ) {
-				case "__resizeRight__":
-				case "__resizeBottomRight__": this.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
-				case "__resizeBottom": break;
-				case "__resizeBottomLeft__":
-				case "__resizeLeft__": this.currentlyDockedAt = "__SlxDocumentTopRightDockZone__"; break;
-				default: this.currentlyDockedAt = undefined;
-			}
-		break;
-		case "__SlxDocumentTopRightDockZone__":
-		break;
-		case "__SlxDocumentRightDockZone__":
-		break;
-		case "__SlxDocumentBottomRightDockZone__":
-		break;
-		case "__SlxDocumentBottomDockZone__":
-		break;
-		case "__SlxDocumentBottomLeftDockZone__":
-		break;
-		case "__SlxDocumentLeftDockZone__":
-		break;
-		case "__SlxDocumentTopLeftDockZone__":
-		break;
-	}
 
-	switch ( Bay.resizeDirection ) {
+	switch ( this.resizeDirection ) {
 
 		case "__resizeTop__":
 
@@ -365,83 +443,7 @@ Bay.prototype.resize = function( left, top ) {
 
 	}
 
-}
-
-Bay.prototype.finishResizing = function() {
-	console.log( "Bay.prototype.finishResizing()" );
-	console.log( "Bay.resizeDirection: " + Bay.resizeDirection);
-
-	// Quick Mouse Up
-	console.log( "if ( Input.isMouseupQuick→" + Input.isMouseupQuick() + " === true )" );
-	if ( Input.isMouseupQuick() === true ) {
-
-		this.handleDocking( "__RESIZE_CLICKED__" );
-
-	// Not A Quick Mouse Up
-	} else {
-
-		this.left = parseInt( this.rootHtmlElement.style.left );
-		this.top = parseInt( this.rootHtmlElement.style.top );
-		this.width = this.rootHtmlElement.offsetWidth; // offsetWidth includes border
-		this.height = this.rootHtmlElement.offsetHeight; // offsetWidth includes border
-
-	}
-
-	Bay.currentlyResizingInstance = undefined;
-	Bay.resizeDirection = undefined;
-	Input.userIs = undefined;
-
-}
-
-Bay.handleDrag = function( event, arEvent_target_id ) {
-
-	console.log( "Bay.handleDrag( event, arEvent_target_id )" );
-
-	event.preventDefault(); // Prevent text selection and dragging
-
-	switch ( event.type ) {
-
-		case "mousedown":
-
-			var instanceId = arEvent_target_id[ 2 ]
-			this.initializeDrag( instanceId );
-			
-		break;
-
-		case "mousemove":
-
-			this.currentlyDraggingInstance.drag( event.clientX, event.clientY );
-
-		break;
-
-		case "mouseup":
-
-			this.currentlyDraggingInstance.finishDragging();
-
-		break;
-
-	}
-
-}
-
-Bay.initializeDrag = function( instanceId ) {
-
-	console.log( "Bay.initializeDrag( instanceId )" );
-
-	this.currentlyDraggingInstance = this.instancesById[ instanceId ];
-	focus( this.currentlyDraggingInstance.rootHtmlElement ); // Bring it to the front of the view
-	Input.userIs = "__DRAGGING_BAY__";
-
-}
-
-Bay.prototype.drag = function( left, top ) {
-	console.log( "Bay.prototype.drag( left, top )" );
-
-	console.log( this );
-	this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
-	this.rootHtmlElement.style.top = ( this.top - Input.mousedownClientY + top ) + "px";
-
-	// This could be optimized
+	// This could be optimized - common code in Bay.prototype.drag()
 	if ( left < SlxDocument.dockZoneWidth ) {
 
 		if ( top < SlxDocument.dockZoneWidth ) {
@@ -558,6 +560,240 @@ Bay.prototype.drag = function( left, top ) {
 
 		}
 
+	} else if ( top < SlxDocument.dockZoneWidth ) {
+
+		// Top
+
+		if ( Bay.cursorCurrentlyInDockZone !== undefined ) {
+
+			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+
+		}
+
+		SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
+
+		Bay.cursorCurrentlyInDockZone = "__SlxDocumentTopDockZone__";
+
+		document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
+
+	} else if ( top > ( window.innerHeight - SlxDocument.dockZoneWidth ) ){
+
+		// Bottom
+
+		if ( Bay.cursorCurrentlyInDockZone !== undefined ) {
+
+			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+
+		}
+
+		console.log( "dock bottom" );
+
+		SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
+
+		Bay.cursorCurrentlyInDockZone = "__SlxDocumentBottomDockZone__";
+
+		document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
+
+	} else if ( Bay.cursorCurrentlyInDockZone !== undefined ) {
+
+		document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null; // removes a style from element
+
+		SlxDocument.objectInDockZone = undefined;
+
+		Bay.cursorCurrentlyInDockZone = undefined;
+
+	}
+
+}
+
+Bay.prototype.finishResizing = function() {
+	console.log( "Bay.prototype.finishResizing()" );
+	console.log( "this.resizeDirection: " + this.resizeDirection);
+	console.log( "this.top: " + this.top );
+
+	// Quick Mouse Up
+	console.log( "if ( Input.isMouseupQuick→" + Input.isMouseupQuick() + " === true )" );
+	if ( Input.isMouseupQuick() === true ) {
+
+		this.handleDocking( "__RESIZE_CLICKED__" );
+
+	// Not A Quick Mouse Up
+	// Handle docking
+	} else if ( Bay.cursorCurrentlyInDockZone !== undefined ) {
+
+		this.handleDocking( "__RESIZED__" );
+
+	// No docking
+	} else {
+
+		this.left = parseInt( this.rootHtmlElement.style.left );
+		this.top = parseInt( this.rootHtmlElement.style.top );
+		this.width = this.rootHtmlElement.offsetWidth; // offsetWidth includes border
+		this.height = this.rootHtmlElement.offsetHeight; // offsetWidth includes border
+		this.saveCurrentDimensions();
+
+	}
+
+	Bay.currentlyResizingInstance = undefined;
+	this.resizeDirection = undefined;
+	Input.userIs = undefined;
+
+}
+
+Bay.handleDrag = function( event, arEvent_target_id ) {
+
+	console.log( "Bay.handleDrag( event, arEvent_target_id )" );
+
+	event.preventDefault(); // Prevent text selection and dragging
+
+	switch ( event.type ) {
+
+		case "mousedown":
+
+			var instanceId = arEvent_target_id[ 2 ]
+			this.initializeDrag( instanceId );
+			
+		break;
+
+		case "mousemove":
+
+			this.currentlyDraggingInstance.drag( event.clientX, event.clientY );
+
+		break;
+
+		case "mouseup":
+
+			this.currentlyDraggingInstance.finishDragging();
+
+		break;
+
+	}
+
+}
+
+Bay.initializeDrag = function( instanceId ) {
+	console.log( "Bay.initializeDrag( instanceId )" );
+
+	var instance = this.instancesById[ instanceId ];
+	this.currentlyDraggingInstance = instance;
+	instance.previousDockZone = instance.currentlyDockedAt;
+	focus( this.currentlyDraggingInstance.rootHtmlElement ); // Bring it to the front of the view
+	Input.userIs = "__DRAGGING_BAY__";
+
+}
+
+Bay.prototype.drag = function( left, top ) {
+	console.log( "Bay.prototype.drag( left, top )" );
+
+	console.log( this );
+	this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
+	this.rootHtmlElement.style.top = ( this.top - Input.mousedownClientY + top ) + "px";
+
+	// This could be optimized - common code in Bay.prototype.resize()
+	if ( left < SlxDocument.dockZoneWidth ) {
+
+		if ( top < SlxDocument.dockZoneWidth ) {
+
+			// Top Left
+
+			if ( Bay.cursorCurrentlyInDockZone !== undefined ) {
+
+				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+
+			}
+
+			SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
+
+			Bay.cursorCurrentlyInDockZone = "__SlxDocumentTopLeftDockZone__";
+
+			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
+
+		} else if ( top > ( window.innerHeight - SlxDocument.dockZoneWidth ) ) {
+
+			// Bottom Left
+
+			if ( Bay.cursorCurrentlyInDockZone !== undefined ) {
+
+				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+
+			}
+
+			SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
+
+			Bay.cursorCurrentlyInDockZone = "__SlxDocumentBottomLeftDockZone__";
+
+			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
+
+		} else {
+
+			// Left
+
+			if ( Bay.cursorCurrentlyInDockZone !== undefined ) {
+
+				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+
+			}
+
+			SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
+
+			Bay.cursorCurrentlyInDockZone = "__SlxDocumentLeftDockZone__";
+
+			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
+
+		}
+
+	} else if ( left > ( window.innerWidth - SlxDocument.dockZoneWidth ) ) {
+
+		if ( top < SlxDocument.dockZoneWidth ) {
+
+			// Top Right
+
+			if ( Bay.cursorCurrentlyInDockZone !== undefined ) {
+
+				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+
+			}
+
+			SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
+
+			Bay.cursorCurrentlyInDockZone = "__SlxDocumentTopRightDockZone__";
+
+			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
+
+		} else if ( top > ( window.innerHeight - SlxDocument.dockZoneWidth ) ) {
+
+			// Bottom Right
+
+			if ( Bay.cursorCurrentlyInDockZone !== undefined ) {
+
+				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+
+			}
+
+			SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
+
+			Bay.cursorCurrentlyInDockZone = "__SlxDocumentBottomRightDockZone__";
+
+			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
+
+		} else {
+
+			// Right
+
+			if ( Bay.cursorCurrentlyInDockZone !== undefined ) {
+
+				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+
+			}
+
+			SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
+
+			Bay.cursorCurrentlyInDockZone = "__SlxDocumentRightDockZone__";
+
+			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
+
+		}
+
 	} else if ( left > ( SlxDocument.fullScreenZoneStart * window.innerWidth ) && left < ( SlxDocument.fullScreenZoneEnd * window.innerWidth ) && top < SlxDocument.dockZoneWidth ) {
 
 		// Fullscreen
@@ -567,8 +803,6 @@ Bay.prototype.drag = function( left, top ) {
 			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
 
 		}
-
-		console.log( "dock top" );
 
 		SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 
@@ -586,15 +820,13 @@ Bay.prototype.drag = function( left, top ) {
 
 		}
 
-		console.log( "dock top" );
-
 		SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 
 		Bay.cursorCurrentlyInDockZone = "__SlxDocumentTopDockZone__";
 
 		document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 
-	}  else if ( top > ( window.innerHeight - SlxDocument.dockZoneWidth ) ){
+	} else if ( top > ( window.innerHeight - SlxDocument.dockZoneWidth ) ){
 
 		// Bottom
 
@@ -603,8 +835,6 @@ Bay.prototype.drag = function( left, top ) {
 			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
 
 		}
-
-		console.log( "dock bottom" );
 
 		SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 
@@ -642,12 +872,7 @@ Bay.prototype.finishDragging = function( left, top ) {
 
 		this.left = parseInt( this.rootHtmlElement.style.left );
 		this.top = parseInt( this.rootHtmlElement.style.top );
-
-	}
-
-	if ( Bay.cursorCurrentlyInDockZone !== undefined ) {
-
-		document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+		this.saveCurrentDimensions();
 
 	}
 
@@ -670,17 +895,7 @@ Bay.prototype.handleDocking = function( mode ) {
 		case "__DRAG_CLICKED__": 
 
 			dockZone = "__SlxDocumentFullScreenDockZone__";
-
-			// If dockZone has been set, then toggle docking
-			if ( dockZone === undefined ) {
-
-				this.currentlyDockedAt = undefined;
-
-			} else {
-
-				this.toggleDock( dockZone );
-
-			}
+			this.toggleDock( dockZone, true );
 
 		break;
 
@@ -688,24 +903,14 @@ Bay.prototype.handleDocking = function( mode ) {
 		case "__DRAGGED__":
 
 			dockZone = Bay.cursorCurrentlyInDockZone;
-
-			// If dockZone has been set, then toggle docking
-			if ( dockZone === undefined ) {
-
-				this.currentlyDockedAt = undefined;
-
-			} else {
-
-				this.dock( dockZone );
-
-			}
+			this.dock( dockZone, true );
 
 		break;
 
 		// Determine dockzone of bay that is currently being resized
 		case "__RESIZE_CLICKED__": 
 
-			switch ( Bay.resizeDirection ) {
+			switch ( this.resizeDirection ) {
 
 				case "__resizeTop__":
 					dockZone = "__SlxDocumentTopDockZone__";		
@@ -734,183 +939,229 @@ Bay.prototype.handleDocking = function( mode ) {
 
 			}
 
-			// If dockZone has been set, then toggle docking
-			if ( dockZone === undefined ) {
+			// Toggle docking
+			this.toggleDock( dockZone, true );
 
-				this.currentlyDockedAt = undefined;
+		break;
 
-			} else {
+		// Determine quasi-dockzone (position is saved and dockzone is not set) from dragging one of the resize handles
+		case "__RESIZED__":
 
-				this.toggleDock( dockZone );
-
-			}
+			dockZone = Bay.cursorCurrentlyInDockZone;
+			this.dock( dockZone, false );
 
 		break;
 
 	}
 
-	
+	if ( Bay.cursorCurrentlyInDockZone !== undefined ) {
+
+		document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = null;
+
+	}	
 
 }
 
-Bay.prototype.toggleDock = function( dockZone ) {
+Bay.prototype.toggleDock = function( dockZone, isFill ) {
 	console.log( "Bay.prototype.toggleDock( dockZone→\"" + dockZone + "\" )" );
 
 	// Undock and restore previous dimensions
-	console.log( "if ( dockZone→\""+ dockZone +"\" === \""+ this.currentlyDockedAt +"\"←this.currentlyDockedAt )" );
-	if ( dockZone === this.currentlyDockedAt ) {
+	console.log( "if ( dockZone→\""+ dockZone +"\" === \""+ this.previousDockZone +"\"←this.previousDockZone )" );
+	if ( dockZone !=  undefined && dockZone === this.previousDockZone ) {
 
 		this.undockAndRestorePreviousDimensions();
 
 	// Dock
 	} else {
 
-		this.dock( dockZone );
+		this.dock( dockZone, isFill );
 
 	}
 
 }
 
-Bay.prototype.dock = function ( dockZone ) {
-
-	// Save current dimensions if not docked
-	console.log( "if ( this.currentlyDockedAt→" + this.currentlyDockedAt + " === undefined )" );
-	if ( this.currentlyDockedAt === undefined ) {
-
-		this.previousLeft = this.left;
-		this.previousTop = this.top;
-		this.previousWidth = this.width;
-		this.previousHeight = this.height;
-
-	}
+Bay.prototype.dock = function ( dockZone, isFill ) {
+	console.log( "Bay.prototype.dock( dockZone→\"" + dockZone + "\" )" );
 
 	// Handle docking
 	switch ( dockZone ) {
 
 		case "__SlxDocumentFullScreenDockZone__":
-			console.log( "case \"__SlxDocumentFullScreenDockZone__\":")
 
-			this.rootHtmlElement.style.left = 0 + "px";
-			this.left = 0;
-			this.rootHtmlElement.style.top = 0 + "px";
-			this.top = 0;
+			if ( isFill === true ) {
 
-			this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
-			this.width = window.innerWidth;
-			this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
-			this.height = window.innerHeight;
+				this.setDimensions( 
+					0,
+					0,
+					window.innerWidth,
+					window.innerHeight
+				)
+
+			}			
 
 		break;
 
 		case "__SlxDocumentTopDockZone__":
 
-			this.rootHtmlElement.style.left = 0 + "px";
-			this.left = 0;
-			this.rootHtmlElement.style.top = 0 + "px";
-			this.top = 0;
+			if ( isFill === true ) {
 
-			this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
-			this.width = window.innerWidth;
-			this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-			this.height = window.innerHeight / 2;
+				this.setDimensions(
+					0,
+					0,
+					window.innerWidth,
+					window.innerHeight / 2
+				)
+
+			} else {
+
+				this.setHeight( this.height + this.top );
+				this.setTop( 0 );				
+
+			}
 			
 		break;
 
 		case "__SlxDocumentTopRightDockZone__":
 
-			this.rootHtmlElement.style.left = window.innerWidth / 2 + "px";
-			this.left = window.innerWidth / 2;
-			this.rootHtmlElement.style.top = 0 + "px";
-			this.top = 0;
+			if ( isFill === true ) {
 
-			this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-			this.width = window.innerWidth / 2;
-			this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-			this.height = window.innerHeight / 2;
+				this.setDimensions(
+					window.innerWidth / 2,
+					0,
+					window.innerWidth / 2,
+					window.innerHeight / 2
+				)
+
+			} else {
+
+				this.setWidth( window.innerWidth - this.left );
+				this.setHeight( this.height + this.top );
+				this.setTop( 0 );
+
+			}
 
 		break;
 
 		case "__SlxDocumentRightDockZone__":
 
-			this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
-			this.left = window.innerWidth / 2;
-			this.rootHtmlElement.style.top = 0 + "px";
-			this.top = 0;
+			if ( isFill === true ) {
 
-			this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-			this.width = window.innerWidth / 2;
-			this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
-			this.height = window.innerHeight;
+				this.setDimensions(
+					window.innerWidth / 2,
+					0,
+					window.innerWidth / 2,
+					window.innerHeight
+				)
+
+			} else {
+
+				this.setWidth( window.innerWidth - this.left );
+
+			}
 
 		break;
 
 		case "__SlxDocumentBottomRightDockZone__":
 
-			this.rootHtmlElement.style.left = ( window.innerWidth / 2 ) + "px";
-			this.left = window.innerWidth / 2;
-			this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
-			this.top = window.innerHeight / 2;
+			if ( isFill === true ) {
 
-			this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-			this.width = window.innerWidth / 2;
-			this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-			this.height = window.innerHeight / 2;
+				this.setDimensions(
+					window.innerWidth / 2,
+					window.innerHeight / 2,
+					window.innerWidth / 2,
+					window.innerHeight / 2
+				)
+
+			} else {
+
+				this.setWidth( window.innerWidth - this.left );
+				this.setHeight( window.innerHeight - this.top );
+
+			}
 
 		break;
 
 		case "__SlxDocumentBottomDockZone__":
 
-			this.rootHtmlElement.style.left = 0 + "px";
-			this.left = 0;
-			this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
-			this.top = window.innerHeight / 2;
+			if ( isFill === true ) {
 
-			this.rootHtmlElement.style.width = ( window.innerWidth - Bay.borderWidthX2 ) + "px";
-			this.width = window.innerWidth;
-			this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-			this.height = window.innerHeight / 2;
+				this.setDimensions(
+					0,
+					window.innerHeight / 2,
+					window.innerWidth,
+					window.innerHeight / 2
+				)
+
+			} else {
+
+				this.setHeight( window.innerHeight - this.top );
+
+			}
 
 		break;
 
 		case "__SlxDocumentBottomLeftDockZone__":
 
-			this.rootHtmlElement.style.left = 0 + "px";
-			this.left = 0;
-			this.rootHtmlElement.style.top = ( window.innerHeight / 2 ) + "px";
-			this.top = window.innerHeight / 2;
+			if ( isFill === true ) {
 
-			this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-			this.width = window.innerWidth / 2;
-			this.rootHtmlElement.style.height = ( window.innerHeight / 2 - Bay.borderWidthX2 ) + "px";
-			this.height = window.innerHeight / 2;
+				this.setDimensions(
+					0,
+					window.innerHeight / 2,
+					window.innerWidth / 2,
+					window.innerHeight / 2
+				)
+
+			} else {
+
+				this.setWidth( this.width + this.left )
+				this.setHeight( window.innerHeight - this.top );
+				this.setLeft( 0 );
+
+			}
 
 		break;
 
 		case "__SlxDocumentLeftDockZone__":
 
-			this.rootHtmlElement.style.left = 0 + "px";
-			this.left = 0;
-			this.rootHtmlElement.style.top = 0 + "px";
-			this.top = 0;
+			if ( isFill === true ) {
 
-			this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-			this.width = window.innerWidth / 2;
-			this.rootHtmlElement.style.height = ( window.innerHeight - Bay.borderWidthX2 ) + "px";
-			this.height = window.innerHeight;
+				this.setDimensions(
+					0,
+					0,
+					window.innerWidth / 2,
+					window.innerHeight
+				)
+
+			} else {
+
+				this.setWidth( this.width + this.left )
+				this.setLeft( 0 );
+
+			}
 			
 		break;
 
 		case "__SlxDocumentTopLeftDockZone__":
 
-			this.rootHtmlElement.style.left = 0 + "px";
-			this.left = 0;
-			this.rootHtmlElement.style.top = 0 + "px";
-			this.top = 0;
+			if ( isFill === true ) {
 
-			this.rootHtmlElement.style.width = ( window.innerWidth / 2 - Bay.borderWidthX2 ) + "px";
-			this.width = window.innerWidth / 2;
-			this.rootHtmlElement.style.height = ( window.innerHeight / 2- Bay.borderWidthX2 ) + "px";
-			this.height = window.innerHeight / 2;
+				this.setDimensions(
+					0,
+					0,
+					window.innerWidth / 2,
+					window.innerHeight / 2
+				)
+
+			} else {
+
+				this.setDimensions(
+					0,
+					0,
+					this.width + this.left,
+					this.height + this.top
+				)
+
+			}
 			
 		break;
 
@@ -921,6 +1172,16 @@ Bay.prototype.dock = function ( dockZone ) {
 
 }
 
+Bay.prototype.saveCurrentDimensions = function () {
+	console.log( "Bay.prototype.saveCurrentDimensions()" );
+
+	this.previousLeft = this.left;
+	this.previousTop = this.top;
+	this.previousWidth = this.width;
+	this.previousHeight = this.height;
+
+}
+
 Bay.prototype.undockAndRestorePreviousDimensions = function() {
 
 	console.log( "Bay.prototype.undockAndRestorePreviousDimensions()" );
@@ -928,41 +1189,51 @@ Bay.prototype.undockAndRestorePreviousDimensions = function() {
 	// Change root left and top and content width and height
 	this.left = this.previousLeft;
 	this.rootHtmlElement.style.left = ( this.previousLeft ) + "px";
-	this.previousLeft = undefined;
 	this.top = this.previousTop;
 	this.rootHtmlElement.style.top = ( this.previousTop ) + "px";
-	this.previousTop = undefined;
 	this.width = this.previousWidth;
 	this.rootHtmlElement.style.width = ( this.previousWidth - Bay.borderWidthX2 ) + "px";
-	this.previousWidth = undefined;
 	this.height = this.previousHeight;
 	this.rootHtmlElement.style.height = ( this.previousHeight - Bay.borderWidthX2 ) + "px";
-	this.previousHeight = undefined;
 
 	this.currentlyDockedAt = undefined;
 
 }
 
-Bay.handleQuickMouseup = function( arEvent_target_id ) {
+Bay.prototype.setLeft = function( left ) {
 
-	console.log( "Bay.handleQuickMouseup( arEvent_target_id )" );
+	this.rootHtmlElement.style.left = left + "px";
+	this.left = left;
 
-	console.log( arEvent_target_id );
+}
 
-	switch ( arEvent_target_id[1] ) {
+Bay.prototype.setTop = function( top ) {
 
-		case "__resizeTop__":
-		case "__resizeTopRight__":
-		case "__resizeRight__":
-		case "__resizeBottomRight__":
-		case "__resizeBottom__":
-		case "__resizeBottomLeft__":
-		case "__resizeLeft__":
-		case "__resizeTopLeft__": 
-			this.instancesById[ arEvent_target_id[ 2 ] ].handleDocking( arEvent_target_id[1] );
-		break;
+	this.rootHtmlElement.style.top = top + "px";
+	this.top = top;
 
-	}
+}
+
+Bay.prototype.setWidth = function( width ) {
+
+	this.rootHtmlElement.style.width = ( width - Bay.borderWidthX2 ) + "px";
+	this.width = width;
+
+}
+
+Bay.prototype.setHeight = function( height ) {
+
+	this.rootHtmlElement.style.height = ( height - Bay.borderWidthX2 ) + "px";
+	this.height = height;
+
+}
+
+Bay.prototype.setDimensions = function( left, top, width, height) {
+
+	this.setLeft( left );
+	this.setTop( top );
+	this.setWidth( width );
+	this.setHeight( height );
 
 }
 
