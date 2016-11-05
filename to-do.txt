@@ -1,3 +1,4 @@
-Docking when resizing.
+Docking when resizing. - done, but quirky
 Take the BioJS tutorial.
-Bay docking and sharing.
+Bay docking and sharing. - what?
+Circular context menu on right click on resize and drag handle.

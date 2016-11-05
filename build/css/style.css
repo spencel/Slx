@@ -180,6 +180,14 @@
 	width: 10px;
 	height: 10px;
 }
+#__contextMenu__{
+	position:fixed;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+#__contextMenuCenter__{
+}
 div#debugBox {
 	position:	fixed;
 	z-index: 999999;

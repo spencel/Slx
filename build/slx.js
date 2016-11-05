@@ -281,7 +281,6 @@ var Slx = (function() {
 	}
 	
 	Bay.eventHandler = function( event, arEvent_target_id ) {
-	
 		console.log( "Bay.eventHandler( event, arEvent_target_id )" );
 	
 		switch ( arEvent_target_id[ 1 ] ) {
@@ -295,16 +294,56 @@ var Slx = (function() {
 			case "__resizeLeft__":
 			case "__resizeTopLeft__":
 	
-				Bay.handleResize( event, arEvent_target_id );
+				// Left Mousedown
+				if ( event.button === 0 ) {
+					Bay.handleResize( event, arEvent_target_id );
+	
+				// Right Mousedown
+				} else if ( event.type === "contextmenu" ) {
+					Bay.handleContextMenu( event, arEvent_target_id );
+				}
 	
 			break;
 			case "__drag__":
 	
-				Bay.handleDrag( event, arEvent_target_id );
+				// Left Mousedown
+				if ( event.button === 0 ) {
+					Bay.handleDrag( event, arEvent_target_id );
+	
+				// Right Mousedown
+				} else if ( event.button === "contextmenu" ) {
+					Bay.handleContextMenu( event, arEvent_target_id );
+				}
 	
 			break;
 	
 		}
+	
+	}
+	
+	Bay.handleContextMenu = function( event, arEvent_target_id ) {
+		console.log( "Bay.handleContextMenu( event, arEvent_target_id )" );
+		console.log( event );
+	
+		event.preventDefault();
+		window.event.returnValue = false;
+	
+		var svgElement = document.createElementNS( "http://www.w3.org/2000/svg", "svg" );
+		svgElement.id = "__contextMenu__";
+		document.body.appendChild( svgElement );
+	
+		focus( svgElement );
+	
+		var circleElement = document.createElementNS( "http://www.w3.org/2000/svg", "circle" );
+		circleElement.setAttribute( "cx", event.clientX );
+		circleElement.setAttribute( "cy", event.clientY );
+		circleElement.setAttribute( "r", 10 );
+		circleElement.setAttribute( "fill", "white");
+		circleElement.setAttribute( "stroke", "black");
+		circleElement.setAttribute( "stroke-width", 1);
+		document.getElementById( "__contextMenu__" ).appendChild( circleElement );
+	
+	
 	
 	}
 	
@@ -1459,11 +1498,7 @@ var Slx = (function() {
 				// Left Mouse Button is Down
 				case 0:
 	
-					//console.log( arEvent_target_id[0] );
-	
 					switch ( arEvent_target_id[0] ) {
-	
-						// Handle Resize Buttons
 	
 						case "__Bay__":
 	
@@ -1474,7 +1509,7 @@ var Slx = (function() {
 					}
 	
 				break;
-	
+			
 			}
 	
 		};
@@ -1580,35 +1615,20 @@ var Slx = (function() {
 	
 		document.oncontextmenu = function( event ) {
 	
-			if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) {
+			var strEvent_target_id = event.target.id;
+			var arEvent_target_id = strEvent_target_id.split("-");
 	
-				var strEvent_target_id = event.target.id;
-				var arEvent_target_id = strEvent_target_id.split("-");
+			switch ( arEvent_target_id[0] ) {
 	
-				//console.log( event );
+				case "__Bay__":
 	
-				switch ( arEvent_target_id[0] ) {
+					Bay.eventHandler( event, arEvent_target_id );
 	
-					// Resize Handles become Open Menu button on right click
-					case "__resizeTop__":
-					case "__resizeTopRight__":
-					case "__resizeRight__":
-					case "__resizeBottomRight__":
-					case "__resizeBottom__":
-					case "__resizeBottomLeft__":
-					case "__resizeLeft__":
-					case "__resizeTopLeft__":
-	
-						event.preventDefault();
-						return false;
-	
-					break;
-	
-				}
-	
+				break;
+			
 			}
 	
-		}
+		};
 	
 		// Mouse Click
 		jQuery( document ).on( "click", function( event ) {

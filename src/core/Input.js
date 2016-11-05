@@ -101,11 +101,7 @@ Input.activateEventHandlers = function() {
 			// Left Mouse Button is Down
 			case 0:
 
-				//console.log( arEvent_target_id[0] );
-
 				switch ( arEvent_target_id[0] ) {
-
-					// Handle Resize Buttons
 
 					case "__Bay__":
 
@@ -116,7 +112,7 @@ Input.activateEventHandlers = function() {
 				}
 
 			break;
-
+		
 		}
 
 	};
@@ -222,35 +218,20 @@ Input.activateEventHandlers = function() {
 
 	document.oncontextmenu = function( event ) {
 
-		if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) {
+		var strEvent_target_id = event.target.id;
+		var arEvent_target_id = strEvent_target_id.split("-");
 
-			var strEvent_target_id = event.target.id;
-			var arEvent_target_id = strEvent_target_id.split("-");
+		switch ( arEvent_target_id[0] ) {
 
-			//console.log( event );
+			case "__Bay__":
 
-			switch ( arEvent_target_id[0] ) {
+				Bay.eventHandler( event, arEvent_target_id );
 
-				// Resize Handles become Open Menu button on right click
-				case "__resizeTop__":
-				case "__resizeTopRight__":
-				case "__resizeRight__":
-				case "__resizeBottomRight__":
-				case "__resizeBottom__":
-				case "__resizeBottomLeft__":
-				case "__resizeLeft__":
-				case "__resizeTopLeft__":
-
-					event.preventDefault();
-					return false;
-
-				break;
-
-			}
-
+			break;
+		
 		}
 
-	}
+	};
 
 	// Mouse Click
 	jQuery( document ).on( "click", function( event ) {

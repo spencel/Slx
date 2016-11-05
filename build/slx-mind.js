@@ -281,7 +281,6 @@ var Slx = (function() {
 	}
 	
 	Bay.eventHandler = function( event, arEventtargetid ) {
-	
 		console.log( "Bay.eventHandler( event, arEventtargetid )" );
 	
 		switch ( arEventtargetid[ 1 ] ) {
@@ -295,16 +294,56 @@ var Slx = (function() {
 			case "_12":
 			case "_13":
 	
-				Bay.handleResize( event, arEventtargetid );
+				// Left Mousedown
+				if ( event.button === 0 ) {
+					Bay.handleResize( event, arEventtargetid );
+	
+				// Right Mousedown
+				} else if ( event.type === "contextmenu" ) {
+					Bay.handleContextMenu( event, arEventtargetid );
+				}
 	
 			break;
 			case "_2":
 	
-				Bay.handleDrag( event, arEventtargetid );
+				// Left Mousedown
+				if ( event.button === 0 ) {
+					Bay.handleDrag( event, arEventtargetid );
+	
+				// Right Mousedown
+				} else if ( event.button === "contextmenu" ) {
+					Bay.handleContextMenu( event, arEventtargetid );
+				}
 	
 			break;
 	
 		}
+	
+	}
+	
+	Bay.handleContextMenu = function( event, arEventtargetid ) {
+		console.log( "Bay.handleContextMenu( event, arEventtargetid )" );
+		console.log( event );
+	
+		event.preventDefault();
+		window.event.returnValue = false;
+	
+		var svgElement = document.createElementNS( "http://www.w3.org/2000/svg", "svg" );
+		svgElement.id = "_15";
+		document.body.appendChild( svgElement );
+	
+		focus( svgElement );
+	
+		var circleElement = document.createElementNS( "http://www.w3.org/2000/svg", "circle" );
+		circleElement.setAttribute( "cx", event.clientX );
+		circleElement.setAttribute( "cy", event.clientY );
+		circleElement.setAttribute( "r", 10 );
+		circleElement.setAttribute( "fill", "white");
+		circleElement.setAttribute( "stroke", "black");
+		circleElement.setAttribute( "stroke-width", 1);
+		document.getElementById( "_15" ).appendChild( circleElement );
+	
+	
 	
 	}
 	
@@ -348,35 +387,35 @@ var Slx = (function() {
 		this.currentlyResizingInstance = instance;
 		focus( instance.rootHtmlElement ); // Bring it to the front of the view
 		instance.resizeDirection = resizeDirection;
-		Input.userIs = "_15";
+		Input.userIs = "_16";
 	
 		// Check if it should be undocked
 		instance.previousDockZone = instance.currentlyDockedAt;
 		switch ( instance.currentlyDockedAt ) {
-			case "_16":
+			case "_17":
 				switch ( instance.resizeDirection ) {
-					case "_6": 			instance.currentlyDockedAt = "_17"; break;
-					case "_7": 		instance.currentlyDockedAt = "_18"; break;
-					case "_8": 		instance.currentlyDockedAt = "_19"; break;
-					case "_9": 	instance.currentlyDockedAt = "_20"; break;
-					case "_10": 		instance.currentlyDockedAt = "_21"; break;
-					case "_11": 	instance.currentlyDockedAt = "_20"; break;
-					case "_12": 			instance.currentlyDockedAt = "_22"; break;
-					case "_13": 		instance.currentlyDockedAt = "_23"; break;
+					case "_6": 			instance.currentlyDockedAt = "_18"; break;
+					case "_7": 		instance.currentlyDockedAt = "_19"; break;
+					case "_8": 		instance.currentlyDockedAt = "_20"; break;
+					case "_9": 	instance.currentlyDockedAt = "_21"; break;
+					case "_10": 		instance.currentlyDockedAt = "_22"; break;
+					case "_11": 	instance.currentlyDockedAt = "_21"; break;
+					case "_12": 			instance.currentlyDockedAt = "_23"; break;
+					case "_13": 		instance.currentlyDockedAt = "_24"; break;
 				}
 			break;
-			case "_21":
+			case "_22":
 				switch ( instance.resizeDirection ) {
 					case "_6": 			instance.currentlyDockedAt = undefined; break;
 					case "_7": 		instance.currentlyDockedAt = undefined; break;
-					case "_8": 		instance.currentlyDockedAt = "_20"; break;
-					case "_9": 	instance.currentlyDockedAt = "_20"; break;
-					case "					case "_11": 	instance.currentlyDockedAt = "_24"; break;
-					case "_12": 			instance.currentlyDockedAt = "_24"; break;
+					case "_8": 		instance.currentlyDockedAt = "_21"; break;
+					case "_9": 	instance.currentlyDockedAt = "_21"; break;
+					case "					case "_11": 	instance.currentlyDockedAt = "_25"; break;
+					case "_12": 			instance.currentlyDockedAt = "_25"; break;
 					case "_13": 		instance.currentlyDockedAt = undefined; break;
 				}
 			break;
-			case "_24":
+			case "_25":
 				switch ( instance.resizeDirection ) {
 					case "_6": 			instance.currentlyDockedAt = undefined; break;
 					case "_7": 		instance.currentlyDockedAt = undefined; break;
@@ -388,19 +427,19 @@ var Slx = (function() {
 					case "_13": 		instance.currentlyDockedAt = undefined; break;
 				}
 			break;
-			case "_22":
+			case "_23":
 				switch ( instance.resizeDirection ) {
-					case "_6": 			instance.currentlyDockedAt = "_23"; break;
+					case "_6": 			instance.currentlyDockedAt = "_24"; break;
 					case "_7": 		instance.currentlyDockedAt = undefined; break;
 					case "_8": 		instance.currentlyDockedAt = undefined; break;
 					case "_9": 	instance.currentlyDockedAt = undefined; break;
-					case "_10": 		instance.currentlyDockedAt = "_24"; break;
-					case "_11": 	instance.currentlyDockedAt = "_24"; break;
+					case "_10": 		instance.currentlyDockedAt = "_25"; break;
+					case "_11": 	instance.currentlyDockedAt = "_25"; break;
 					case "_12": 			break;
-					case "_13": 		instance.currentlyDockedAt = "_23"; break;
+					case "_13": 		instance.currentlyDockedAt = "_24"; break;
 				}
 			break;
-			case "_23":
+			case "_24":
 				switch ( instance.resizeDirection ) {
 					case "_6": 			break;
 					case "_7": 		instance.currentlyDockedAt = undefined; break;
@@ -412,19 +451,19 @@ var Slx = (function() {
 					case "_13": 		break;
 				}
 			break;
-			case "_17":
+			case "_18":
 				switch ( instance.resizeDirection ) {
 					case "_6": 			break;
-					case "_7": 		instance.currentlyDockedAt = "_18"; break;
-					case "_8": 		instance.currentlyDockedAt = "_18"; break;
+					case "_7": 		instance.currentlyDockedAt = "_19"; break;
+					case "_8": 		instance.currentlyDockedAt = "_19"; break;
 					case "_9": 	instance.currentlyDockedAt = undefined; break;
 					case "_10": 		instance.currentlyDockedAt = undefined; break;
 					case "_11": 	instance.currentlyDockedAt = undefined; break;
-					case "_12": 			instance.currentlyDockedAt = "_23"; break;
-					case "_13": 		instance.currentlyDockedAt = "_23"; break;
+					case "_12": 			instance.currentlyDockedAt = "_24"; break;
+					case "_13": 		instance.currentlyDockedAt = "_24"; break;
 				}
 			break;
-			case "_18":
+			case "_19":
 				switch ( instance.resizeDirection ) {
 					case "_6": 			break;
 					case "_7": 		break;
@@ -436,19 +475,19 @@ var Slx = (function() {
 					case "_13": 		instance.currentlyDockedAt = undefined; break;
 				}
 			break;
-			case "_19":
+			case "_20":
 				switch ( instance.resizeDirection ) {
-					case "_6": 			instance.currentlyDockedAt = "_18"; break;
-					case "_7": 		instance.currentlyDockedAt = "_18"; break;
+					case "_6": 			instance.currentlyDockedAt = "_19"; break;
+					case "_7": 		instance.currentlyDockedAt = "_19"; break;
 					case "_8": 		break;
-					case "_9": 	instance.currentlyDockedAt = "_20"; break;
-					case "_10": 		instance.currentlyDockedAt = "_20";break;
+					case "_9": 	instance.currentlyDockedAt = "_21"; break;
+					case "_10": 		instance.currentlyDockedAt = "_21";break;
 					case "_11": 	instance.currentlyDockedAt = undefined; break;
 					case "_12": 			instance.currentlyDockedAt = undefined; break;
 					case "_13": 		instance.currentlyDockedAt = undefined; break;
 				}
 			break;
-			case "_20":
+			case "_21":
 				switch ( instance.resizeDirection ) {
 					case "_6": 			instance.currentlyDockedAt = undefined; break;
 					case "_7": 		instance.currentlyDockedAt = undefined; break;
@@ -563,7 +602,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "_20";
+				Bay.cursorCurrentlyInDockZone = "_21";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -581,7 +620,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "_18";
+				Bay.cursorCurrentlyInDockZone = "_19";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -599,7 +638,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "_19";
+				Bay.cursorCurrentlyInDockZone = "_20";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -621,7 +660,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "_24";
+				Bay.cursorCurrentlyInDockZone = "_25";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -639,7 +678,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "_23";
+				Bay.cursorCurrentlyInDockZone = "_24";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -657,7 +696,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "_22";
+				Bay.cursorCurrentlyInDockZone = "_23";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -675,7 +714,7 @@ var Slx = (function() {
 	
 			SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-			Bay.cursorCurrentlyInDockZone = "_21";
+			Bay.cursorCurrentlyInDockZone = "_22";
 	
 			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -693,7 +732,7 @@ var Slx = (function() {
 	
 			SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-			Bay.cursorCurrentlyInDockZone = "_17";
+			Bay.cursorCurrentlyInDockZone = "_18";
 	
 			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -718,13 +757,13 @@ var Slx = (function() {
 		console.log( "if ( Input.isMouseupQuick→" + Input.isMouseupQuick() + " === true )" );
 		if ( Input.isMouseupQuick() === true ) {
 	
-			this.handleDocking( "_25" );
+			this.handleDocking( "_26" );
 	
 		// Not A Quick Mouse Up
 		// Handle docking
 		} else if ( Bay.cursorCurrentlyInDockZone !== undefined ) {
 	
-			this.handleDocking( "_26" );
+			this.handleDocking( "_27" );
 	
 		// No docking
 		} else {
@@ -781,7 +820,7 @@ var Slx = (function() {
 		this.currentlyDraggingInstance = instance;
 		instance.previousDockZone = instance.currentlyDockedAt;
 		focus( this.currentlyDraggingInstance.rootHtmlElement ); // Bring it to the front of the view
-		Input.userIs = "_27";
+		Input.userIs = "_28";
 	
 	}
 	
@@ -807,7 +846,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "_20";
+				Bay.cursorCurrentlyInDockZone = "_21";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -823,7 +862,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "_18";
+				Bay.cursorCurrentlyInDockZone = "_19";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -839,7 +878,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "_19";
+				Bay.cursorCurrentlyInDockZone = "_20";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -859,7 +898,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "_24";
+				Bay.cursorCurrentlyInDockZone = "_25";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -875,7 +914,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "_23";
+				Bay.cursorCurrentlyInDockZone = "_24";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -891,7 +930,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "_22";
+				Bay.cursorCurrentlyInDockZone = "_23";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -909,7 +948,7 @@ var Slx = (function() {
 	
 			SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-			Bay.cursorCurrentlyInDockZone = "_16";
+			Bay.cursorCurrentlyInDockZone = "_17";
 	
 			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -925,7 +964,7 @@ var Slx = (function() {
 	
 			SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-			Bay.cursorCurrentlyInDockZone = "_21";
+			Bay.cursorCurrentlyInDockZone = "_22";
 	
 			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -941,7 +980,7 @@ var Slx = (function() {
 	
 			SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-			Bay.cursorCurrentlyInDockZone = "_17";
+			Bay.cursorCurrentlyInDockZone = "_18";
 	
 			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -964,12 +1003,12 @@ var Slx = (function() {
 		console.log( "if ( Input.isMouseupQuick()→" + Input.isMouseupQuick() + " === true )" );
 		if ( Input.isMouseupQuick() === true ) {
 	
-			this.handleDocking( "_28" );
+			this.handleDocking( "_29" );
 	
 		// Handle docking
 		} else if ( Bay.cursorCurrentlyInDockZone !== undefined ) {
 	
-			this.handleDocking( "_29" );
+			this.handleDocking( "_30" );
 	
 		} else {
 	
@@ -995,15 +1034,15 @@ var Slx = (function() {
 		switch ( mode ) {
 	
 			// Determine dockzone of bay that is currently being dragged
-			case "_28": 
+			case "_29": 
 	
-				dockZone = "_16";
+				dockZone = "_17";
 				this.toggleDock( dockZone, true );
 	
 			break;
 	
 			// Determine dockzone of bay being dragged into a dockzone
-			case "_29":
+			case "_30":
 	
 				dockZone = Bay.cursorCurrentlyInDockZone;
 				this.dock( dockZone, true );
@@ -1011,33 +1050,33 @@ var Slx = (function() {
 			break;
 	
 			// Determine dockzone of bay that is currently being resized
-			case "_25": 
+			case "_26": 
 	
 				switch ( this.resizeDirection ) {
 	
 					case "_6":
-						dockZone = "_21";		
+						dockZone = "_22";		
 					break;
 					case "_7":
-						dockZone = "_24";
+						dockZone = "_25";
 					break;
 					case "_8":
-						dockZone = "_22";
-					break;
-					case "_9":
 						dockZone = "_23";
 					break;
-					case "_10":
-						dockZone = "_17";
+					case "_9":
+						dockZone = "_24";
 					break;
-					case "_11":
+					case "_10":
 						dockZone = "_18";
 					break;
-					case "_12":
+					case "_11":
 						dockZone = "_19";
 					break;
-					case "_13":
+					case "_12":
 						dockZone = "_20";
+					break;
+					case "_13":
+						dockZone = "_21";
 					break;
 	
 				}
@@ -1048,7 +1087,7 @@ var Slx = (function() {
 			break;
 	
 			// Determine quasi-dockzone (position is saved and dockzone is not set) from dragging one of the resize handles
-			case "_26":
+			case "_27":
 	
 				dockZone = Bay.cursorCurrentlyInDockZone;
 				this.dock( dockZone, false );
@@ -1089,7 +1128,7 @@ var Slx = (function() {
 		// Handle docking
 		switch ( dockZone ) {
 	
-			case "_16":
+			case "_17":
 	
 				if ( isFill === true ) {
 	
@@ -1104,7 +1143,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "_21":
+			case "_22":
 	
 				if ( isFill === true ) {
 	
@@ -1124,7 +1163,7 @@ var Slx = (function() {
 				
 			break;
 	
-			case "_24":
+			case "_25":
 	
 				if ( isFill === true ) {
 	
@@ -1145,7 +1184,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "_22":
+			case "_23":
 	
 				if ( isFill === true ) {
 	
@@ -1164,7 +1203,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "_23":
+			case "_24":
 	
 				if ( isFill === true ) {
 	
@@ -1184,7 +1223,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "_17":
+			case "_18":
 	
 				if ( isFill === true ) {
 	
@@ -1203,7 +1242,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "_18":
+			case "_19":
 	
 				if ( isFill === true ) {
 	
@@ -1224,7 +1263,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "_19":
+			case "_20":
 	
 				if ( isFill === true ) {
 	
@@ -1244,7 +1283,7 @@ var Slx = (function() {
 				
 			break;
 	
-			case "_20":
+			case "_21":
 	
 				if ( isFill === true ) {
 	
@@ -1424,13 +1463,13 @@ var Slx = (function() {
 	
 			switch ( Input.userIs ) {
 	
-				case "_15":
+				case "_16":
 	
 					Bay.handleResize( event );
 	
 				break;
 	
-				case "_27":
+				case "_28":
 	
 					Bay.handleDrag( event );
 	
@@ -1458,11 +1497,7 @@ var Slx = (function() {
 				// Left Mouse Button is Down
 				case 0:
 	
-					//console.log( arEventtargetid[0] );
-	
 					switch ( arEventtargetid[0] ) {
-	
-						// Handle Resize Buttons
 	
 						case "_0":
 	
@@ -1473,7 +1508,7 @@ var Slx = (function() {
 					}
 	
 				break;
-	
+			
 			}
 	
 		};
@@ -1490,13 +1525,13 @@ var Slx = (function() {
 	
 			switch ( Input.userIs ) {
 	
-				case "_15":
+				case "_16":
 	
 					Bay.handleResize( event );
 	
 				break;
 	
-				case "_27":
+				case "_28":
 	
 					Bay.handleDrag( event );
 	
@@ -1579,35 +1614,20 @@ var Slx = (function() {
 	
 		document.oncontextmenu = function( event ) {
 	
-			if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) {
+			var strEventtargetid = event.target.id;
+			var arEventtargetid = strEventtargetid.split("-");
 	
-				var strEventtargetid = event.target.id;
-				var arEventtargetid = strEventtargetid.split("-");
+			switch ( arEventtargetid[0] ) {
 	
-				//console.log( event );
+				case "_0":
 	
-				switch ( arEventtargetid[0] ) {
+					Bay.eventHandler( event, arEventtargetid );
 	
-					// Resize Handles become Open Menu button on right click
-					case "_6":
-					case "_7":
-					case "_8":
-					case "_9":
-					case "_10":
-					case "_11":
-					case "_12":
-					case "_13":
-	
-						event.preventDefault();
-						return false;
-	
-					break;
-	
-				}
-	
+				break;
+			
 			}
 	
-		}
+		};
 	
 		// Mouse Click
 		jQuery( document ).on( "click", function( event ) {
@@ -1705,9 +1725,9 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_27"
+								Input.userIs = "_28"
 	
-								SlxDocument.inDockZone = "_30"
+								SlxDocument.inDockZone = "_31"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1731,9 +1751,9 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_27"
+								Input.userIs = "_28"
 	
-								SlxDocument.inDockZone = "_24"
+								SlxDocument.inDockZone = "_25"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1757,9 +1777,9 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_27"
+								Input.userIs = "_28"
 	
-								SlxDocument.inDockZone = "_22"
+								SlxDocument.inDockZone = "_23"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1783,9 +1803,9 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_27"
+								Input.userIs = "_28"
 	
-								SlxDocument.inDockZone = "_23"
+								SlxDocument.inDockZone = "_24"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1809,9 +1829,9 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_27"
+								Input.userIs = "_28"
 	
-								SlxDocument.inDockZone = "_17"
+								SlxDocument.inDockZone = "_18"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1835,9 +1855,9 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_27"
+								Input.userIs = "_28"
 	
-								SlxDocument.inDockZone = "_18"
+								SlxDocument.inDockZone = "_19"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1861,9 +1881,9 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_27"
+								Input.userIs = "_28"
 	
-								SlxDocument.inDockZone = "_19"
+								SlxDocument.inDockZone = "_20"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1887,9 +1907,9 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_27"
+								Input.userIs = "_28"
 	
-								SlxDocument.inDockZone = "_20"
+								SlxDocument.inDockZone = "_21"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1914,9 +1934,9 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_27"
+								Input.userIs = "_28"
 	
-								SlxDocument.inDockZone = "_30"
+								SlxDocument.inDockZone = "_31"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1940,9 +1960,9 @@ var Slx = (function() {
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "_27"
+								Input.userIs = "_28"
 	
-								SlxDocument.inDockZone = "_30"
+								SlxDocument.inDockZone = "_31"
 	
 								Bay.instancesById[ id ].finishDragging();	
 	
@@ -2259,46 +2279,46 @@ var Slx = (function() {
 	// Static (aka Class) Methods
 	SlxDocument.init = function() {
 	
-		document.body.id = "_16"
-	
-		var element = document.createElement( "div" );
-		element.id = "_21";
-		element.className = "_31"
-		document.body.appendChild( element );
-	
-		var element = document.createElement( "div" );
-		element.id = "_24";
-		element.className = "_31"
-		document.body.appendChild( element );
+		document.body.id = "_17"
 	
 		var element = document.createElement( "div" );
 		element.id = "_22";
-		element.className = "_31"
+		element.className = "_32"
+		document.body.appendChild( element );
+	
+		var element = document.createElement( "div" );
+		element.id = "_25";
+		element.className = "_32"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
 		element.id = "_23";
-		element.className = "_31"
+		element.className = "_32"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
-		element.id = "_17";
-		element.className = "_31"
+		element.id = "_24";
+		element.className = "_32"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
 		element.id = "_18";
-		element.className = "_31"
+		element.className = "_32"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
 		element.id = "_19";
-		element.className = "_31"
+		element.className = "_32"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
 		element.id = "_20";
-		element.className = "_31"
+		element.className = "_32"
+		document.body.appendChild( element );
+	
+		var element = document.createElement( "div" );
+		element.id = "_21";
+		element.className = "_32"
 		document.body.appendChild( element );
 	
 	}
