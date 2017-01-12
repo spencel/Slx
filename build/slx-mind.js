@@ -343,6 +343,8 @@ var Slx = (function() {
 		circleElement.setAttribute( "stroke-width", 1);
 		document.getElementById( "_15" ).appendChild( circleElement );
 	
+		//var ring1
+	
 	
 	
 	}
@@ -410,7 +412,8 @@ var Slx = (function() {
 					case "_7": 		instance.currentlyDockedAt = undefined; break;
 					case "_8": 		instance.currentlyDockedAt = "_21"; break;
 					case "_9": 	instance.currentlyDockedAt = "_21"; break;
-					case "					case "_11": 	instance.currentlyDockedAt = "_25"; break;
+					case "_10": 			break;
+					case "_11": 	instance.currentlyDockedAt = "_25"; break;
 					case "_12": 			instance.currentlyDockedAt = "_25"; break;
 					case "_13": 		instance.currentlyDockedAt = undefined; break;
 				}

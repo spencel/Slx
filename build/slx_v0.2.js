@@ -343,8 +343,6 @@ var Slx = (function() {
 		circleElement.setAttribute( "stroke-width", 1);
 		document.getElementById( "__contextMenu__" ).appendChild( circleElement );
 	
-		//var ring1
-	
 	
 	
 	}
@@ -412,7 +410,7 @@ var Slx = (function() {
 					case "__resizeTopRight__": 		instance.currentlyDockedAt = undefined; break;
 					case "__resizeRight__": 		instance.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
 					case "__resizeBottomRight__": 	instance.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
-					case "__resizeBottom__": 			break;
+					case "__resizeBottom": 			break;
 					case "__resizeBottomLeft__": 	instance.currentlyDockedAt = "__SlxDocumentTopRightDockZone__"; break;
 					case "__resizeLeft__": 			instance.currentlyDockedAt = "__SlxDocumentTopRightDockZone__"; break;
 					case "__resizeTopLeft__": 		instance.currentlyDockedAt = undefined; break;

@@ -1,5 +1,5 @@
 // MyClass Class
-var MyClass = {}; // Use this if class has no constructor thus no instances.
+var MyClass = {}; // Remove this statement if Class is not Abstract (can be Instantiated)
 
 // Static (aka Class) Properties
 MyClass.nextId = 0;
@@ -9,7 +9,7 @@ MyClass.byId = {};
 MyClass.quantity = 0;
 // End Static Properties
 
-// Constructor
+// Constructor (remove Constructor if Class is Abstract)
 function MyClass( parameterA, parameterB ) {
 
 	MyClass.byId[ MyClass.nextId ] = this;

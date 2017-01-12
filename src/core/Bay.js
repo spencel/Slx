@@ -308,7 +308,7 @@ Bay.initializeResize = function ( arEvent_target_id ) {
 				case "__resizeTopRight__": 		instance.currentlyDockedAt = undefined; break;
 				case "__resizeRight__": 		instance.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
 				case "__resizeBottomRight__": 	instance.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
-				case "__resizeBottom": 			break;
+				case "__resizeBottom__": 			break;
 				case "__resizeBottomLeft__": 	instance.currentlyDockedAt = "__SlxDocumentTopRightDockZone__"; break;
 				case "__resizeLeft__": 			instance.currentlyDockedAt = "__SlxDocumentTopRightDockZone__"; break;
 				case "__resizeTopLeft__": 		instance.currentlyDockedAt = undefined; break;
