@@ -1,4 +1,4 @@
-body{
+body {
 	position: absolute;
 	display: block;
 	margin:0px;
@@ -10,21 +10,21 @@ body{
 	font-family:Verdana, Geneva, sans-serif;
 	overflow: hidden;
 }
-#__SlxDocumentTopDockZone__{
+#_s_SlxDocumentTopDockZone_e_ {
 	position: absolute;
 	display: block;
 	left: 10px;
 	height: 10px;
 	width: calc( 100% - 20px );
 }
-#__SlxDocumentTopRightDockZone__{
+#_s_SlxDocumentTopRightDockZone_e_ {
 	position: absolute;
 	display: block;
 	right: 0px;
 	width: 10px;
 	height: 10px;
 }
-#__SlxDocumentRightDockZone__{
+#_s_SlxDocumentRightDockZone_e_ {
 	position: absolute;
 	display: block;
 	right: 0px;
@@ -32,7 +32,7 @@ body{
 	width: 10px;
 	height: calc( 100% - 20px );
 }
-#__SlxDocumentBottomRightDockZone__{
+#_s_SlxDocumentBottomRightDockZone_e_ {
 	position: absolute;
 	display: block;
 	right: 0px;
@@ -40,7 +40,7 @@ body{
 	width: 10px;
 	height: 10px;
 }
-#__SlxDocumentBottomDockZone__{
+#_s_SlxDocumentBottomDockZone_e_ {
 	position: absolute;
 	display: block;
 	left: 10px;
@@ -48,21 +48,21 @@ body{
 	width: calc( 100% - 20px );
 	height: 10px;
 }
-#__SlxDocumentBottomLeftDockZone__{
+#_s_SlxDocumentBottomLeftDockZone_e_ {
 	position: absolute;
 	display: block;
 	bottom: 0px;
 	width: 10px;
 	height: 10px;
 }
-#__SlxDocumentLeftDockZone__{
+#_s_SlxDocumentLeftDockZone_e_ {
 	position: absolute;
 	display: block;
 	top: 10px;
 	width: 10px;
 	height: calc( 100% - 20px );
 }
-#__SlxDocumentTopLeftDockZone__{
+#_s_SlxDocumentTopLeftDockZone_e_ {
 	position: absolute;
 	display: block;
 	width: 10px;

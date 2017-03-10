@@ -1,18 +1,18 @@
 /* Version 0.2 */
-.__Bay__ {
+._s_Bay_e_ {
 	position: absolute;
 	display: block;
 	border: 1px solid #000000;
 	background-color: #FFFFFF;
 }
-#__overflowHidden__ {
+#_s_overflowHidden_e_ {
 	position: static;
 	display: block;
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
 }
-.__Bay__-__resizeTop__ {
+._s_Bay_e_-_s_resizeTop_e_ {
 	position: absolute;
 	top: -4px;
 	left: 3px;
@@ -20,7 +20,7 @@
 	height: 7px;
 	cursor: ns-resize;
 }
-.__Bay__-__resizeTopRight__ {
+._s_Bay_e_-_s_resizeTopRight_e_ {
 	position: absolute;
 	top: -4px;
 	right: -4px;
@@ -28,7 +28,7 @@
 	width: 7px;
 	cursor: nesw-resize;
 }
-.__Bay__-__resizeRight__ {
+._s_Bay_e_-_s_resizeRight_e_ {
 	position: absolute;
 	top: 3px;
 	right: -4px;
@@ -36,7 +36,7 @@
 	height: calc( 100% - 6px );
 	cursor: ew-resize;
 }
-.__Bay__-__resizeBottomRight__ {
+._s_Bay_e_-_s_resizeBottomRight_e_ {
 	position: absolute;
 	bottom: -4px;
 	right: -4px;
@@ -44,7 +44,7 @@
 	width: 7px;
 	cursor: nwse-resize;
 }
-.__Bay__-__resizeBottom__ {
+._s_Bay_e_-_s_resizeBottom_e_ {
 	position: absolute;
 	left: 3px;
 	bottom: -4px;
@@ -52,7 +52,7 @@
 	height: 7px;
 	cursor: ns-resize;
 }
-.__Bay__-__resizeBottomLeft__ {
+._s_Bay_e_-_s_resizeBottomLeft_e_ {
 	position: absolute;
 	bottom: -4px;
 	left: -4px;
@@ -60,7 +60,7 @@
 	width: 7px;
 	cursor: nesw-resize;
 }
-.__Bay__-__resizeLeft__ {
+._s_Bay_e_-_s_resizeLeft_e_ {
 	position: absolute;
 	left: -4px;
 	top: 3px;
@@ -68,7 +68,7 @@
 	height: calc( 100% - 6px );
 	cursor: ew-resize;
 }
-.__Bay__-__resizeTopLeft__ {
+._s_Bay_e_-_s_resizeTopLeft_e_ {
 	position: absolute;
 	top: -4px;
 	left: -4px;
@@ -76,7 +76,7 @@
 	width: 7px;
 	cursor: nwse-resize;
 }
-.__Bay__-__drag__ {
+._s_Bay_e_-_s_drag_e_ {
 	position: absolute;
 	top: -4px;
 	left: 33%;
@@ -84,16 +84,16 @@
 	width: 33%;
 	cursor: move;
 }
-.__Bay__-__topBar__ {
+._s_Bay_e_-_s_topBar_e_ {
 	position: static;
 	display: block;
 	margin: 3px;
 	padding: 0px;
 }
-#__topBar__:hover {
+#_s_topBar_e_:hover {
 	cursor: pointer;
 }
-#__close__ {
+#_s_close_e_ {
 	position: static;
 	display:inline-block;
 	margin: 0px;
@@ -104,11 +104,11 @@
 	vertical-align: middle;
 	cursor: pointer;
 }
-#__close__:hover {
+#_s_close_e_:hover {
 	background-color: #000000;
 	color: #FFFFFF;
 }
-#__drag__ {
+#_s_drag_e_ {
 	position: static;
 	display:inline-block;
 	width: 20px;
@@ -117,26 +117,26 @@
 	vertical-align: middle;
 	cursor: pointer;
 }
-#__content__ {
+#_s_content_e_ {
 	position: static;
 	display: block;
 	margin: 3px;
 }
-#__SlxDocumentTopDockZone__{
+#_s_SlxDocumentTopDockZone_e_ {
 	position: absolute;
 	display: block;
 	left: 10px;
 	height: 10px;
 	width: calc( 100% - 20px );
 }
-#__SlxDocumentTopRightDockZone__{
+#_s_SlxDocumentTopRightDockZone_e_ {
 	position: absolute;
 	display: block;
 	right: 0px;
 	width: 10px;
 	height: 10px;
 }
-#__SlxDocumentRightDockZone__{
+#_s_SlxDocumentRightDockZone_e_ {
 	position: absolute;
 	display: block;
 	right: 0px;
@@ -144,7 +144,7 @@
 	width: 10px;
 	height: calc( 100% - 20px );
 }
-#__SlxDocumentBottomRightDockZone__{
+#_s_SlxDocumentBottomRightDockZone_e_ {
 	position: absolute;
 	display: block;
 	right: 0px;
@@ -152,7 +152,7 @@
 	width: 10px;
 	height: 10px;
 }
-#__SlxDocumentBottomDockZone__{
+#_s_SlxDocumentBottomDockZone_e_ {
 	position: absolute;
 	display: block;
 	left: 10px;
@@ -160,33 +160,33 @@
 	width: calc( 100% - 20px );
 	height: 10px;
 }
-#__SlxDocumentBottomLeftDockZone__{
+#_s_SlxDocumentBottomLeftDockZone_e_ {
 	position: absolute;
 	display: block;
 	bottom: 0px;
 	width: 10px;
 	height: 10px;
 }
-#__SlxDocumentLeftDockZone__{
+#_s_SlxDocumentLeftDockZone_e_ {
 	position: absolute;
 	display: block;
 	top: 10px;
 	width: 10px;
 	height: calc( 100% - 20px );
 }
-#__SlxDocumentTopLeftDockZone__{
+#_s_SlxDocumentTopLeftDockZone_e_ {
 	position: absolute;
 	display: block;
 	width: 10px;
 	height: 10px;
 }
-#__contextMenu__{
+#_s_contextMenu_e_ {
 	position:fixed;
 	display: block;
 	width: 100%;
 	height: 100%;
 }
-#__contextMenuCenter__{
+#_s_contextMenuCenter_e_ {
 }
 div#debugBox {
 	position:	fixed;
@@ -199,7 +199,7 @@ div#debugBox {
 .alignRight {
 	text-align: right;
 }
-body{
+body {
 	position: absolute;
 	display: block;
 	margin:0px;
@@ -211,21 +211,21 @@ body{
 	font-family:Verdana, Geneva, sans-serif;
 	overflow: hidden;
 }
-#__SlxDocumentTopDockZone__{
+#_s_SlxDocumentTopDockZone_e_ {
 	position: absolute;
 	display: block;
 	left: 10px;
 	height: 10px;
 	width: calc( 100% - 20px );
 }
-#__SlxDocumentTopRightDockZone__{
+#_s_SlxDocumentTopRightDockZone_e_ {
 	position: absolute;
 	display: block;
 	right: 0px;
 	width: 10px;
 	height: 10px;
 }
-#__SlxDocumentRightDockZone__{
+#_s_SlxDocumentRightDockZone_e_ {
 	position: absolute;
 	display: block;
 	right: 0px;
@@ -233,7 +233,7 @@ body{
 	width: 10px;
 	height: calc( 100% - 20px );
 }
-#__SlxDocumentBottomRightDockZone__{
+#_s_SlxDocumentBottomRightDockZone_e_ {
 	position: absolute;
 	display: block;
 	right: 0px;
@@ -241,7 +241,7 @@ body{
 	width: 10px;
 	height: 10px;
 }
-#__SlxDocumentBottomDockZone__{
+#_s_SlxDocumentBottomDockZone_e_ {
 	position: absolute;
 	display: block;
 	left: 10px;
@@ -249,21 +249,21 @@ body{
 	width: calc( 100% - 20px );
 	height: 10px;
 }
-#__SlxDocumentBottomLeftDockZone__{
+#_s_SlxDocumentBottomLeftDockZone_e_ {
 	position: absolute;
 	display: block;
 	bottom: 0px;
 	width: 10px;
 	height: 10px;
 }
-#__SlxDocumentLeftDockZone__{
+#_s_SlxDocumentLeftDockZone_e_ {
 	position: absolute;
 	display: block;
 	top: 10px;
 	width: 10px;
 	height: calc( 100% - 20px );
 }
-#__SlxDocumentTopLeftDockZone__{
+#_s_SlxDocumentTopLeftDockZone_e_ {
 	position: absolute;
 	display: block;
 	width: 10px;
@@ -272,9 +272,4 @@ body{
 .slxMathJax{
 	display: none;
 	color:hsl(180, 25%, 100%);
-}
-.__Table_Type_A {
-
-	
-
 }

@@ -280,10 +280,10 @@ var Slx = (function() {
 	
 	}
 	
-	Bay.eventHandler = function( event, arEventtargetid ) {
-		console.log( "Bay.eventHandler( event, arEventtargetid )" );
+	Bay.eventHandler = function( event, arEvent_target_id ) {
+		console.log( "Bay.eventHandler( event, arEvent_target_id )" );
 	
-		switch ( arEventtargetid[ 1 ] ) {
+		switch ( arEvent_target_id[ 1 ] ) {
 	
 			case "_6":
 			case "_7":
@@ -296,11 +296,11 @@ var Slx = (function() {
 	
 				// Left Mousedown
 				if ( event.button === 0 ) {
-					Bay.handleResize( event, arEventtargetid );
+					Bay.handleResize( event, arEvent_target_id );
 	
 				// Right Mousedown
 				} else if ( event.type === "contextmenu" ) {
-					Bay.handleContextMenu( event, arEventtargetid );
+					Bay.handleContextMenu( event, arEvent_target_id );
 				}
 	
 			break;
@@ -308,11 +308,11 @@ var Slx = (function() {
 	
 				// Left Mousedown
 				if ( event.button === 0 ) {
-					Bay.handleDrag( event, arEventtargetid );
+					Bay.handleDrag( event, arEvent_target_id );
 	
 				// Right Mousedown
 				} else if ( event.button === "contextmenu" ) {
-					Bay.handleContextMenu( event, arEventtargetid );
+					Bay.handleContextMenu( event, arEvent_target_id );
 				}
 	
 			break;
@@ -321,8 +321,8 @@ var Slx = (function() {
 	
 	}
 	
-	Bay.handleContextMenu = function( event, arEventtargetid ) {
-		console.log( "Bay.handleContextMenu( event, arEventtargetid )" );
+	Bay.handleContextMenu = function( event, arEvent_target_id ) {
+		console.log( "Bay.handleContextMenu( event, arEvent_target_id )" );
 		console.log( event );
 	
 		event.preventDefault();
@@ -349,9 +349,9 @@ var Slx = (function() {
 	
 	}
 	
-	Bay.handleResize = function ( event, arEventtargetid ) {
+	Bay.handleResize = function ( event, arEvent_target_id ) {
 	
-		console.log( "Bay.handleResize( event, arEventtargetid )" );
+		console.log( "Bay.handleResize( event, arEvent_target_id )" );
 	
 		event.preventDefault(); // Prevent text selection and dragging
 	
@@ -359,7 +359,7 @@ var Slx = (function() {
 	
 			case "mousedown":
 	
-				this.initializeResize( arEventtargetid );
+				this.initializeResize( arEvent_target_id );
 				
 			break;
 	
@@ -379,12 +379,12 @@ var Slx = (function() {
 	
 	}
 	
-	Bay.initializeResize = function ( arEventtargetid ) {
+	Bay.initializeResize = function ( arEvent_target_id ) {
 	
-		console.log( "Bay.initializeResize( arEventtargetid )" );
+		console.log( "Bay.initializeResize( arEvent_target_id )" );
 	
-		var resizeDirection = arEventtargetid[ 1 ]
-		var instanceId = arEventtargetid[ 2 ]
+		var resizeDirection = arEvent_target_id[ 1 ]
+		var instanceId = arEvent_target_id[ 2 ]
 		var instance = this.instancesById[ instanceId ];
 		this.currentlyResizingInstance = instance;
 		focus( instance.rootHtmlElement ); // Bring it to the front of the view
@@ -785,9 +785,9 @@ var Slx = (function() {
 	
 	}
 	
-	Bay.handleDrag = function( event, arEventtargetid ) {
+	Bay.handleDrag = function( event, arEvent_target_id ) {
 	
-		console.log( "Bay.handleDrag( event, arEventtargetid )" );
+		console.log( "Bay.handleDrag( event, arEvent_target_id )" );
 	
 		event.preventDefault(); // Prevent text selection and dragging
 	
@@ -795,7 +795,7 @@ var Slx = (function() {
 	
 			case "mousedown":
 	
-				var instanceId = arEventtargetid[ 2 ]
+				var instanceId = arEvent_target_id[ 2 ]
 				this.initializeDrag( instanceId );
 				
 			break;
@@ -1443,16 +1443,16 @@ var Slx = (function() {
 	
 			event.stopPropagation();
 	
-			var eventtargetid = event.target.id;
-			//console.log(eventtargetid);
+			var event_target_id = event.target.id;
+			//console.log(event_target_id);
 	
-			switch ( eventtargetid ) {
+			switch ( event_target_id ) {
 	
 				case "ConvertUnits":
 	
 					//console.log('test');
 	
-					convertUnits( eventtargetid );
+					convertUnits( event_target_id );
 	
 				break;
 	
@@ -1491,8 +1491,8 @@ var Slx = (function() {
 			Input.mousedownClientX = event.clientX;
 			Input.mousedownClientY = event.clientY;
 	
-			var strEventtargetid = event.target.id;
-			var arEventtargetid = strEventtargetid.split("-");
+			var strEvent_target_id = event.target.id;
+			var arEvent_target_id = strEvent_target_id.split("-");
 	
 			
 			switch ( event.button ) {
@@ -1500,11 +1500,11 @@ var Slx = (function() {
 				// Left Mouse Button is Down
 				case 0:
 	
-					switch ( arEventtargetid[0] ) {
+					switch ( arEvent_target_id[0] ) {
 	
 						case "_0":
 	
-							Bay.eventHandler( event, arEventtargetid );
+							Bay.eventHandler( event, arEvent_target_id );
 	
 						break;
 			
@@ -1523,8 +1523,8 @@ var Slx = (function() {
 			Input.mouseupClientX = event.clientX;
 			Input.mouseupClientY = event.clientY;
 	
-			var strEventtargetid = event.target.id;
-			var arEventtargetid = strEventtargetid.split("-");
+			var strEvent_target_id = event.target.id;
+			var arEvent_target_id = strEvent_target_id.split("-");
 	
 			switch ( Input.userIs ) {
 	
@@ -1548,7 +1548,7 @@ var Slx = (function() {
 				// Left mouse button is up
 				if ( event.button === 0 ) {
 	
-					switch ( arEventtargetid[0] ) {
+					switch ( arEvent_target_id[0] ) {
 	
 						case "panelHeader":
 	
@@ -1556,7 +1556,7 @@ var Slx = (function() {
 	
 							if ( ( Input.mouseupTimestamp - Input.mousedownTimestamp ) < 200 ) { // if less than 100 ms has elapsed
 	
-								var id = arEventtargetid[ 1 ];
+								var id = arEvent_target_id[ 1 ];
 	
 									//console.log( "id: " + id );
 	
@@ -1568,7 +1568,7 @@ var Slx = (function() {
 	
 								if  ( Panel.isDraggable === true ) {
 	
-									var id = arEventtargetid[ 1 ];
+									var id = arEvent_target_id[ 1 ];
 	
 										//console.log( Panel.byId[ id ] );
 	
@@ -1584,7 +1584,7 @@ var Slx = (function() {
 	
 						case "_0": 
 	
-							Bay.handleQuickMouseup( arEventtargetid );
+							Bay.handleQuickMouseup( arEvent_target_id );
 	
 						break;
 	
@@ -1593,7 +1593,7 @@ var Slx = (function() {
 				// Right mouse button is up
 				} else if ( event.button === 2 ) {
 	
-					switch ( arEventtargetid[0] ) {
+					switch ( arEvent_target_id[0] ) {
 	
 						// Resize Handles become Open Menu button on right click
 						case "_6":
@@ -1617,14 +1617,14 @@ var Slx = (function() {
 	
 		document.oncontextmenu = function( event ) {
 	
-			var strEventtargetid = event.target.id;
-			var arEventtargetid = strEventtargetid.split("-");
+			var strEvent_target_id = event.target.id;
+			var arEvent_target_id = strEvent_target_id.split("-");
 	
-			switch ( arEventtargetid[0] ) {
+			switch ( arEvent_target_id[0] ) {
 	
 				case "_0":
 	
-					Bay.eventHandler( event, arEventtargetid );
+					Bay.eventHandler( event, arEvent_target_id );
 	
 				break;
 			
@@ -1639,29 +1639,29 @@ var Slx = (function() {
 	
 			event.stopPropagation();
 	
-			var strEventtargetid = event.target.id;
-			var arEventtargetid = strEventtargetid.split("-");
+			var strEvent_target_id = event.target.id;
+			var arEvent_target_id = strEvent_target_id.split("-");
 	
-			if ( arEventtargetid[0] === "Slx" ) {
+			if ( arEvent_target_id[0] === "Slx" ) {
 	
-				switch ( arEventtargetid[1] ) {
+				switch ( arEvent_target_id[1] ) {
 	
 					case "menu":
 	
-						document.getElementById( "panelscontainer" ).innerHTML = "";
+						document.getElementById( "panels_container" ).innerHTML = "";
 						Panel.unloadAll();
 	
-						var panelType = arEventtargetid[ 2 ];
+						var panelType = arEvent_target_id[ 2 ];
 	
 						Panel.initialize();
 						Panel.loadAllOfType( panelType );
-						Panel.displayAll( jQuery( "div#panelscontainer" ) );
+						Panel.displayAll( jQuery( "div#panels_container" ) );
 	
 					break;
 	
 					case "setting":
 	
-						var setting = arEventtargetid[ 2 ];
+						var setting = arEvent_target_id[ 2 ];
 	
 						Panel.makeAllDraggable();
 	
@@ -1671,7 +1671,7 @@ var Slx = (function() {
 	
 			}
 	
-			switch ( arEventtargetid[0] ) {
+			switch ( arEvent_target_id[0] ) {
 	
 				// Handle Close Buttons
 	
@@ -1706,12 +1706,12 @@ var Slx = (function() {
 		// Mouse Double Click
 		jQuery( document ).on( "dblclick", function( event ) {
 	
-			var strEventtargetid = event.target.id;
-			var arEventtargetid = strEventtargetid.split("-");
+			var strEvent_target_id = event.target.id;
+			var arEvent_target_id = strEvent_target_id.split("-");
 	
 			if ( event.button === 0 ) { 
 	
-				switch ( arEventtargetid[0] ) {
+				switch ( arEvent_target_id[0] ) {
 	
 					// Auto dock on click instead of double click
 					/*case "_6":
@@ -2000,6 +2000,46 @@ var Slx = (function() {
 	
 	// End Input Class
 		
+	// OrgChart Class
+	
+	// Static (aka Class) Properties
+	OrgChart.nextId = 0;
+	
+	OrgChart.byId = {};
+	
+	OrgChart.quantity = 0;
+	
+	OrgChart.imagePath = "../test/orgChart/i/" // temporary location of image files
+	// End Static Properties
+	
+	// Constructor
+	function OrgChart() {
+	
+		OrgChart.byId[ OrgChart.nextId ] = this;
+		OrgChart.quantity++;
+	
+		// Instance Properties
+		this.id = OrgChart.nextId;
+		OrgChart.nextId++;
+		// End Instance Properties
+	
+		return this;
+	
+	}
+	// End Constructor
+	
+	// Methods (organize methods by function and relationship)
+	OrgChart.staticMethodA = function() {
+	
+	}
+	
+	OrgChart.prototype.instanceMethodA = function() {
+	
+	}
+	// End Methods
+	
+	// End Class
+		
 	/**
 	 * @author spencel / https://github.com/spencel
 	 */
@@ -2113,9 +2153,9 @@ var Slx = (function() {
 			"<table class='panel1'>\
 				<tbody class='th-border'>\
 					<tr>\
-						<th id='menu-UnitsOfMeasurement'>Units of Measurement</th>\
+						<th id='menu-Units_Of_Measurement'>Units of Measurement</th>\
 						<th id='menu-Chemistry'>Chemistry</th>\
-						<th id='menu-AssemblyLanguage'>Assembly Language</th>\
+						<th id='menu-Assembly_Language'>Assembly Language</th>\
 						<th id='setting-makePanelsDraggable'>Make Draggable</th>\
 					</tr>\
 				</tbody>\
@@ -2151,7 +2191,7 @@ var Slx = (function() {
 	
 	Panel.unloadAll = function() {
 		
-		document.getElementById( "panelscontainer" ).innerHTML = "";
+		document.getElementById( "panels_container" ).innerHTML = "";
 	
 		Panel.nextId = 0;
 		Panel.instances = [];
@@ -2171,9 +2211,9 @@ var Slx = (function() {
 	}
 	
 	// Should this method but a member of ConvertUnits?
-	Panel.convertUnits = function( eventtargetid ) {
+	Panel.convertUnits = function( event_target_id ) {
 	
-		var strInputValue = jQuery( "input#" + eventtargetid ).val();
+		var strInputValue = jQuery( "input#" + event_target_id ).val();
 	
 		var arInputValue = strInputValue.split(" ");
 	

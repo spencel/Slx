@@ -192,8 +192,8 @@ var Slx = (function() {
 	
 			var element = document.createElement( "div" );
 			this.rootHtmlElement = element;
-			element.id = "__Bay__-" + this.id;
-			element.className = "__Bay__";
+			element.id = "_s_Bay_e_-" + this.id;
+			element.className = "_s_Bay_e_";
 			element.style.left = this.left + "px";
 			element.style.top = this.top + "px";
 			element.style.width = ( this.width - Bay.borderWidthX2 ) + "px"; // 
@@ -203,64 +203,64 @@ var Slx = (function() {
 			document.body.appendChild( element );
 	
 			/*var elementChild = document.createElement( "div" );
-			elementChild.id = "__topBar__";
+			elementChild.id = "_s_topBar_e_";
 			element.appendChild( elementChild );
 	
 			var elementChildChild = document.createElement( "div" );
-			elementChildChild.id = "__drag__";
+			elementChildChild.id = "_s_drag_e_";
 			elementChild.appendChild( elementChildChild );
 			elementChildChild = document.createElement( "div" );
-			elementChildChild.id = "__close__";
+			elementChildChild.id = "_s_close_e_";
 			elementChild.appendChild( elementChildChild );
 			var text = document.createTextNode( "X" );
 			elementChildChild.appendChild( text );*/
 	
 			var elementChild = document.createElement( "div" );
-			elementChild.id = "__overflowHidden__";
+			elementChild.id = "_s_overflowHidden_e_";
 			element.appendChild( elementChild );
 	
 			var elementChildChild = document.createElement( "div" );
-			elementChildChild.id = "__content__";
+			elementChildChild.id = "_s_content_e_";
 			elementChild.appendChild( elementChildChild );
 	
 			var elementChildChildText = document.createTextNode("JavaScript (/ˈdʒævəˌskrɪpt/[5]) is a high-level, dynamic, untyped, and interpreted programming language.[6] It has been standardized in the ECMAScript language specification.[7] Alongside HTML and CSS, it is one of the three core technologies of World Wide Web content production; the majority of websites employ it and it is supported by all modern Web browsers without plug-ins.[6] JavaScript is prototype-based with first-class functions, making it a multi-paradigm language, supporting object-oriented,[8] imperative, and functional programming styles.[6] It has an API for working with text, arrays, dates and regular expressions, but does not include any I/O, such as networking, storage, or graphics facilities, relying for these upon the host environment in which it is embedded.[7] Although there are strong outward similarities between JavaScript and Java, including language name, syntax, and respective standard libraries, the two are distinct languages and differ greatly in their design. JavaScript was influenced by programming languages such as Self and Scheme.[9] JavaScript is also used in environments that are not Web-based, such as PDF documents, site-specific browsers, and desktop widgets. Newer and faster JavaScript virtual machines (VMs) and platforms built upon them have also increased the popularity of JavaScript for server-side Web applications. On the client side, JavaScript has been traditionally implemented as an interpreted language, but more recent browsers perform just-in-time compilation. It is also used in game development, the creation of desktop and mobile applications, and server-side network programming with run-time environments such as Node.js.");
 			elementChildChild.appendChild( elementChildChildText );
 	
 			elementChild = document.createElement( "div" );
-			elementChild.id = "__Bay__-__resizeTop__-" + this.id;
-			elementChild.className = "__Bay__-__resizeTop__";
+			elementChild.id = "_s_Bay_e_-_s_resizeTop_e_-" + this.id;
+			elementChild.className = "_s_Bay_e_-_s_resizeTop_e_";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "__Bay__-__resizeTopRight__-" + this.id;
-			elementChild.className = "__Bay__-__resizeTopRight__";
+			elementChild.id = "_s_Bay_e_-_s_resizeTopRight_e_-" + this.id;
+			elementChild.className = "_s_Bay_e_-_s_resizeTopRight_e_";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "__Bay__-__resizeRight__-" + this.id;
-			elementChild.className = "__Bay__-__resizeRight__";
+			elementChild.id = "_s_Bay_e_-_s_resizeRight_e_-" + this.id;
+			elementChild.className = "_s_Bay_e_-_s_resizeRight_e_";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "__Bay__-__resizeBottomRight__-" + this.id;
-			elementChild.className = "__Bay__-__resizeBottomRight__";
+			elementChild.id = "_s_Bay_e_-_s_resizeBottomRight_e_-" + this.id;
+			elementChild.className = "_s_Bay_e_-_s_resizeBottomRight_e_";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "__Bay__-__resizeBottom__-" + this.id;
-			elementChild.className = "__Bay__-__resizeBottom__";
+			elementChild.id = "_s_Bay_e_-_s_resizeBottom_e_-" + this.id;
+			elementChild.className = "_s_Bay_e_-_s_resizeBottom_e_";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "__Bay__-__resizeBottomLeft__-" + this.id;
-			elementChild.className = "__Bay__-__resizeBottomLeft__";
+			elementChild.id = "_s_Bay_e_-_s_resizeBottomLeft_e_-" + this.id;
+			elementChild.className = "_s_Bay_e_-_s_resizeBottomLeft_e_";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "__Bay__-__resizeLeft__-" + this.id;
-			elementChild.className = "__Bay__-__resizeLeft__";
+			elementChild.id = "_s_Bay_e_-_s_resizeLeft_e_-" + this.id;
+			elementChild.className = "_s_Bay_e_-_s_resizeLeft_e_";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "__Bay__-__resizeTopLeft__-" + this.id;
-			elementChild.className = "__Bay__-__resizeTopLeft__";
+			elementChild.id = "_s_Bay_e_-_s_resizeTopLeft_e_-" + this.id;
+			elementChild.className = "_s_Bay_e_-_s_resizeTopLeft_e_";
 			element.appendChild( elementChild );
 			elementChild = document.createElement( "div" );
-			elementChild.id = "__Bay__-__drag__-" + this.id;
-			elementChild.className = "__Bay__-__drag__";
+			elementChild.id = "_s_Bay_e_-_s_drag_e_-" + this.id;
+			elementChild.className = "_s_Bay_e_-_s_drag_e_";
 			element.appendChild( elementChild );
 	
 	
@@ -272,7 +272,7 @@ var Slx = (function() {
 	
 		} else {
 	
-			document.getElementById( "__SlxBay__-" + this.id ).outerHTML = "";
+			document.getElementById( "_s_SlxBay_e_-" + this.id ).outerHTML = "";
 	
 			this.isHtml = false;
 	
@@ -285,14 +285,14 @@ var Slx = (function() {
 	
 		switch ( arEvent_target_id[ 1 ] ) {
 	
-			case "__resizeTop__":
-			case "__resizeTopRight__":
-			case "__resizeRight__":
-			case "__resizeBottomRight__":
-			case "__resizeBottom__":
-			case "__resizeBottomLeft__":
-			case "__resizeLeft__":
-			case "__resizeTopLeft__":
+			case "_s_resizeTop_e_":
+			case "_s_resizeTopRight_e_":
+			case "_s_resizeRight_e_":
+			case "_s_resizeBottomRight_e_":
+			case "_s_resizeBottom_e_":
+			case "_s_resizeBottomLeft_e_":
+			case "_s_resizeLeft_e_":
+			case "_s_resizeTopLeft_e_":
 	
 				// Left Mousedown
 				if ( event.button === 0 ) {
@@ -304,7 +304,7 @@ var Slx = (function() {
 				}
 	
 			break;
-			case "__drag__":
+			case "_s_drag_e_":
 	
 				// Left Mousedown
 				if ( event.button === 0 ) {
@@ -329,7 +329,7 @@ var Slx = (function() {
 		window.event.returnValue = false;
 	
 		var svgElement = document.createElementNS( "http://www.w3.org/2000/svg", "svg" );
-		svgElement.id = "__contextMenu__";
+		svgElement.id = "_s_contextMenu_e_";
 		document.body.appendChild( svgElement );
 	
 		focus( svgElement );
@@ -341,7 +341,7 @@ var Slx = (function() {
 		circleElement.setAttribute( "fill", "white");
 		circleElement.setAttribute( "stroke", "black");
 		circleElement.setAttribute( "stroke-width", 1);
-		document.getElementById( "__contextMenu__" ).appendChild( circleElement );
+		document.getElementById( "_s_contextMenu_e_" ).appendChild( circleElement );
 	
 		//var ring1
 	
@@ -389,117 +389,117 @@ var Slx = (function() {
 		this.currentlyResizingInstance = instance;
 		focus( instance.rootHtmlElement ); // Bring it to the front of the view
 		instance.resizeDirection = resizeDirection;
-		Input.userIs = "__RESIZING_BAY__";
+		Input.userIs = "_s_RESIZING_BAY_e_";
 	
 		// Check if it should be undocked
 		instance.previousDockZone = instance.currentlyDockedAt;
 		switch ( instance.currentlyDockedAt ) {
-			case "__SlxDocumentFullScreenDockZone__":
+			case "_s_SlxDocumentFullScreenDockZone_e_":
 				switch ( instance.resizeDirection ) {
-					case "__resizeTop__": 			instance.currentlyDockedAt = "__SlxDocumentBottomDockZone__"; break;
-					case "__resizeTopRight__": 		instance.currentlyDockedAt = "__SlxDocumentBottomLeftDockZone__"; break;
-					case "__resizeRight__": 		instance.currentlyDockedAt = "__SlxDocumentLeftDockZone__"; break;
-					case "__resizeBottomRight__": 	instance.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
-					case "__resizeBottom__": 		instance.currentlyDockedAt = "__SlxDocumentTopDockZone__"; break;
-					case "__resizeBottomLeft__": 	instance.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
-					case "__resizeLeft__": 			instance.currentlyDockedAt = "__SlxDocumentRightDockZone__"; break;
-					case "__resizeTopLeft__": 		instance.currentlyDockedAt = "__SlxDocumentBottomRightDockZone__"; break;
+					case "_s_resizeTop_e_": 			instance.currentlyDockedAt = "_s_SlxDocumentBottomDockZone_e_"; break;
+					case "_s_resizeTopRight_e_": 		instance.currentlyDockedAt = "_s_SlxDocumentBottomLeftDockZone_e_"; break;
+					case "_s_resizeRight_e_": 		instance.currentlyDockedAt = "_s_SlxDocumentLeftDockZone_e_"; break;
+					case "_s_resizeBottomRight_e_": 	instance.currentlyDockedAt = "_s_SlxDocumentTopLeftDockZone_e_"; break;
+					case "_s_resizeBottom_e_": 		instance.currentlyDockedAt = "_s_SlxDocumentTopDockZone_e_"; break;
+					case "_s_resizeBottomLeft_e_": 	instance.currentlyDockedAt = "_s_SlxDocumentTopLeftDockZone_e_"; break;
+					case "_s_resizeLeft_e_": 			instance.currentlyDockedAt = "_s_SlxDocumentRightDockZone_e_"; break;
+					case "_s_resizeTopLeft_e_": 		instance.currentlyDockedAt = "_s_SlxDocumentBottomRightDockZone_e_"; break;
 				}
 			break;
-			case "__SlxDocumentTopDockZone__":
+			case "_s_SlxDocumentTopDockZone_e_":
 				switch ( instance.resizeDirection ) {
-					case "__resizeTop__": 			instance.currentlyDockedAt = undefined; break;
-					case "__resizeTopRight__": 		instance.currentlyDockedAt = undefined; break;
-					case "__resizeRight__": 		instance.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
-					case "__resizeBottomRight__": 	instance.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
-					case "__resizeBottom__": 			break;
-					case "__resizeBottomLeft__": 	instance.currentlyDockedAt = "__SlxDocumentTopRightDockZone__"; break;
-					case "__resizeLeft__": 			instance.currentlyDockedAt = "__SlxDocumentTopRightDockZone__"; break;
-					case "__resizeTopLeft__": 		instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeTop_e_": 			instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeTopRight_e_": 		instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeRight_e_": 		instance.currentlyDockedAt = "_s_SlxDocumentTopLeftDockZone_e_"; break;
+					case "_s_resizeBottomRight_e_": 	instance.currentlyDockedAt = "_s_SlxDocumentTopLeftDockZone_e_"; break;
+					case "_s_resizeBottom_e_": 			break;
+					case "_s_resizeBottomLeft_e_": 	instance.currentlyDockedAt = "_s_SlxDocumentTopRightDockZone_e_"; break;
+					case "_s_resizeLeft_e_": 			instance.currentlyDockedAt = "_s_SlxDocumentTopRightDockZone_e_"; break;
+					case "_s_resizeTopLeft_e_": 		instance.currentlyDockedAt = undefined; break;
 				}
 			break;
-			case "__SlxDocumentTopRightDockZone__":
+			case "_s_SlxDocumentTopRightDockZone_e_":
 				switch ( instance.resizeDirection ) {
-					case "__resizeTop__": 			instance.currentlyDockedAt = undefined; break;
-					case "__resizeTopRight__": 		instance.currentlyDockedAt = undefined; break;
-					case "__resizeRight__": 		instance.currentlyDockedAt = undefined; break;
-					case "__resizeBottomRight__": 	instance.currentlyDockedAt = undefined; break;
-					case "__resizeBottom__": 		break;
-					case "__resizeBottomLeft__": 	break;
-					case "__resizeLeft__": 			break;
-					case "__resizeTopLeft__": 		instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeTop_e_": 			instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeTopRight_e_": 		instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeRight_e_": 		instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeBottomRight_e_": 	instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeBottom_e_": 		break;
+					case "_s_resizeBottomLeft_e_": 	break;
+					case "_s_resizeLeft_e_": 			break;
+					case "_s_resizeTopLeft_e_": 		instance.currentlyDockedAt = undefined; break;
 				}
 			break;
-			case "__SlxDocumentRightDockZone__":
+			case "_s_SlxDocumentRightDockZone_e_":
 				switch ( instance.resizeDirection ) {
-					case "__resizeTop__": 			instance.currentlyDockedAt = "__SlxDocumentBottomRightDockZone__"; break;
-					case "__resizeTopRight__": 		instance.currentlyDockedAt = undefined; break;
-					case "__resizeRight__": 		instance.currentlyDockedAt = undefined; break;
-					case "__resizeBottomRight__": 	instance.currentlyDockedAt = undefined; break;
-					case "__resizeBottom__": 		instance.currentlyDockedAt = "__SlxDocumentTopRightDockZone__"; break;
-					case "__resizeBottomLeft__": 	instance.currentlyDockedAt = "__SlxDocumentTopRightDockZone__"; break;
-					case "__resizeLeft__": 			break;
-					case "__resizeTopLeft__": 		instance.currentlyDockedAt = "__SlxDocumentBottomRightDockZone__"; break;
+					case "_s_resizeTop_e_": 			instance.currentlyDockedAt = "_s_SlxDocumentBottomRightDockZone_e_"; break;
+					case "_s_resizeTopRight_e_": 		instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeRight_e_": 		instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeBottomRight_e_": 	instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeBottom_e_": 		instance.currentlyDockedAt = "_s_SlxDocumentTopRightDockZone_e_"; break;
+					case "_s_resizeBottomLeft_e_": 	instance.currentlyDockedAt = "_s_SlxDocumentTopRightDockZone_e_"; break;
+					case "_s_resizeLeft_e_": 			break;
+					case "_s_resizeTopLeft_e_": 		instance.currentlyDockedAt = "_s_SlxDocumentBottomRightDockZone_e_"; break;
 				}
 			break;
-			case "__SlxDocumentBottomRightDockZone__":
+			case "_s_SlxDocumentBottomRightDockZone_e_":
 				switch ( instance.resizeDirection ) {
-					case "__resizeTop__": 			break;
-					case "__resizeTopRight__": 		instance.currentlyDockedAt = undefined; break;
-					case "__resizeRight__": 		instance.currentlyDockedAt = undefined; break;
-					case "__resizeBottomRight__": 	instance.currentlyDockedAt = undefined; break;
-					case "__resizeBottom__": 		instance.currentlyDockedAt = undefined; break;
-					case "__resizeBottomLeft__": 	instance.currentlyDockedAt = undefined; break;
-					case "__resizeLeft__": 			break;
-					case "__resizeTopLeft__": 		break;
+					case "_s_resizeTop_e_": 			break;
+					case "_s_resizeTopRight_e_": 		instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeRight_e_": 		instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeBottomRight_e_": 	instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeBottom_e_": 		instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeBottomLeft_e_": 	instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeLeft_e_": 			break;
+					case "_s_resizeTopLeft_e_": 		break;
 				}
 			break;
-			case "__SlxDocumentBottomDockZone__":
+			case "_s_SlxDocumentBottomDockZone_e_":
 				switch ( instance.resizeDirection ) {
-					case "__resizeTop__": 			break;
-					case "__resizeTopRight__": 		instance.currentlyDockedAt = "__SlxDocumentBottomLeftDockZone__"; break;
-					case "__resizeRight__": 		instance.currentlyDockedAt = "__SlxDocumentBottomLeftDockZone__"; break;
-					case "__resizeBottomRight__": 	instance.currentlyDockedAt = undefined; break;
-					case "__resizeBottom__": 		instance.currentlyDockedAt = undefined; break;
-					case "__resizeBottomLeft__": 	instance.currentlyDockedAt = undefined; break;
-					case "__resizeLeft__": 			instance.currentlyDockedAt = "__SlxDocumentBottomRightDockZone__"; break;
-					case "__resizeTopLeft__": 		instance.currentlyDockedAt = "__SlxDocumentBottomRightDockZone__"; break;
+					case "_s_resizeTop_e_": 			break;
+					case "_s_resizeTopRight_e_": 		instance.currentlyDockedAt = "_s_SlxDocumentBottomLeftDockZone_e_"; break;
+					case "_s_resizeRight_e_": 		instance.currentlyDockedAt = "_s_SlxDocumentBottomLeftDockZone_e_"; break;
+					case "_s_resizeBottomRight_e_": 	instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeBottom_e_": 		instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeBottomLeft_e_": 	instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeLeft_e_": 			instance.currentlyDockedAt = "_s_SlxDocumentBottomRightDockZone_e_"; break;
+					case "_s_resizeTopLeft_e_": 		instance.currentlyDockedAt = "_s_SlxDocumentBottomRightDockZone_e_"; break;
 				}
 			break;
-			case "__SlxDocumentBottomLeftDockZone__":
+			case "_s_SlxDocumentBottomLeftDockZone_e_":
 				switch ( instance.resizeDirection ) {
-					case "__resizeTop__": 			break;
-					case "__resizeTopRight__": 		break;
-					case "__resizeRight__": 		break;
-					case "__resizeBottomRight__": 	instance.currentlyDockedAt = undefined; break;
-					case "__resizeBottom__": 		instance.currentlyDockedAt = undefined; break;
-					case "__resizeBottomLeft__": 	instance.currentlyDockedAt = undefined; break;
-					case "__resizeLeft__": 			instance.currentlyDockedAt = undefined; break;
-					case "__resizeTopLeft__": 		instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeTop_e_": 			break;
+					case "_s_resizeTopRight_e_": 		break;
+					case "_s_resizeRight_e_": 		break;
+					case "_s_resizeBottomRight_e_": 	instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeBottom_e_": 		instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeBottomLeft_e_": 	instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeLeft_e_": 			instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeTopLeft_e_": 		instance.currentlyDockedAt = undefined; break;
 				}
 			break;
-			case "__SlxDocumentLeftDockZone__":
+			case "_s_SlxDocumentLeftDockZone_e_":
 				switch ( instance.resizeDirection ) {
-					case "__resizeTop__": 			instance.currentlyDockedAt = "__SlxDocumentBottomLeftDockZone__"; break;
-					case "__resizeTopRight__": 		instance.currentlyDockedAt = "__SlxDocumentBottomLeftDockZone__"; break;
-					case "__resizeRight__": 		break;
-					case "__resizeBottomRight__": 	instance.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__"; break;
-					case "__resizeBottom__": 		instance.currentlyDockedAt = "__SlxDocumentTopLeftDockZone__";break;
-					case "__resizeBottomLeft__": 	instance.currentlyDockedAt = undefined; break;
-					case "__resizeLeft__": 			instance.currentlyDockedAt = undefined; break;
-					case "__resizeTopLeft__": 		instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeTop_e_": 			instance.currentlyDockedAt = "_s_SlxDocumentBottomLeftDockZone_e_"; break;
+					case "_s_resizeTopRight_e_": 		instance.currentlyDockedAt = "_s_SlxDocumentBottomLeftDockZone_e_"; break;
+					case "_s_resizeRight_e_": 		break;
+					case "_s_resizeBottomRight_e_": 	instance.currentlyDockedAt = "_s_SlxDocumentTopLeftDockZone_e_"; break;
+					case "_s_resizeBottom_e_": 		instance.currentlyDockedAt = "_s_SlxDocumentTopLeftDockZone_e_";break;
+					case "_s_resizeBottomLeft_e_": 	instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeLeft_e_": 			instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeTopLeft_e_": 		instance.currentlyDockedAt = undefined; break;
 				}
 			break;
-			case "__SlxDocumentTopLeftDockZone__":
+			case "_s_SlxDocumentTopLeftDockZone_e_":
 				switch ( instance.resizeDirection ) {
-					case "__resizeTop__": 			instance.currentlyDockedAt = undefined; break;
-					case "__resizeTopRight__": 		instance.currentlyDockedAt = undefined; break;
-					case "__resizeRight__": 		break;
-					case "__resizeBottomRight__": 	break;
-					case "__resizeBottom__": 		break;
-					case "__resizeBottomLeft__": 	instance.currentlyDockedAt = undefined; break;
-					case "__resizeLeft__": 			instance.currentlyDockedAt = undefined; break;
-					case "__resizeTopLeft__": 		instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeTop_e_": 			instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeTopRight_e_": 		instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeRight_e_": 		break;
+					case "_s_resizeBottomRight_e_": 	break;
+					case "_s_resizeBottom_e_": 		break;
+					case "_s_resizeBottomLeft_e_": 	instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeLeft_e_": 			instance.currentlyDockedAt = undefined; break;
+					case "_s_resizeTopLeft_e_": 		instance.currentlyDockedAt = undefined; break;
 				}
 			break;
 		}
@@ -515,7 +515,7 @@ var Slx = (function() {
 	
 		switch ( this.resizeDirection ) {
 	
-			case "__resizeTop__":
+			case "_s_resizeTop_e_":
 	
 				//console.log( "resizeTop" );
 	
@@ -525,7 +525,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "__resizeTopRight__":
+			case "_s_resizeTopRight_e_":
 	
 				// Change root top and content width and height
 				this.rootHtmlElement.style.top =  ( this.top - Input.mousedownClientY + top ) + "px";
@@ -534,7 +534,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "__resizeRight__":
+			case "_s_resizeRight_e_":
 	
 	
 	
@@ -544,7 +544,7 @@ var Slx = (function() {
 				
 			break;
 	
-			case "__resizeBottomRight__":
+			case "_s_resizeBottomRight_e_":
 	
 				// Change content width and height
 				this.rootHtmlElement.style.width = ( this.width - Input.mousedownClientX + left - Bay.borderWidthX2 ) + "px";
@@ -552,14 +552,14 @@ var Slx = (function() {
 	
 			break;
 	
-			case "__resizeBottom__":
+			case "_s_resizeBottom_e_":
 	
 				// Change content height
 				this.rootHtmlElement.style.height = ( this.height - Input.mousedownClientY + top - Bay.borderWidthX2 ) + "px";
 	
 			break;
 	
-			case "__resizeBottomLeft__":
+			case "_s_resizeBottomLeft_e_":
 	
 				// Change root left and content width and height
 				this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
@@ -568,7 +568,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "__resizeLeft__":
+			case "_s_resizeLeft_e_":
 	
 				// Change root left and content width
 				this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
@@ -576,7 +576,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "__resizeTopLeft__":
+			case "_s_resizeTopLeft_e_":
 	
 				// Change root left and top and content width and height
 				this.rootHtmlElement.style.left = ( this.left - Input.mousedownClientX + left ) + "px";
@@ -605,7 +605,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "__SlxDocumentTopLeftDockZone__";
+				Bay.cursorCurrentlyInDockZone = "_s_SlxDocumentTopLeftDockZone_e_";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -623,7 +623,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "__SlxDocumentBottomLeftDockZone__";
+				Bay.cursorCurrentlyInDockZone = "_s_SlxDocumentBottomLeftDockZone_e_";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -641,7 +641,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "__SlxDocumentLeftDockZone__";
+				Bay.cursorCurrentlyInDockZone = "_s_SlxDocumentLeftDockZone_e_";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -663,7 +663,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "__SlxDocumentTopRightDockZone__";
+				Bay.cursorCurrentlyInDockZone = "_s_SlxDocumentTopRightDockZone_e_";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -681,7 +681,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "__SlxDocumentBottomRightDockZone__";
+				Bay.cursorCurrentlyInDockZone = "_s_SlxDocumentBottomRightDockZone_e_";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -699,7 +699,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "__SlxDocumentRightDockZone__";
+				Bay.cursorCurrentlyInDockZone = "_s_SlxDocumentRightDockZone_e_";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -717,7 +717,7 @@ var Slx = (function() {
 	
 			SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-			Bay.cursorCurrentlyInDockZone = "__SlxDocumentTopDockZone__";
+			Bay.cursorCurrentlyInDockZone = "_s_SlxDocumentTopDockZone_e_";
 	
 			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -735,7 +735,7 @@ var Slx = (function() {
 	
 			SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-			Bay.cursorCurrentlyInDockZone = "__SlxDocumentBottomDockZone__";
+			Bay.cursorCurrentlyInDockZone = "_s_SlxDocumentBottomDockZone_e_";
 	
 			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -760,13 +760,13 @@ var Slx = (function() {
 		console.log( "if ( Input.isMouseupQuick→" + Input.isMouseupQuick() + " === true )" );
 		if ( Input.isMouseupQuick() === true ) {
 	
-			this.handleDocking( "__RESIZE_CLICKED__" );
+			this.handleDocking( "_s_RESIZE_CLICKED_e_" );
 	
 		// Not A Quick Mouse Up
 		// Handle docking
 		} else if ( Bay.cursorCurrentlyInDockZone !== undefined ) {
 	
-			this.handleDocking( "__RESIZED__" );
+			this.handleDocking( "_s_RESIZED_e_" );
 	
 		// No docking
 		} else {
@@ -823,7 +823,7 @@ var Slx = (function() {
 		this.currentlyDraggingInstance = instance;
 		instance.previousDockZone = instance.currentlyDockedAt;
 		focus( this.currentlyDraggingInstance.rootHtmlElement ); // Bring it to the front of the view
-		Input.userIs = "__DRAGGING_BAY__";
+		Input.userIs = "_s_DRAGGING_BAY_e_";
 	
 	}
 	
@@ -849,7 +849,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "__SlxDocumentTopLeftDockZone__";
+				Bay.cursorCurrentlyInDockZone = "_s_SlxDocumentTopLeftDockZone_e_";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -865,7 +865,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "__SlxDocumentBottomLeftDockZone__";
+				Bay.cursorCurrentlyInDockZone = "_s_SlxDocumentBottomLeftDockZone_e_";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -881,7 +881,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "__SlxDocumentLeftDockZone__";
+				Bay.cursorCurrentlyInDockZone = "_s_SlxDocumentLeftDockZone_e_";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -901,7 +901,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "__SlxDocumentTopRightDockZone__";
+				Bay.cursorCurrentlyInDockZone = "_s_SlxDocumentTopRightDockZone_e_";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -917,7 +917,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "__SlxDocumentBottomRightDockZone__";
+				Bay.cursorCurrentlyInDockZone = "_s_SlxDocumentBottomRightDockZone_e_";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -933,7 +933,7 @@ var Slx = (function() {
 	
 				SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-				Bay.cursorCurrentlyInDockZone = "__SlxDocumentRightDockZone__";
+				Bay.cursorCurrentlyInDockZone = "_s_SlxDocumentRightDockZone_e_";
 	
 				document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -951,7 +951,7 @@ var Slx = (function() {
 	
 			SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-			Bay.cursorCurrentlyInDockZone = "__SlxDocumentFullScreenDockZone__";
+			Bay.cursorCurrentlyInDockZone = "_s_SlxDocumentFullScreenDockZone_e_";
 	
 			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -967,7 +967,7 @@ var Slx = (function() {
 	
 			SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-			Bay.cursorCurrentlyInDockZone = "__SlxDocumentTopDockZone__";
+			Bay.cursorCurrentlyInDockZone = "_s_SlxDocumentTopDockZone_e_";
 	
 			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -983,7 +983,7 @@ var Slx = (function() {
 	
 			SlxDocument.objectInDockZone = Bay.currentlyDraggingInstance;
 	
-			Bay.cursorCurrentlyInDockZone = "__SlxDocumentBottomDockZone__";
+			Bay.cursorCurrentlyInDockZone = "_s_SlxDocumentBottomDockZone_e_";
 	
 			document.getElementById( Bay.cursorCurrentlyInDockZone ).style.backgroundColor = "#000000";
 	
@@ -1006,12 +1006,12 @@ var Slx = (function() {
 		console.log( "if ( Input.isMouseupQuick()→" + Input.isMouseupQuick() + " === true )" );
 		if ( Input.isMouseupQuick() === true ) {
 	
-			this.handleDocking( "__DRAG_CLICKED__" );
+			this.handleDocking( "_s_DRAG_CLICKED_e_" );
 	
 		// Handle docking
 		} else if ( Bay.cursorCurrentlyInDockZone !== undefined ) {
 	
-			this.handleDocking( "__DRAGGED__" );
+			this.handleDocking( "_s_DRAGGED_e_" );
 	
 		} else {
 	
@@ -1037,15 +1037,15 @@ var Slx = (function() {
 		switch ( mode ) {
 	
 			// Determine dockzone of bay that is currently being dragged
-			case "__DRAG_CLICKED__": 
+			case "_s_DRAG_CLICKED_e_": 
 	
-				dockZone = "__SlxDocumentFullScreenDockZone__";
+				dockZone = "_s_SlxDocumentFullScreenDockZone_e_";
 				this.toggleDock( dockZone, true );
 	
 			break;
 	
 			// Determine dockzone of bay being dragged into a dockzone
-			case "__DRAGGED__":
+			case "_s_DRAGGED_e_":
 	
 				dockZone = Bay.cursorCurrentlyInDockZone;
 				this.dock( dockZone, true );
@@ -1053,33 +1053,33 @@ var Slx = (function() {
 			break;
 	
 			// Determine dockzone of bay that is currently being resized
-			case "__RESIZE_CLICKED__": 
+			case "_s_RESIZE_CLICKED_e_": 
 	
 				switch ( this.resizeDirection ) {
 	
-					case "__resizeTop__":
-						dockZone = "__SlxDocumentTopDockZone__";		
+					case "_s_resizeTop_e_":
+						dockZone = "_s_SlxDocumentTopDockZone_e_";		
 					break;
-					case "__resizeTopRight__":
-						dockZone = "__SlxDocumentTopRightDockZone__";
+					case "_s_resizeTopRight_e_":
+						dockZone = "_s_SlxDocumentTopRightDockZone_e_";
 					break;
-					case "__resizeRight__":
-						dockZone = "__SlxDocumentRightDockZone__";
+					case "_s_resizeRight_e_":
+						dockZone = "_s_SlxDocumentRightDockZone_e_";
 					break;
-					case "__resizeBottomRight__":
-						dockZone = "__SlxDocumentBottomRightDockZone__";
+					case "_s_resizeBottomRight_e_":
+						dockZone = "_s_SlxDocumentBottomRightDockZone_e_";
 					break;
-					case "__resizeBottom__":
-						dockZone = "__SlxDocumentBottomDockZone__";
+					case "_s_resizeBottom_e_":
+						dockZone = "_s_SlxDocumentBottomDockZone_e_";
 					break;
-					case "__resizeBottomLeft__":
-						dockZone = "__SlxDocumentBottomLeftDockZone__";
+					case "_s_resizeBottomLeft_e_":
+						dockZone = "_s_SlxDocumentBottomLeftDockZone_e_";
 					break;
-					case "__resizeLeft__":
-						dockZone = "__SlxDocumentLeftDockZone__";
+					case "_s_resizeLeft_e_":
+						dockZone = "_s_SlxDocumentLeftDockZone_e_";
 					break;
-					case "__resizeTopLeft__":
-						dockZone = "__SlxDocumentTopLeftDockZone__";
+					case "_s_resizeTopLeft_e_":
+						dockZone = "_s_SlxDocumentTopLeftDockZone_e_";
 					break;
 	
 				}
@@ -1090,7 +1090,7 @@ var Slx = (function() {
 			break;
 	
 			// Determine quasi-dockzone (position is saved and dockzone is not set) from dragging one of the resize handles
-			case "__RESIZED__":
+			case "_s_RESIZED_e_":
 	
 				dockZone = Bay.cursorCurrentlyInDockZone;
 				this.dock( dockZone, false );
@@ -1131,7 +1131,7 @@ var Slx = (function() {
 		// Handle docking
 		switch ( dockZone ) {
 	
-			case "__SlxDocumentFullScreenDockZone__":
+			case "_s_SlxDocumentFullScreenDockZone_e_":
 	
 				if ( isFill === true ) {
 	
@@ -1146,7 +1146,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "__SlxDocumentTopDockZone__":
+			case "_s_SlxDocumentTopDockZone_e_":
 	
 				if ( isFill === true ) {
 	
@@ -1166,7 +1166,7 @@ var Slx = (function() {
 				
 			break;
 	
-			case "__SlxDocumentTopRightDockZone__":
+			case "_s_SlxDocumentTopRightDockZone_e_":
 	
 				if ( isFill === true ) {
 	
@@ -1187,7 +1187,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "__SlxDocumentRightDockZone__":
+			case "_s_SlxDocumentRightDockZone_e_":
 	
 				if ( isFill === true ) {
 	
@@ -1206,7 +1206,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "__SlxDocumentBottomRightDockZone__":
+			case "_s_SlxDocumentBottomRightDockZone_e_":
 	
 				if ( isFill === true ) {
 	
@@ -1226,7 +1226,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "__SlxDocumentBottomDockZone__":
+			case "_s_SlxDocumentBottomDockZone_e_":
 	
 				if ( isFill === true ) {
 	
@@ -1245,7 +1245,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "__SlxDocumentBottomLeftDockZone__":
+			case "_s_SlxDocumentBottomLeftDockZone_e_":
 	
 				if ( isFill === true ) {
 	
@@ -1266,7 +1266,7 @@ var Slx = (function() {
 	
 			break;
 	
-			case "__SlxDocumentLeftDockZone__":
+			case "_s_SlxDocumentLeftDockZone_e_":
 	
 				if ( isFill === true ) {
 	
@@ -1286,7 +1286,7 @@ var Slx = (function() {
 				
 			break;
 	
-			case "__SlxDocumentTopLeftDockZone__":
+			case "_s_SlxDocumentTopLeftDockZone_e_":
 	
 				if ( isFill === true ) {
 	
@@ -1388,7 +1388,7 @@ var Slx = (function() {
 	
 		console.log( this.id )
 	
-		document.getElementById( "__SlxBay__-" + this.id ).outerHTML = "";
+		document.getElementById( "_s_SlxBay_e_-" + this.id ).outerHTML = "";
 	
 		Bay.destroy( this.id );
 	
@@ -1466,13 +1466,13 @@ var Slx = (function() {
 	
 			switch ( Input.userIs ) {
 	
-				case "__RESIZING_BAY__":
+				case "_s_RESIZING_BAY_e_":
 	
 					Bay.handleResize( event );
 	
 				break;
 	
-				case "__DRAGGING_BAY__":
+				case "_s_DRAGGING_BAY_e_":
 	
 					Bay.handleDrag( event );
 	
@@ -1502,7 +1502,7 @@ var Slx = (function() {
 	
 					switch ( arEvent_target_id[0] ) {
 	
-						case "__Bay__":
+						case "_s_Bay_e_":
 	
 							Bay.eventHandler( event, arEvent_target_id );
 	
@@ -1528,13 +1528,13 @@ var Slx = (function() {
 	
 			switch ( Input.userIs ) {
 	
-				case "__RESIZING_BAY__":
+				case "_s_RESIZING_BAY_e_":
 	
 					Bay.handleResize( event );
 	
 				break;
 	
-				case "__DRAGGING_BAY__":
+				case "_s_DRAGGING_BAY_e_":
 	
 					Bay.handleDrag( event );
 	
@@ -1582,7 +1582,7 @@ var Slx = (function() {
 	
 						break;
 	
-						case "__Bay__": 
+						case "_s_Bay_e_": 
 	
 							Bay.handleQuickMouseup( arEvent_target_id );
 	
@@ -1596,14 +1596,14 @@ var Slx = (function() {
 					switch ( arEvent_target_id[0] ) {
 	
 						// Resize Handles become Open Menu button on right click
-						case "__resizeTop__":
-						case "__resizeTopRight__":
-						case "__resizeRight__":
-						case "__resizeBottomRight__":
-						case "__resizeBottom__":
-						case "__resizeBottomLeft__":
-						case "__resizeLeft__":
-						case "__resizeTopLeft__":
+						case "_s_resizeTop_e_":
+						case "_s_resizeTopRight_e_":
+						case "_s_resizeRight_e_":
+						case "_s_resizeBottomRight_e_":
+						case "_s_resizeBottom_e_":
+						case "_s_resizeBottomLeft_e_":
+						case "_s_resizeLeft_e_":
+						case "_s_resizeTopLeft_e_":
 	
 						break;
 	
@@ -1622,7 +1622,7 @@ var Slx = (function() {
 	
 			switch ( arEvent_target_id[0] ) {
 	
-				case "__Bay__":
+				case "_s_Bay_e_":
 	
 					Bay.eventHandler( event, arEvent_target_id );
 	
@@ -1675,7 +1675,7 @@ var Slx = (function() {
 	
 				// Handle Close Buttons
 	
-				case "__close__":
+				case "_s_close_e_":
 	
 					var element = event.target.parentNode.parentNode;
 	
@@ -1687,7 +1687,7 @@ var Slx = (function() {
 	
 					switch ( arrElementId[0] ) {
 	
-						case "__SlxBay__":
+						case "_s_SlxBay_e_":
 	
 							var id = arrElementId[1]
 	
@@ -1714,7 +1714,7 @@ var Slx = (function() {
 				switch ( arEvent_target_id[0] ) {
 	
 					// Auto dock on click instead of double click
-					/*case "__resizeTop__":
+					/*case "_s_resizeTop_e_":
 	
 						var element = event.target.parentNode;
 	
@@ -1722,15 +1722,15 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "__SlxBay__":
+							case "_s_SlxBay_e_":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "__DRAGGING_BAY__"
+								Input.userIs = "_s_DRAGGING_BAY_e_"
 	
-								SlxDocument.inDockZone = "__SlxDocumentFullScreen__"
+								SlxDocument.inDockZone = "_s_SlxDocumentFullScreen_e_"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1740,7 +1740,7 @@ var Slx = (function() {
 	
 					break;
 	
-					case "__resizeTopRight__":
+					case "_s_resizeTopRight_e_":
 	
 						var element = event.target.parentNode;
 	
@@ -1748,15 +1748,15 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "__SlxBay__":
+							case "_s_SlxBay_e_":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "__DRAGGING_BAY__"
+								Input.userIs = "_s_DRAGGING_BAY_e_"
 	
-								SlxDocument.inDockZone = "__SlxDocumentTopRightDockZone__"
+								SlxDocument.inDockZone = "_s_SlxDocumentTopRightDockZone_e_"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1766,7 +1766,7 @@ var Slx = (function() {
 	
 					break;
 	
-					case "__resizeRight__":
+					case "_s_resizeRight_e_":
 	
 						var element = event.target.parentNode;
 	
@@ -1774,15 +1774,15 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "__SlxBay__":
+							case "_s_SlxBay_e_":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "__DRAGGING_BAY__"
+								Input.userIs = "_s_DRAGGING_BAY_e_"
 	
-								SlxDocument.inDockZone = "__SlxDocumentRightDockZone__"
+								SlxDocument.inDockZone = "_s_SlxDocumentRightDockZone_e_"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1792,7 +1792,7 @@ var Slx = (function() {
 	
 					break;
 	
-					case "__resizeBottomRight__":
+					case "_s_resizeBottomRight_e_":
 	
 						var element = event.target.parentNode;
 	
@@ -1800,41 +1800,15 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "__SlxBay__":
+							case "_s_SlxBay_e_":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "__DRAGGING_BAY__"
+								Input.userIs = "_s_DRAGGING_BAY_e_"
 	
-								SlxDocument.inDockZone = "__SlxDocumentBottomRightDockZone__"
-	
-								Bay.instancesById[ id ].finishDragging();
-	
-							break;
-	
-						}
-	
-					break;
-					
-					case "__resizeBottom__":
-	
-						var element = event.target.parentNode;
-	
-						var arrElementId = element.id.split( "-" );
-	
-						switch ( arrElementId[0] ) {
-	
-							case "__SlxBay__":
-	
-								var id = arrElementId[1]
-	
-								Bay.instancesById[ id ].initDrag();
-	
-								Input.userIs = "__DRAGGING_BAY__"
-	
-								SlxDocument.inDockZone = "__SlxDocumentBottomDockZone__"
+								SlxDocument.inDockZone = "_s_SlxDocumentBottomRightDockZone_e_"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1844,7 +1818,7 @@ var Slx = (function() {
 	
 					break;
 					
-					case "__resizeBottomLeft__":
+					case "_s_resizeBottom_e_":
 	
 						var element = event.target.parentNode;
 	
@@ -1852,15 +1826,41 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "__SlxBay__":
+							case "_s_SlxBay_e_":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "__DRAGGING_BAY__"
+								Input.userIs = "_s_DRAGGING_BAY_e_"
 	
-								SlxDocument.inDockZone = "__SlxDocumentBottomLeftDockZone__"
+								SlxDocument.inDockZone = "_s_SlxDocumentBottomDockZone_e_"
+	
+								Bay.instancesById[ id ].finishDragging();
+	
+							break;
+	
+						}
+	
+					break;
+					
+					case "_s_resizeBottomLeft_e_":
+	
+						var element = event.target.parentNode;
+	
+						var arrElementId = element.id.split( "-" );
+	
+						switch ( arrElementId[0] ) {
+	
+							case "_s_SlxBay_e_":
+	
+								var id = arrElementId[1]
+	
+								Bay.instancesById[ id ].initDrag();
+	
+								Input.userIs = "_s_DRAGGING_BAY_e_"
+	
+								SlxDocument.inDockZone = "_s_SlxDocumentBottomLeftDockZone_e_"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1870,7 +1870,7 @@ var Slx = (function() {
 	
 					break;
 	
-					case "__resizeLeft__":
+					case "_s_resizeLeft_e_":
 	
 						var element = event.target.parentNode;
 	
@@ -1878,15 +1878,15 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "__SlxBay__":
+							case "_s_SlxBay_e_":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "__DRAGGING_BAY__"
+								Input.userIs = "_s_DRAGGING_BAY_e_"
 	
-								SlxDocument.inDockZone = "__SlxDocumentLeftDockZone__"
+								SlxDocument.inDockZone = "_s_SlxDocumentLeftDockZone_e_"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1896,7 +1896,7 @@ var Slx = (function() {
 	
 					break;
 	
-					case "__resizeTopLeft__":
+					case "_s_resizeTopLeft_e_":
 	
 						var element = event.target.parentNode;
 	
@@ -1904,15 +1904,15 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "__SlxBay__":
+							case "_s_SlxBay_e_":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "__DRAGGING_BAY__"
+								Input.userIs = "_s_DRAGGING_BAY_e_"
 	
-								SlxDocument.inDockZone = "__SlxDocumentTopLeftDockZone__"
+								SlxDocument.inDockZone = "_s_SlxDocumentTopLeftDockZone_e_"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1923,7 +1923,7 @@ var Slx = (function() {
 					break;*/
 	
 					// Resize Handles double as fullscreen button on double click
-					/*case "__topBar__": // also a drag button
+					/*case "_s_topBar_e_": // also a drag button
 	
 						var element = event.target.parentNode;
 	
@@ -1931,15 +1931,15 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "__SlxBay__":
+							case "_s_SlxBay_e_":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "__DRAGGING_BAY__"
+								Input.userIs = "_s_DRAGGING_BAY_e_"
 	
-								SlxDocument.inDockZone = "__SlxDocumentFullScreen__"
+								SlxDocument.inDockZone = "_s_SlxDocumentFullScreen_e_"
 	
 								Bay.instancesById[ id ].finishDragging();
 	
@@ -1949,7 +1949,7 @@ var Slx = (function() {
 	
 					break;
 	
-					case "__drag__": // ensures some amount of space of the topbar is showing
+					case "_s_drag_e_": // ensures some amount of space of the topbar is showing
 	
 						var element = event.target.parentNode.parentNode;
 	
@@ -1957,15 +1957,15 @@ var Slx = (function() {
 	
 						switch ( arrElementId[0] ) {
 	
-							case "__SlxBay__":
+							case "_s_SlxBay_e_":
 	
 								var id = arrElementId[1]
 	
 								Bay.instancesById[ id ].initDrag();
 	
-								Input.userIs = "__DRAGGING_BAY__"
+								Input.userIs = "_s_DRAGGING_BAY_e_"
 	
-								SlxDocument.inDockZone = "__SlxDocumentFullScreen__"
+								SlxDocument.inDockZone = "_s_SlxDocumentFullScreen_e_"
 	
 								Bay.instancesById[ id ].finishDragging();	
 	
@@ -1999,6 +1999,46 @@ var Slx = (function() {
 	// End Static Methods
 	
 	// End Input Class
+		
+	// OrgChart Class
+	
+	// Static (aka Class) Properties
+	OrgChart.nextId = 0;
+	
+	OrgChart.byId = {};
+	
+	OrgChart.quantity = 0;
+	
+	OrgChart.imagePath = "../test/orgChart/i/" // temporary location of image files
+	// End Static Properties
+	
+	// Constructor
+	function OrgChart() {
+	
+		OrgChart.byId[ OrgChart.nextId ] = this;
+		OrgChart.quantity++;
+	
+		// Instance Properties
+		this.id = OrgChart.nextId;
+		OrgChart.nextId++;
+		// End Instance Properties
+	
+		return this;
+	
+	}
+	// End Constructor
+	
+	// Methods (organize methods by function and relationship)
+	OrgChart.staticMethodA = function() {
+	
+	}
+	
+	OrgChart.prototype.instanceMethodA = function() {
+	
+	}
+	// End Methods
+	
+	// End Class
 		
 	/**
 	 * @author spencel / https://github.com/spencel
@@ -2282,46 +2322,46 @@ var Slx = (function() {
 	// Static (aka Class) Methods
 	SlxDocument.init = function() {
 	
-		document.body.id = "__SlxDocumentFullScreenDockZone__"
+		document.body.id = "_s_SlxDocumentFullScreenDockZone_e_"
 	
 		var element = document.createElement( "div" );
-		element.id = "__SlxDocumentTopDockZone__";
-		element.className = "__SlxDocumentDockZone__"
+		element.id = "_s_SlxDocumentTopDockZone_e_";
+		element.className = "_s_SlxDocumentDockZone_e_"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
-		element.id = "__SlxDocumentTopRightDockZone__";
-		element.className = "__SlxDocumentDockZone__"
+		element.id = "_s_SlxDocumentTopRightDockZone_e_";
+		element.className = "_s_SlxDocumentDockZone_e_"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
-		element.id = "__SlxDocumentRightDockZone__";
-		element.className = "__SlxDocumentDockZone__"
+		element.id = "_s_SlxDocumentRightDockZone_e_";
+		element.className = "_s_SlxDocumentDockZone_e_"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
-		element.id = "__SlxDocumentBottomRightDockZone__";
-		element.className = "__SlxDocumentDockZone__"
+		element.id = "_s_SlxDocumentBottomRightDockZone_e_";
+		element.className = "_s_SlxDocumentDockZone_e_"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
-		element.id = "__SlxDocumentBottomDockZone__";
-		element.className = "__SlxDocumentDockZone__"
+		element.id = "_s_SlxDocumentBottomDockZone_e_";
+		element.className = "_s_SlxDocumentDockZone_e_"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
-		element.id = "__SlxDocumentBottomLeftDockZone__";
-		element.className = "__SlxDocumentDockZone__"
+		element.id = "_s_SlxDocumentBottomLeftDockZone_e_";
+		element.className = "_s_SlxDocumentDockZone_e_"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
-		element.id = "__SlxDocumentLeftDockZone__";
-		element.className = "__SlxDocumentDockZone__"
+		element.id = "_s_SlxDocumentLeftDockZone_e_";
+		element.className = "_s_SlxDocumentDockZone_e_"
 		document.body.appendChild( element );
 	
 		var element = document.createElement( "div" );
-		element.id = "__SlxDocumentTopLeftDockZone__";
-		element.className = "__SlxDocumentDockZone__"
+		element.id = "_s_SlxDocumentTopLeftDockZone_e_";
+		element.className = "_s_SlxDocumentDockZone_e_"
 		document.body.appendChild( element );
 	
 	}

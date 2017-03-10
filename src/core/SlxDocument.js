@@ -30,46 +30,46 @@ SlxDocument.inDockZone = undefined;
 // Static (aka Class) Methods
 SlxDocument.init = function() {
 
-	document.body.id = "__SlxDocumentFullScreenDockZone__"
+	document.body.id = "_s_SlxDocumentFullScreenDockZone_e_"
 
 	var element = document.createElement( "div" );
-	element.id = "__SlxDocumentTopDockZone__";
-	element.className = "__SlxDocumentDockZone__"
+	element.id = "_s_SlxDocumentTopDockZone_e_";
+	element.className = "_s_SlxDocumentDockZone_e_"
 	document.body.appendChild( element );
 
 	var element = document.createElement( "div" );
-	element.id = "__SlxDocumentTopRightDockZone__";
-	element.className = "__SlxDocumentDockZone__"
+	element.id = "_s_SlxDocumentTopRightDockZone_e_";
+	element.className = "_s_SlxDocumentDockZone_e_"
 	document.body.appendChild( element );
 
 	var element = document.createElement( "div" );
-	element.id = "__SlxDocumentRightDockZone__";
-	element.className = "__SlxDocumentDockZone__"
+	element.id = "_s_SlxDocumentRightDockZone_e_";
+	element.className = "_s_SlxDocumentDockZone_e_"
 	document.body.appendChild( element );
 
 	var element = document.createElement( "div" );
-	element.id = "__SlxDocumentBottomRightDockZone__";
-	element.className = "__SlxDocumentDockZone__"
+	element.id = "_s_SlxDocumentBottomRightDockZone_e_";
+	element.className = "_s_SlxDocumentDockZone_e_"
 	document.body.appendChild( element );
 
 	var element = document.createElement( "div" );
-	element.id = "__SlxDocumentBottomDockZone__";
-	element.className = "__SlxDocumentDockZone__"
+	element.id = "_s_SlxDocumentBottomDockZone_e_";
+	element.className = "_s_SlxDocumentDockZone_e_"
 	document.body.appendChild( element );
 
 	var element = document.createElement( "div" );
-	element.id = "__SlxDocumentBottomLeftDockZone__";
-	element.className = "__SlxDocumentDockZone__"
+	element.id = "_s_SlxDocumentBottomLeftDockZone_e_";
+	element.className = "_s_SlxDocumentDockZone_e_"
 	document.body.appendChild( element );
 
 	var element = document.createElement( "div" );
-	element.id = "__SlxDocumentLeftDockZone__";
-	element.className = "__SlxDocumentDockZone__"
+	element.id = "_s_SlxDocumentLeftDockZone_e_";
+	element.className = "_s_SlxDocumentDockZone_e_"
 	document.body.appendChild( element );
 
 	var element = document.createElement( "div" );
-	element.id = "__SlxDocumentTopLeftDockZone__";
-	element.className = "__SlxDocumentDockZone__"
+	element.id = "_s_SlxDocumentTopLeftDockZone_e_";
+	element.className = "_s_SlxDocumentDockZone_e_"
 	document.body.appendChild( element );
 
 }

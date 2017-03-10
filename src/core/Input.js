@@ -67,13 +67,13 @@ Input.activateEventHandlers = function() {
 
 		switch ( Input.userIs ) {
 
-			case "__RESIZING_BAY__":
+			case "_s_RESIZING_BAY_e_":
 
 				Bay.handleResize( event );
 
 			break;
 
-			case "__DRAGGING_BAY__":
+			case "_s_DRAGGING_BAY_e_":
 
 				Bay.handleDrag( event );
 
@@ -103,7 +103,7 @@ Input.activateEventHandlers = function() {
 
 				switch ( arEvent_target_id[0] ) {
 
-					case "__Bay__":
+					case "_s_Bay_e_":
 
 						Bay.eventHandler( event, arEvent_target_id );
 
@@ -129,13 +129,13 @@ Input.activateEventHandlers = function() {
 
 		switch ( Input.userIs ) {
 
-			case "__RESIZING_BAY__":
+			case "_s_RESIZING_BAY_e_":
 
 				Bay.handleResize( event );
 
 			break;
 
-			case "__DRAGGING_BAY__":
+			case "_s_DRAGGING_BAY_e_":
 
 				Bay.handleDrag( event );
 
@@ -183,7 +183,7 @@ Input.activateEventHandlers = function() {
 
 					break;
 
-					case "__Bay__": 
+					case "_s_Bay_e_": 
 
 						Bay.handleQuickMouseup( arEvent_target_id );
 
@@ -197,14 +197,14 @@ Input.activateEventHandlers = function() {
 				switch ( arEvent_target_id[0] ) {
 
 					// Resize Handles become Open Menu button on right click
-					case "__resizeTop__":
-					case "__resizeTopRight__":
-					case "__resizeRight__":
-					case "__resizeBottomRight__":
-					case "__resizeBottom__":
-					case "__resizeBottomLeft__":
-					case "__resizeLeft__":
-					case "__resizeTopLeft__":
+					case "_s_resizeTop_e_":
+					case "_s_resizeTopRight_e_":
+					case "_s_resizeRight_e_":
+					case "_s_resizeBottomRight_e_":
+					case "_s_resizeBottom_e_":
+					case "_s_resizeBottomLeft_e_":
+					case "_s_resizeLeft_e_":
+					case "_s_resizeTopLeft_e_":
 
 					break;
 
@@ -223,7 +223,7 @@ Input.activateEventHandlers = function() {
 
 		switch ( arEvent_target_id[0] ) {
 
-			case "__Bay__":
+			case "_s_Bay_e_":
 
 				Bay.eventHandler( event, arEvent_target_id );
 
@@ -276,7 +276,7 @@ Input.activateEventHandlers = function() {
 
 			// Handle Close Buttons
 
-			case "__close__":
+			case "_s_close_e_":
 
 				var element = event.target.parentNode.parentNode;
 
@@ -288,7 +288,7 @@ Input.activateEventHandlers = function() {
 
 				switch ( arrElementId[0] ) {
 
-					case "__SlxBay__":
+					case "_s_SlxBay_e_":
 
 						var id = arrElementId[1]
 
@@ -315,7 +315,7 @@ Input.activateEventHandlers = function() {
 			switch ( arEvent_target_id[0] ) {
 
 				// Auto dock on click instead of double click
-				/*case "__resizeTop__":
+				/*case "_s_resizeTop_e_":
 
 					var element = event.target.parentNode;
 
@@ -323,15 +323,15 @@ Input.activateEventHandlers = function() {
 
 					switch ( arrElementId[0] ) {
 
-						case "__SlxBay__":
+						case "_s_SlxBay_e_":
 
 							var id = arrElementId[1]
 
 							Bay.instancesById[ id ].initDrag();
 
-							Input.userIs = "__DRAGGING_BAY__"
+							Input.userIs = "_s_DRAGGING_BAY_e_"
 
-							SlxDocument.inDockZone = "__SlxDocumentFullScreen__"
+							SlxDocument.inDockZone = "_s_SlxDocumentFullScreen_e_"
 
 							Bay.instancesById[ id ].finishDragging();
 
@@ -341,7 +341,7 @@ Input.activateEventHandlers = function() {
 
 				break;
 
-				case "__resizeTopRight__":
+				case "_s_resizeTopRight_e_":
 
 					var element = event.target.parentNode;
 
@@ -349,15 +349,15 @@ Input.activateEventHandlers = function() {
 
 					switch ( arrElementId[0] ) {
 
-						case "__SlxBay__":
+						case "_s_SlxBay_e_":
 
 							var id = arrElementId[1]
 
 							Bay.instancesById[ id ].initDrag();
 
-							Input.userIs = "__DRAGGING_BAY__"
+							Input.userIs = "_s_DRAGGING_BAY_e_"
 
-							SlxDocument.inDockZone = "__SlxDocumentTopRightDockZone__"
+							SlxDocument.inDockZone = "_s_SlxDocumentTopRightDockZone_e_"
 
 							Bay.instancesById[ id ].finishDragging();
 
@@ -367,7 +367,7 @@ Input.activateEventHandlers = function() {
 
 				break;
 
-				case "__resizeRight__":
+				case "_s_resizeRight_e_":
 
 					var element = event.target.parentNode;
 
@@ -375,15 +375,15 @@ Input.activateEventHandlers = function() {
 
 					switch ( arrElementId[0] ) {
 
-						case "__SlxBay__":
+						case "_s_SlxBay_e_":
 
 							var id = arrElementId[1]
 
 							Bay.instancesById[ id ].initDrag();
 
-							Input.userIs = "__DRAGGING_BAY__"
+							Input.userIs = "_s_DRAGGING_BAY_e_"
 
-							SlxDocument.inDockZone = "__SlxDocumentRightDockZone__"
+							SlxDocument.inDockZone = "_s_SlxDocumentRightDockZone_e_"
 
 							Bay.instancesById[ id ].finishDragging();
 
@@ -393,7 +393,7 @@ Input.activateEventHandlers = function() {
 
 				break;
 
-				case "__resizeBottomRight__":
+				case "_s_resizeBottomRight_e_":
 
 					var element = event.target.parentNode;
 
@@ -401,41 +401,15 @@ Input.activateEventHandlers = function() {
 
 					switch ( arrElementId[0] ) {
 
-						case "__SlxBay__":
+						case "_s_SlxBay_e_":
 
 							var id = arrElementId[1]
 
 							Bay.instancesById[ id ].initDrag();
 
-							Input.userIs = "__DRAGGING_BAY__"
+							Input.userIs = "_s_DRAGGING_BAY_e_"
 
-							SlxDocument.inDockZone = "__SlxDocumentBottomRightDockZone__"
-
-							Bay.instancesById[ id ].finishDragging();
-
-						break;
-
-					}
-
-				break;
-				
-				case "__resizeBottom__":
-
-					var element = event.target.parentNode;
-
-					var arrElementId = element.id.split( "-" );
-
-					switch ( arrElementId[0] ) {
-
-						case "__SlxBay__":
-
-							var id = arrElementId[1]
-
-							Bay.instancesById[ id ].initDrag();
-
-							Input.userIs = "__DRAGGING_BAY__"
-
-							SlxDocument.inDockZone = "__SlxDocumentBottomDockZone__"
+							SlxDocument.inDockZone = "_s_SlxDocumentBottomRightDockZone_e_"
 
 							Bay.instancesById[ id ].finishDragging();
 
@@ -445,7 +419,7 @@ Input.activateEventHandlers = function() {
 
 				break;
 				
-				case "__resizeBottomLeft__":
+				case "_s_resizeBottom_e_":
 
 					var element = event.target.parentNode;
 
@@ -453,15 +427,41 @@ Input.activateEventHandlers = function() {
 
 					switch ( arrElementId[0] ) {
 
-						case "__SlxBay__":
+						case "_s_SlxBay_e_":
 
 							var id = arrElementId[1]
 
 							Bay.instancesById[ id ].initDrag();
 
-							Input.userIs = "__DRAGGING_BAY__"
+							Input.userIs = "_s_DRAGGING_BAY_e_"
 
-							SlxDocument.inDockZone = "__SlxDocumentBottomLeftDockZone__"
+							SlxDocument.inDockZone = "_s_SlxDocumentBottomDockZone_e_"
+
+							Bay.instancesById[ id ].finishDragging();
+
+						break;
+
+					}
+
+				break;
+				
+				case "_s_resizeBottomLeft_e_":
+
+					var element = event.target.parentNode;
+
+					var arrElementId = element.id.split( "-" );
+
+					switch ( arrElementId[0] ) {
+
+						case "_s_SlxBay_e_":
+
+							var id = arrElementId[1]
+
+							Bay.instancesById[ id ].initDrag();
+
+							Input.userIs = "_s_DRAGGING_BAY_e_"
+
+							SlxDocument.inDockZone = "_s_SlxDocumentBottomLeftDockZone_e_"
 
 							Bay.instancesById[ id ].finishDragging();
 
@@ -471,7 +471,7 @@ Input.activateEventHandlers = function() {
 
 				break;
 
-				case "__resizeLeft__":
+				case "_s_resizeLeft_e_":
 
 					var element = event.target.parentNode;
 
@@ -479,15 +479,15 @@ Input.activateEventHandlers = function() {
 
 					switch ( arrElementId[0] ) {
 
-						case "__SlxBay__":
+						case "_s_SlxBay_e_":
 
 							var id = arrElementId[1]
 
 							Bay.instancesById[ id ].initDrag();
 
-							Input.userIs = "__DRAGGING_BAY__"
+							Input.userIs = "_s_DRAGGING_BAY_e_"
 
-							SlxDocument.inDockZone = "__SlxDocumentLeftDockZone__"
+							SlxDocument.inDockZone = "_s_SlxDocumentLeftDockZone_e_"
 
 							Bay.instancesById[ id ].finishDragging();
 
@@ -497,7 +497,7 @@ Input.activateEventHandlers = function() {
 
 				break;
 
-				case "__resizeTopLeft__":
+				case "_s_resizeTopLeft_e_":
 
 					var element = event.target.parentNode;
 
@@ -505,15 +505,15 @@ Input.activateEventHandlers = function() {
 
 					switch ( arrElementId[0] ) {
 
-						case "__SlxBay__":
+						case "_s_SlxBay_e_":
 
 							var id = arrElementId[1]
 
 							Bay.instancesById[ id ].initDrag();
 
-							Input.userIs = "__DRAGGING_BAY__"
+							Input.userIs = "_s_DRAGGING_BAY_e_"
 
-							SlxDocument.inDockZone = "__SlxDocumentTopLeftDockZone__"
+							SlxDocument.inDockZone = "_s_SlxDocumentTopLeftDockZone_e_"
 
 							Bay.instancesById[ id ].finishDragging();
 
@@ -524,7 +524,7 @@ Input.activateEventHandlers = function() {
 				break;*/
 
 				// Resize Handles double as fullscreen button on double click
-				/*case "__topBar__": // also a drag button
+				/*case "_s_topBar_e_": // also a drag button
 
 					var element = event.target.parentNode;
 
@@ -532,15 +532,15 @@ Input.activateEventHandlers = function() {
 
 					switch ( arrElementId[0] ) {
 
-						case "__SlxBay__":
+						case "_s_SlxBay_e_":
 
 							var id = arrElementId[1]
 
 							Bay.instancesById[ id ].initDrag();
 
-							Input.userIs = "__DRAGGING_BAY__"
+							Input.userIs = "_s_DRAGGING_BAY_e_"
 
-							SlxDocument.inDockZone = "__SlxDocumentFullScreen__"
+							SlxDocument.inDockZone = "_s_SlxDocumentFullScreen_e_"
 
 							Bay.instancesById[ id ].finishDragging();
 
@@ -550,7 +550,7 @@ Input.activateEventHandlers = function() {
 
 				break;
 
-				case "__drag__": // ensures some amount of space of the topbar is showing
+				case "_s_drag_e_": // ensures some amount of space of the topbar is showing
 
 					var element = event.target.parentNode.parentNode;
 
@@ -558,15 +558,15 @@ Input.activateEventHandlers = function() {
 
 					switch ( arrElementId[0] ) {
 
-						case "__SlxBay__":
+						case "_s_SlxBay_e_":
 
 							var id = arrElementId[1]
 
 							Bay.instancesById[ id ].initDrag();
 
-							Input.userIs = "__DRAGGING_BAY__"
+							Input.userIs = "_s_DRAGGING_BAY_e_"
 
-							SlxDocument.inDockZone = "__SlxDocumentFullScreen__"
+							SlxDocument.inDockZone = "_s_SlxDocumentFullScreen_e_"
 
 							Bay.instancesById[ id ].finishDragging();	
 
